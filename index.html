@@ -9,16 +9,16 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,200;0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
   <style>
     :root {
-      --blue:    #8BAFD4;
-      --navy:    #2C3E6B;
+      --blue:    #62BEF0;
+      --navy:    #1479C7;
       --gold:    #E8A825;
       --cream:   #F5F0E8;
-      --dark:    #0E1525;
-      --mid:     #1A1F2E;
-      --deep:    #1E2640;
-      --text:    #1C2340;
-      --muted:   #4A5280;
-      --faint:   #7A85A8;
+      --dark:    #062952;
+      --mid:     #0A3D82;
+      --deep:    #0D52A8;
+      --text:    #0D2B5E;
+      --muted:   #2B5C94;
+      --faint:   #5080AA;
     }
 
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -50,10 +50,10 @@
       justify-content: space-between;
       backdrop-filter: blur(22px) saturate(1.3);
       -webkit-backdrop-filter: blur(22px) saturate(1.3);
-      background: rgba(10, 15, 28, 0.36);
+      background: rgba(6, 35, 95, 0.36);
       border-radius: 0;
       border: 1px solid transparent;
-      border-bottom-color: rgba(139, 175, 212, 0.11);
+      border-bottom-color: rgba(98, 190, 240, 0.18);
       box-shadow: none;
       transition:
         top 0.58s cubic-bezier(0.16, 1, 0.3, 1),
@@ -72,10 +72,10 @@
       height: 58px;
       padding: 0 28px;
       border-radius: 100px;
-      background: rgba(10, 16, 30, 0.82);
+      background: rgba(6, 42, 112, 0.88);
       backdrop-filter: blur(36px) saturate(1.7) brightness(1.1);
       -webkit-backdrop-filter: blur(36px) saturate(1.7) brightness(1.1);
-      border-color: rgba(139, 175, 212, 0.2);
+      border-color: rgba(98, 190, 240, 0.28);
       box-shadow:
         0 8px 48px rgba(0, 0, 0, 0.38),
         0 2px 14px rgba(0, 0, 0, 0.22),
@@ -142,7 +142,7 @@
       height: 100vh;
       min-height: 620px;
       overflow: hidden;
-      background: linear-gradient(168deg, var(--dark) 0%, var(--mid) 38%, var(--deep) 65%, #253261 100%);
+      background: linear-gradient(168deg, var(--dark) 0%, var(--mid) 38%, var(--deep) 65%, #1A7BCC 100%);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -158,31 +158,31 @@
 
     .c1 {
       width: 700px; height: 320px;
-      background: rgba(44, 62, 107, 0.55);
+      background: rgba(20, 100, 195, 0.45);
       top: 8%; left: -12%;
       animation: drift1 48s ease-in-out infinite;
     }
     .c2 {
       width: 850px; height: 380px;
-      background: rgba(26, 31, 46, 0.7);
+      background: rgba(10, 55, 145, 0.50);
       top: 28%; right: -18%;
       animation: drift2 62s ease-in-out infinite;
     }
     .c3 {
       width: 550px; height: 260px;
-      background: rgba(16, 22, 42, 0.8);
+      background: rgba(8, 42, 115, 0.55);
       top: 58%; left: 18%;
       animation: drift3 52s ease-in-out infinite;
     }
     .c4 {
       width: 650px; height: 300px;
-      background: rgba(44, 62, 107, 0.38);
+      background: rgba(20, 100, 195, 0.28);
       top: 2%; right: 8%;
       animation: drift1 72s ease-in-out infinite reverse;
     }
     .c5 {
       width: 420px; height: 200px;
-      background: rgba(139, 175, 212, 0.07);
+      background: rgba(98, 190, 240, 0.09);
       bottom: 15%; left: 55%;
       animation: drift2 44s ease-in-out infinite reverse;
     }
@@ -210,8 +210,8 @@
       width: 560px; height: 560px;
       border-radius: 50%;
       background: radial-gradient(circle,
-        rgba(139, 175, 212, 0.22) 0%,
-        rgba(44, 62, 107, 0.12) 50%,
+        rgba(98, 190, 240, 0.28) 0%,
+        rgba(14, 80, 185, 0.12) 50%,
         transparent 72%);
       opacity: 0;
       transform: scale(0.25);
@@ -407,10 +407,10 @@
       grid-template-columns: 1fr 1fr 1fr;
       overflow: hidden;
       box-shadow:
-        0 24px 64px rgba(14, 21, 37, 0.18),
-        0 4px 18px rgba(14, 21, 37, 0.08),
+        0 24px 64px rgba(6, 40, 120, 0.18),
+        0 4px 18px rgba(6, 40, 120, 0.08),
         inset 0 1px 0 rgba(255, 255, 255, 0.90),
-        inset 0 -1px 0 rgba(44, 62, 107, 0.04);
+        inset 0 -1px 0 rgba(14, 80, 185, 0.04);
     }
 
     .svc {
@@ -428,7 +428,7 @@
       position: absolute;
       left: 0; top: 18%; bottom: 18%;
       width: 1px;
-      background: rgba(44, 62, 107, 0.13);
+      background: rgba(14, 80, 185, 0.13);
     }
 
     .svc:hover { background: rgba(139, 175, 212, 0.11); }
@@ -478,10 +478,10 @@
       overflow: hidden;
       border: 1px solid rgba(255, 255, 255, 0.72);
       box-shadow:
-        0 32px 80px rgba(44, 62, 107, 0.11),
-        0 8px 24px rgba(44, 62, 107, 0.06),
+        0 32px 80px rgba(14, 80, 185, 0.11),
+        0 8px 24px rgba(14, 80, 185, 0.06),
         inset 0 1px 0 rgba(255, 255, 255, 0.95),
-        inset 0 -1px 0 rgba(44, 62, 107, 0.04);
+        inset 0 -1px 0 rgba(14, 80, 185, 0.04);
     }
 
     /* ── 3A ABOUT ── */
@@ -552,7 +552,7 @@
       border-radius: 18px;
       overflow: hidden;
       aspect-ratio: 5 / 6;
-      background: linear-gradient(148deg, #243360 0%, #1A2A55 45%, #8BAFD4 100%);
+      background: linear-gradient(148deg, #0A4499 0%, #1166BB 45%, #62BEF0 100%);
       position: relative;
       display: flex;
       align-items: flex-end;
@@ -598,7 +598,7 @@
       position: absolute;
       bottom: 0; left: 0; right: 0;
       padding: 28px 28px 30px;
-      background: linear-gradient(to top, rgba(10, 16, 34, 0.72), transparent);
+      background: linear-gradient(to top, rgba(6, 35, 100, 0.72), transparent);
     }
 
     .about-caption p {
@@ -615,8 +615,8 @@
       height: 1px;
       background: linear-gradient(to right,
         transparent,
-        rgba(44, 62, 107, 0.1) 25%,
-        rgba(44, 62, 107, 0.1) 75%,
+        rgba(14, 80, 185, 0.1) 25%,
+        rgba(14, 80, 185, 0.1) 75%,
         transparent);
       margin: 0 68px;
     }
@@ -660,7 +660,7 @@
       -webkit-backdrop-filter: blur(16px) saturate(1.3);
       background: rgba(255, 255, 255, 0.52);
       box-shadow:
-        0 4px 24px rgba(44, 62, 107, 0.07),
+        0 4px 24px rgba(14, 80, 185, 0.07),
         inset 0 1px 0 rgba(255, 255, 255, 0.9);
     }
 
@@ -674,7 +674,7 @@
 
     .stat-card:hover {
       box-shadow:
-        0 16px 48px rgba(44, 62, 107, 0.13),
+        0 16px 48px rgba(14, 80, 185, 0.13),
         inset 0 1px 0 rgba(255, 255, 255, 0.9);
       transform: translateY(-3px);
     }
@@ -736,7 +736,7 @@
     .fi {
       width: 100%;
       padding: 11.5px 15px;
-      border: 1px solid rgba(44, 62, 107, 0.13);
+      border: 1px solid rgba(14, 80, 185, 0.13);
       border-radius: 10px;
       background: rgba(255, 255, 255, 0.68);
       backdrop-filter: blur(8px);
@@ -748,7 +748,7 @@
       outline: none;
       transition: border-color 0.25s, box-shadow 0.25s, background 0.25s;
       appearance: none;
-      box-shadow: inset 0 1px 2px rgba(44, 62, 107, 0.04);
+      box-shadow: inset 0 1px 2px rgba(14, 80, 185, 0.04);
     }
 
     .fi:focus {
@@ -784,7 +784,7 @@
 
     /* Donation card */
     .don-card {
-      background: rgba(26, 42, 86, 0.88);
+      background: rgba(10, 55, 145, 0.90);
       backdrop-filter: blur(24px) saturate(1.5);
       -webkit-backdrop-filter: blur(24px) saturate(1.5);
       border-radius: 22px;
@@ -912,7 +912,7 @@
     ───────────────────────────────────────────── */
     footer {
       position: relative;
-      background: linear-gradient(172deg, var(--dark) 0%, var(--mid) 32%, var(--deep) 60%, #253261 100%);
+      background: linear-gradient(172deg, var(--dark) 0%, var(--mid) 32%, var(--deep) 60%, #1A7BCC 100%);
       overflow: hidden;
       padding-top: 80px;
       margin-top: 0;
@@ -928,19 +928,19 @@
 
     .fc1 {
       width: 750px; height: 340px;
-      background: rgba(44,62,107,0.52);
+      background: rgba(20,100,195,0.40);
       top: 6%; left: -14%;
     }
 
     .fc2 {
       width: 620px; height: 280px;
-      background: rgba(26,31,46,0.65);
+      background: rgba(10,55,145,0.50);
       top: 38%; right: -12%;
     }
 
     .fc3 {
       width: 500px; height: 220px;
-      background: rgba(14,20,38,0.75);
+      background: rgba(8,42,115,0.55);
       bottom: 18%; left: 28%;
     }
 
@@ -1139,7 +1139,7 @@
       <path d="M20 56 C8 52, 4 40, 12 30 C18 22, 22 16, 18 8" stroke="#8BAFD4" stroke-width="2.2" stroke-linecap="round" fill="none" opacity="0.95"/>
       <path d="M18 8 C14 2, 22 0, 26 6 C30 12, 28 22, 22 30 C16 38, 14 46, 22 54" stroke="#8BAFD4" stroke-width="2.2" stroke-linecap="round" fill="none" opacity="0.85"/>
       <!-- Navy dot — left figure head -->
-      <circle cx="18" cy="5" r="4.5" fill="#2C3E6B"/>
+      <circle cx="18" cy="5" r="4.5" fill="#1479C7"/>
       <!-- Right figure — looping path journey -->
       <path d="M52 56 C40 52, 36 40, 44 30 C50 22, 54 16, 50 8" stroke="#8BAFD4" stroke-width="2.2" stroke-linecap="round" fill="none" opacity="0.95"/>
       <path d="M50 8 C46 2, 54 0, 58 6 C62 12, 60 22, 54 30 C48 38, 46 46, 54 54" stroke="#8BAFD4" stroke-width="2.2" stroke-linecap="round" fill="none" opacity="0.85"/>
@@ -1402,7 +1402,7 @@
         <svg width="44" height="36" viewBox="0 0 76 62" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M20 56 C8 52, 4 40, 12 30 C18 22, 22 16, 18 8" stroke="#8BAFD4" stroke-width="2.2" stroke-linecap="round" fill="none" opacity="0.95"/>
           <path d="M18 8 C14 2, 22 0, 26 6 C30 12, 28 22, 22 30 C16 38, 14 46, 22 54" stroke="#8BAFD4" stroke-width="2.2" stroke-linecap="round" fill="none" opacity="0.85"/>
-          <circle cx="18" cy="5" r="4.5" fill="#2C3E6B"/>
+          <circle cx="18" cy="5" r="4.5" fill="#1479C7"/>
           <path d="M52 56 C40 52, 36 40, 44 30 C50 22, 54 16, 50 8" stroke="#8BAFD4" stroke-width="2.2" stroke-linecap="round" fill="none" opacity="0.95"/>
           <path d="M50 8 C46 2, 54 0, 58 6 C62 12, 60 22, 54 30 C48 38, 46 46, 54 54" stroke="#8BAFD4" stroke-width="2.2" stroke-linecap="round" fill="none" opacity="0.85"/>
           <circle cx="50" cy="5" r="4.5" fill="#E8A825"/>
