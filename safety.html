@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Safety &amp; Refuge — Project Nithya</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,200;0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --blue:      #62BEF0;
+      --navy:      #1479C7;
+      --gold:      #F2CE3A;
+      --gold-deep: #D4A800;
+      --pink:      #F9C8D5;
+      --pink-deep: #E8899E;
+      --cream:     #F5F0E8;
+      --dark:      #062952;
+      --mid:       #0A3D82;
+      --deep:      #0D52A8;
+      --text:      #0D2B5E;
+      --muted:     #2B5C94;
+      --faint:     #5080AA;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; font-weight: 300; background: var(--cream); color: var(--text); overflow-x: hidden; }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 50%; transform: translateX(-50%);
+      width: 100vw; z-index: 200; height: 70px; padding: 0 52px;
+      display: flex; align-items: center; justify-content: space-between;
+      backdrop-filter: blur(22px) saturate(1.3);
+      background: rgba(6,35,95,0.36);
+      border-bottom: 1px solid rgba(98,190,240,0.18);
+      transition: top .58s cubic-bezier(.16,1,.3,1), width .58s cubic-bezier(.16,1,.3,1),
+        border-radius .58s cubic-bezier(.16,1,.3,1), height .45s ease, padding .45s ease,
+        background .35s ease, box-shadow .45s ease;
+    }
+    nav.nav--float {
+      top: 14px; width: min(960px, calc(100vw - 40px)); height: 58px; padding: 0 28px;
+      border-radius: 100px; background: rgba(6,42,112,0.88);
+      backdrop-filter: blur(36px) saturate(1.7) brightness(1.1);
+      border-color: rgba(98,190,240,0.28);
+      box-shadow: 0 8px 48px rgba(0,0,0,.38), 0 2px 14px rgba(0,0,0,.22), inset 0 1px 0 rgba(255,255,255,.07);
+    }
+    .nav-logo { display:flex; align-items:center; gap:11px; text-decoration:none; }
+    .nav-wordmark { font-family:'Cormorant Garamond',serif; font-weight:500; font-size:19px; letter-spacing:.025em; color:#F5F0E8; }
+    .nav-links { display:flex; gap:34px; list-style:none; }
+    .nav-links a { font-size:11.5px; font-weight:300; letter-spacing:.14em; text-transform:uppercase; color:rgba(245,240,232,.65); text-decoration:none; transition:color .25s; }
+    .nav-links a:hover { color:var(--pink); }
+    .nav-cta { font-size:11px; font-weight:400; letter-spacing:.12em; text-transform:uppercase; color:var(--navy); background:var(--gold); padding:9px 22px; border-radius:100px; text-decoration:none; transition:opacity .25s, transform .15s; }
+    .nav-cta:hover { opacity:.88; transform:translateY(-1px); }
+
+    /* EMERGENCY BANNER */
+    .emergency-banner {
+      position: fixed; top: 70px; left: 0; right: 0; z-index: 190;
+      background: rgba(212,168,0,0.97);
+      backdrop-filter: blur(12px);
+      padding: 10px 52px;
+      display: flex; align-items: center; justify-content: center; gap: 28px;
+      flex-wrap: wrap;
+      font-size: 12px; font-weight: 400; letter-spacing: .04em;
+      color: var(--dark);
+      border-bottom: 1px solid rgba(6,35,95,0.12);
+      transition: top .45s ease;
+    }
+    .emergency-banner.banner--shift { top: 128px; }
+    .eb-label { font-weight: 500; letter-spacing: .12em; text-transform: uppercase; font-size: 10px; opacity: .7; }
+    .eb-number { font-family:'Cormorant Garamond',serif; font-weight:600; font-size:17px; letter-spacing:.02em; }
+    .eb-item { display:flex; flex-direction:column; align-items:center; gap:1px; }
+    .eb-item a { color:var(--dark); text-decoration:none; }
+    .eb-sep { width:1px; height:28px; background:rgba(6,35,95,0.2); }
+
+    /* HERO */
+    .page-hero {
+      padding: 198px 44px 80px;
+      background: linear-gradient(168deg, #041e42 0%, #0a2d5e 35%, #0d3d7a 65%, #1a5294 100%);
+      position: relative; overflow: hidden; text-align: center;
+    }
+    .hero-orb { position:absolute; border-radius:50%; pointer-events:none; filter:blur(80px); }
+    .ho1 { width:500px; height:240px; background:rgba(242,206,58,0.10); top:15%; left:-5%; }
+    .ho2 { width:420px; height:200px; background:rgba(242,206,58,0.08); bottom:10%; right:-5%; }
+    .ho3 { width:550px; height:280px; background:rgba(10,55,145,0.5); top:25%; right:5%; }
+
+    .hero-eyebrow { font-size:11px; font-weight:300; letter-spacing:.28em; text-transform:uppercase; color:var(--gold); margin-bottom:16px; position:relative; z-index:2; }
+    .hero-title {
+      font-family:'Cormorant Garamond',serif; font-weight:400;
+      font-size:clamp(40px,7vw,80px); line-height:.96;
+      color:#F5F0E8; letter-spacing:-.015em; margin-bottom:20px;
+      position:relative; z-index:2;
+    }
+    .hero-title em { font-style:italic; color:var(--gold); display:block; }
+    .hero-sub {
+      font-size:clamp(15px,2vw,19px); font-weight:300; color:rgba(245,240,232,.55);
+      font-family:'Cormorant Garamond',serif; font-style:italic; letter-spacing:.04em;
+      max-width:540px; margin:0 auto 36px; position:relative; z-index:2;
+    }
+    .hero-anchor {
+      display:inline-flex; align-items:center; gap:8px;
+      font-size:11.5px; letter-spacing:.14em; text-transform:uppercase;
+      color:var(--gold); border:1px solid rgba(242,206,58,.35);
+      padding:11px 28px; border-radius:100px; text-decoration:none;
+      transition:background .25s, border-color .25s; position:relative; z-index:2;
+    }
+    .hero-anchor:hover { background:rgba(242,206,58,.1); border-color:rgba(242,206,58,.6); }
+    .hero-fade { position:absolute; bottom:0; left:0; right:0; height:200px;
+      background:linear-gradient(to bottom,transparent,var(--cream)); pointer-events:none; z-index:3; }
+
+    /* MAIN */
+    .main-wrap { max-width:1100px; margin:0 auto; padding:0 44px 100px; }
+
+    .sec-tag { font-size:10.5px; font-weight:300; letter-spacing:.28em; text-transform:uppercase; color:var(--pink-deep); margin-bottom:14px; }
+    .sec-tag.gold { color:var(--gold-deep); }
+    .sec-head { font-family:'Cormorant Garamond',serif; font-weight:400; font-size:clamp(28px,3.4vw,42px); line-height:1.13; color:var(--navy); margin-bottom:24px; }
+    .sec-head em { font-style:italic; color:var(--muted); }
+    .body-p { font-size:14.5px; font-weight:300; line-height:1.82; color:#484E72; margin-bottom:16px; }
+
+    /* SUPPORT GRID */
+    .pillars-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:20px; margin-top:36px; }
+    .pillar {
+      background:rgba(255,255,255,.72); backdrop-filter:blur(16px);
+      border:1px solid rgba(255,255,255,.7); border-radius:18px; padding:32px 30px 34px;
+      box-shadow:0 4px 24px rgba(14,80,185,.06), inset 0 1px 0 rgba(255,255,255,.9);
+      opacity:0; transform:translateY(24px);
+      transition:opacity .7s ease, transform .7s ease, box-shadow .3s;
+    }
+    .pillar.in-view { opacity:1; transform:translateY(0); }
+    .pillar:nth-child(2) { transition-delay:.12s; }
+    .pillar:nth-child(3) { transition-delay:.24s; }
+    .pillar:nth-child(4) { transition-delay:.36s; }
+    .pillar:hover { box-shadow:0 12px 40px rgba(212,168,0,.12), inset 0 1px 0 rgba(255,255,255,.9); }
+    .pillar-stripe { height:3px; width:36px; border-radius:2px; background:linear-gradient(90deg,var(--gold),var(--pink)); margin-bottom:16px; }
+    .pillar h3 { font-family:'Cormorant Garamond',serif; font-weight:500; font-size:21px; color:var(--navy); margin-bottom:8px; }
+    .pillar p { font-size:13.5px; font-weight:300; color:#484E72; line-height:1.72; }
+
+    .soft-divider { height:1px; background:linear-gradient(to right,transparent,rgba(14,80,185,.1) 25%,rgba(14,80,185,.1) 75%,transparent); margin:72px 0; }
+
+    /* REACH OUT — centrepiece */
+    .reach-section {
+      padding: 80px 44px 100px; margin: 0 -44px;
+      background: linear-gradient(168deg, #041e42 0%, #0a2d5e 40%, #0d3574 70%, #113060 100%);
+      position: relative; overflow: hidden;
+    }
+    .reach-bg-orb { position:absolute; border-radius:50%; pointer-events:none; filter:blur(100px); }
+    .rbo1 { width:600px; height:300px; background:rgba(242,206,58,0.09); top:-60px; right:-100px; }
+    .rbo2 { width:500px; height:250px; background:rgba(249,200,213,0.06); bottom:-40px; left:-80px; }
+
+    .reach-inner { max-width:780px; margin:0 auto; position:relative; z-index:2; }
+
+    .reach-badge {
+      display:inline-flex; align-items:center; gap:7px;
+      font-size:10px; letter-spacing:.18em; text-transform:uppercase;
+      color:var(--gold); border:1px solid rgba(242,206,58,.28);
+      background:rgba(242,206,58,.07); padding:6px 16px; border-radius:100px; margin-bottom:28px;
+    }
+    .reach-badge::before { content:'◉'; font-size:8px; animation:pulseDot 2s ease-in-out infinite; }
+    @keyframes pulseDot { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+    .reach-title {
+      font-family:'Cormorant Garamond',serif; font-weight:400;
+      font-size:clamp(32px,5.5vw,60px); line-height:1.08;
+      color:#F5F0E8; letter-spacing:-.01em; margin-bottom:14px;
+    }
+    .reach-title em { font-style:italic; color:var(--gold); }
+
+    .reach-sub { font-size:15px; font-weight:300; color:rgba(245,240,232,.55); line-height:1.75; margin-bottom:16px; max-width:580px; }
+
+    .reach-reassure {
+      font-size:12.5px; font-weight:300; color:rgba(245,240,232,.4);
+      line-height:1.7; margin-bottom:44px; max-width:520px;
+      padding-left:14px; border-left:2px solid rgba(242,206,58,.3);
+    }
+
+    .reach-card {
+      background:rgba(255,255,255,.06); border:1px solid rgba(242,206,58,.18);
+      border-radius:24px; padding:52px 56px 56px;
+      backdrop-filter:blur(40px) saturate(1.4);
+    }
+
+    .reach-form .fg { margin-bottom:18px; }
+    .reach-form .row2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+    .reach-form label { display:block; font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:rgba(245,240,232,.4); margin-bottom:6px; }
+    .reach-form .fi {
+      width:100%; padding:13px 16px;
+      background:rgba(245,240,232,.07); border:1px solid rgba(245,240,232,.12);
+      border-radius:10px; font-family:'DM Sans',sans-serif; font-size:14px; font-weight:300;
+      color:#F5F0E8; outline:none; transition:border-color .25s, background .25s; appearance:none;
+    }
+    .reach-form .fi::placeholder { color:rgba(245,240,232,.28); }
+    .reach-form .fi:focus { border-color:rgba(242,206,58,.5); background:rgba(245,240,232,.10); }
+    .reach-form .fi.field-error { border-color:#ff6b8a !important; }
+    .reach-form textarea.fi { resize:vertical; min-height:120px; }
+    .reach-form select.fi {
+      cursor:pointer;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='7'%3E%3Cpath d='M1 1l4.5 4.5L10 1' stroke='%23aabbcc' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat:no-repeat; background-position:right 14px center;
+    }
+
+    .anonymous-note {
+      font-size:12px; font-weight:300; color:rgba(245,240,232,.35); margin-bottom:22px; line-height:1.6;
+    }
+
+    .btn-reach {
+      width:100%; padding:16px; margin-top:8px;
+      background:var(--gold); color:var(--dark);
+      border:none; border-radius:12px; font-family:'DM Sans',sans-serif;
+      font-size:12.5px; font-weight:500; letter-spacing:.14em; text-transform:uppercase;
+      cursor:pointer; transition:opacity .25s, transform .15s;
+      box-shadow:0 8px 32px rgba(212,168,0,.3);
+    }
+    .btn-reach:hover { opacity:.9; transform:translateY(-1px); }
+    .btn-reach:disabled { opacity:.5; cursor:not-allowed; transform:none; }
+    .reach-note { font-size:11.5px; font-weight:300; color:rgba(245,240,232,.3); text-align:center; margin-top:16px; line-height:1.6; }
+
+    .success-state { text-align:center; padding:40px 20px; }
+    .success-icon {
+      width:52px; height:52px; border-radius:50%;
+      background:rgba(242,206,58,.15); border:1.5px solid rgba(242,206,58,.35);
+      display:flex; align-items:center; justify-content:center;
+      font-size:22px; color:var(--gold); margin:0 auto 20px;
+    }
+    .success-state h3 { font-family:'Cormorant Garamond',serif; font-size:28px; font-weight:400; color:#F5F0E8; margin-bottom:10px; }
+    .success-state p { font-size:14px; font-weight:300; color:rgba(245,240,232,.6); line-height:1.7; }
+
+    /* WHAT WE DO NEXT */
+    .steps { display:grid; grid-template-columns:repeat(3,1fr); gap:28px; margin-top:36px; }
+    .step {
+      text-align:center; padding:36px 24px 38px;
+      background:rgba(255,255,255,.72); backdrop-filter:blur(16px);
+      border:1px solid rgba(255,255,255,.7); border-radius:18px;
+      box-shadow:0 4px 24px rgba(14,80,185,.06);
+      opacity:0; transform:translateY(24px);
+      transition:opacity .7s ease, transform .7s ease;
+    }
+    .step.in-view { opacity:1; transform:translateY(0); }
+    .step:nth-child(2) { transition-delay:.14s; }
+    .step:nth-child(3) { transition-delay:.28s; }
+    .step-num { font-family:'Cormorant Garamond',serif; font-weight:500; font-size:42px; color:rgba(212,168,0,.22); margin-bottom:10px; line-height:1; }
+    .step h4 { font-family:'Cormorant Garamond',serif; font-weight:500; font-size:19px; color:var(--navy); margin-bottom:8px; }
+    .step p { font-size:13px; font-weight:300; color:#484E72; line-height:1.7; }
+
+    /* CRISIS NUMBERS */
+    .crisis-strip {
+      margin-top:72px; padding:42px 48px;
+      background:rgba(242,206,58,.10); border:1px solid rgba(242,206,58,.28);
+      border-radius:20px;
+    }
+    .crisis-top { display:flex; align-items:baseline; gap:16px; margin-bottom:24px; }
+    .crisis-top .sec-tag { margin-bottom:0; }
+    .crisis-top p { font-size:12.5px; font-weight:300; color:var(--faint); }
+    .crisis-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+    .crisis-item h4 { font-size:13.5px; font-weight:400; color:var(--navy); margin-bottom:3px; }
+    .crisis-item a { font-size:21px; font-family:'Cormorant Garamond',serif; font-weight:600; color:var(--gold-deep); text-decoration:none; }
+    .crisis-item p { font-size:11.5px; font-weight:300; color:var(--faint); margin-top:2px; }
+
+    /* FOOTER */
+    footer { background:linear-gradient(172deg,var(--dark) 0%,var(--mid) 32%,var(--deep) 60%,#1A7BCC 100%); overflow:hidden; padding-top:72px; position:relative; }
+    .ft-cloud { position:absolute; border-radius:50%; filter:blur(90px); pointer-events:none; }
+    .fc1 { width:700px; height:320px; background:rgba(20,100,195,.35); top:5%; left:-12%; }
+    .fc2 { width:550px; height:260px; background:rgba(10,55,145,.45); bottom:15%; right:-10%; }
+    .ft-inner { position:relative; z-index:2; max-width:1100px; margin:0 auto; padding:0 52px 64px; display:grid; grid-template-columns:1fr 1fr; gap:80px; }
+    .ft-brand { display:flex; flex-direction:column; gap:18px; }
+    .ft-logo { display:flex; align-items:center; gap:11px; }
+    .ft-name { font-family:'Cormorant Garamond',serif; font-weight:500; font-size:21px; color:#F5F0E8; }
+    .ft-desc { font-size:13.5px; font-weight:300; color:rgba(245,240,232,.52); line-height:1.72; max-width:320px; }
+    .ft-tagline { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:17px; color:rgba(245,240,232,.6); }
+    .ft-contact p { font-size:13px; font-weight:300; color:rgba(245,240,232,.44); margin-bottom:4px; }
+    .ft-contact a { color:var(--blue); text-decoration:none; }
+    .ft-don-head { font-family:'Cormorant Garamond',serif; font-weight:400; font-size:26px; color:#F5F0E8; margin-bottom:8px; }
+    .ft-don-sub { font-size:13px; font-weight:300; color:rgba(245,240,232,.5); line-height:1.65; margin-bottom:24px; }
+    .ft-fg { margin-bottom:12px; }
+    .ft-fg label { display:block; font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:rgba(245,240,232,.32); margin-bottom:5px; }
+    .ft-fi { width:100%; padding:11px 13px; background:rgba(245,240,232,.055); border:1px solid rgba(245,240,232,.09); border-radius:8px; font-family:'DM Sans',sans-serif; font-size:13px; font-weight:300; color:#F5F0E8; outline:none; transition:border-color .25s, background .25s; }
+    .ft-fi::placeholder { color:rgba(245,240,232,.22); }
+    .ft-fi:focus { border-color:rgba(242,206,58,.4); background:rgba(245,240,232,.08); }
+    .ft-row2 { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    .btn-gold { width:100%; padding:13px; background:var(--gold); color:var(--navy); border:none; border-radius:10px; font-family:'DM Sans',sans-serif; font-size:12px; font-weight:500; letter-spacing:.13em; text-transform:uppercase; cursor:pointer; margin-top:6px; transition:opacity .25s, transform .15s; }
+    .btn-gold:hover { opacity:.88; transform:translateY(-1px); }
+    .don-note { font-size:11px; font-weight:300; color:rgba(245,240,232,.3); text-align:center; margin-top:10px; }
+    .ft-bar { position:relative; z-index:2; max-width:1100px; margin:0 auto; padding:18px 52px; display:flex; justify-content:space-between; align-items:center; border-top:1px solid rgba(245,240,232,.07); }
+    .ft-bar p { font-size:11px; font-weight:300; color:rgba(245,240,232,.28); letter-spacing:.04em; }
+    .ft-bar a { color:rgba(245,240,232,.4); text-decoration:none; }
+    .ft-bar a:hover { color:var(--pink); }
+
+    /* TOAST */
+    .toast { position:fixed; bottom:28px; left:50%; transform:translateX(-50%) translateY(12px); background:rgba(6,35,95,.92); color:#F5F0E8; padding:12px 22px; border-radius:100px; font-size:13px; font-weight:300; box-shadow:0 8px 32px rgba(0,0,0,.3); z-index:9999; opacity:0; transition:opacity .3s, transform .3s; pointer-events:none; white-space:nowrap; }
+    .toast--show { opacity:1; transform:translateX(-50%) translateY(0); }
+    .toast--warn { border:1px solid rgba(242,206,58,.4); }
+    .toast--error { border:1px solid rgba(232,137,158,.4); }
+
+    @media(max-width:960px) {
+      nav { padding:0 24px; }
+      .nav-links { display:none; }
+      .emergency-banner { padding:10px 20px; gap:14px; top:70px; font-size:11px; }
+      .eb-sep { display:none; }
+      .page-hero { padding:190px 24px 60px; }
+      .main-wrap { padding:0 20px 80px; }
+      .pillars-grid { grid-template-columns:1fr; }
+      .reach-section { padding:60px 20px 80px; margin:0 -20px; }
+      .reach-card { padding:32px 24px 36px; }
+      .reach-form .row2 { grid-template-columns:1fr; }
+      .steps { grid-template-columns:1fr; }
+      .crisis-grid { grid-template-columns:1fr 1fr; gap:16px; }
+      .ft-inner { grid-template-columns:1fr; gap:44px; padding:0 24px 52px; }
+      .ft-row2 { grid-template-columns:1fr; }
+      .ft-bar { padding:18px 24px; flex-direction:column; gap:8px; text-align:center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">
+    <svg width="44" height="36" viewBox="0 0 76 62" fill="none">
+      <path d="M20 56 C8 52,4 40,12 30 C18 22,22 16,18 8" stroke="#8BAFD4" stroke-width="2.2" stroke-linecap="round" fill="none" opacity=".95"/>
+      <path d="M18 8 C14 2,22 0,26 6 C30 12,28 22,22 30 C16 38,14 46,22 54" stroke="#8BAFD4" stroke-width="2.2" stroke-linecap="round" fill="none" opacity=".85"/>
+      <circle cx="18" cy="5" r="4.5" fill="#1479C7"/>
+      <path d="M52 56 C40 52,36 40,44 30 C50 22,54 16,50 8" stroke="#8BAFD4" stroke-width="2.2" stroke-linecap="round" fill="none" opacity=".95"/>
+      <path d="M50 8 C46 2,54 0,58 6 C62 12,60 22,54 30 C48 38,46 46,54 54" stroke="#8BAFD4" stroke-width="2.2" stroke-linecap="round" fill="none" opacity=".85"/>
+      <circle cx="50" cy="5" r="4.5" fill="#F2CE3A"/>
+    </svg>
+    <span class="nav-wordmark">Project Nithya</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#impact">Impact</a></li>
+    <li><a href="index.html#causes">Our Work</a></li>
+    <li><a href="index.html#volunteer">Volunteer</a></li>
+  </ul>
+  <a href="#reach-out" class="nav-cta">I Need Help</a>
+</nav>
+
+<!-- EMERGENCY NUMBERS — persistent top strip -->
+<div class="emergency-banner" id="emergencyBanner">
+  <div class="eb-item">
+    <span class="eb-label">Women's Helpline</span>
+    <a href="tel:181" class="eb-number">181</a>
+  </div>
+  <div class="eb-sep"></div>
+  <div class="eb-item">
+    <span class="eb-label">Police</span>
+    <a href="tel:100" class="eb-number">100</a>
+  </div>
+  <div class="eb-sep"></div>
+  <div class="eb-item">
+    <span class="eb-label">NCW Helpline</span>
+    <a href="tel:7827170170" class="eb-number">7827-170-170</a>
+  </div>
+  <div class="eb-sep"></div>
+  <div class="eb-item">
+    <span class="eb-label">24/7 Crisis Line</span>
+    <a href="tel:18602662345" class="eb-number">1860-2662-345</a>
+  </div>
+</div>
+
+
+<!-- HERO -->
+<section class="page-hero">
+  <div class="hero-orb ho1"></div>
+  <div class="hero-orb ho2"></div>
+  <div class="hero-orb ho3"></div>
+  <p class="hero-eyebrow">Safety &amp; Refuge</p>
+  <h1 class="hero-title">
+    You deserve
+    <em>to feel safe.</em>
+  </h1>
+  <p class="hero-sub">Whatever you are living through — you are not at fault, you are not alone, and there are people who will stand with you.</p>
+  <a href="#reach-out" class="hero-anchor">Reach out to us &darr;</a>
+  <div class="hero-fade"></div>
+</section>
+
+
+<!-- MAIN -->
+<div class="main-wrap">
+
+  <div class="pillars" style="margin-top:60px">
+    <p class="sec-tag gold">How we can help</p>
+    <h2 class="sec-head">Practical support,<br><em>without judgement.</em></h2>
+    <p class="body-p">Safety crises are not moments to navigate alone. Whether you are in immediate danger or building the courage to leave — we meet you exactly where you are, at whatever pace you need.</p>
+
+    <div class="pillars-grid">
+      <div class="pillar" data-reveal>
+        <div class="pillar-stripe"></div>
+        <h3>Safety Planning</h3>
+        <p>If you are in an unsafe home or relationship, we'll work with you on a confidential, practical plan — what to pack, where to go, who to call, and how to stay safe in the meantime.</p>
+      </div>
+      <div class="pillar" data-reveal>
+        <div class="pillar-stripe"></div>
+        <h3>Legal Aid &amp; Protection</h3>
+        <p>We connect you to legal support, guide you through filing complaints, and help you understand the Protection of Women from Domestic Violence Act and your rights under it.</p>
+      </div>
+      <div class="pillar" data-reveal>
+        <div class="pillar-stripe"></div>
+        <h3>Safe Shelter Referrals</h3>
+        <p>We maintain verified connections to safe houses, refuge shelters, and transition homes across India — so you always have somewhere to go.</p>
+      </div>
+      <div class="pillar" data-reveal>
+        <div class="pillar-stripe"></div>
+        <h3>Recovery &amp; Rebuilding</h3>
+        <p>After the immediate crisis — rebuilding financial independence, confidence, and a life you feel safe in. We walk with you through every stage of that journey.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="soft-divider"></div>
+
+</div>
+
+
+<!-- REACH OUT -->
+<section class="reach-section" id="reach-out">
+  <div class="reach-bg-orb rbo1"></div>
+  <div class="reach-bg-orb rbo2"></div>
+
+  <div class="reach-inner">
+    <div class="reach-badge">Confidential &nbsp;·&nbsp; Safe &nbsp;·&nbsp; No judgement</div>
+    <h2 class="reach-title">You are safe<br><em>to talk to us.</em></h2>
+    <p class="reach-sub">You do not have to have it figured out. You do not need to have already left. Wherever you are in this — we want to hear from you.</p>
+    <p class="reach-reassure">We will never share your details with anyone, including family members or authorities, without your explicit consent. Your message is read only by trained members of our team.</p>
+
+    <div class="reach-card" id="reach-form-wrap">
+      <p class="anonymous-note">You can use any name you choose. Contact details are optional — though if you share them, we can reach back to you.</p>
+      <form class="reach-form" id="helpForm" onsubmit="return false">
+        <div class="row2">
+          <div class="fg">
+            <label>Name (any name is fine)</label>
+            <input class="fi" name="name" type="text" placeholder="Name or nickname">
+          </div>
+          <div class="fg">
+            <label>How you'd like us to reach you</label>
+            <select class="fi" name="pref">
+              <option value="any">Any way works</option>
+              <option value="email">Email only</option>
+              <option value="whatsapp">WhatsApp only</option>
+              <option value="phone">Phone call</option>
+              <option value="none">Don't contact me — I just needed to write this</option>
+            </select>
+          </div>
+        </div>
+        <div class="row2">
+          <div class="fg">
+            <label>Email (optional)</label>
+            <input class="fi" name="email" type="email" placeholder="you@example.com">
+          </div>
+          <div class="fg">
+            <label>Phone / WhatsApp (optional)</label>
+            <input class="fi" name="phone" type="tel" placeholder="+91 00000 00000">
+          </div>
+        </div>
+        <div class="fg">
+          <label>How urgent is your situation?</label>
+          <select class="fi" name="urgency">
+            <option value="normal">I'm safe right now — looking for guidance and support</option>
+            <option value="soon">I'm not in immediate danger but I need help soon</option>
+            <option value="urgent">I am in an unsafe situation and need urgent help</option>
+          </select>
+        </div>
+        <div class="fg">
+          <label>What is happening? *</label>
+          <textarea class="fi" name="situation" rows="5" placeholder="Write as much or as little as you'd like. There's no wrong way to do this."></textarea>
+        </div>
+        <button type="submit" class="btn-reach">Send — your message is safe with us</button>
+        <p class="reach-note">Confidential. Never shared. Read by a trained human within 24 hours.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+
+<!-- WHAT HAPPENS NEXT -->
+<div class="main-wrap">
+  <div style="margin-top:80px">
+    <p class="sec-tag">What happens next</p>
+    <h2 class="sec-head">A steady hand,<br><em>every step.</em></h2>
+    <div class="steps">
+      <div class="step" data-reveal>
+        <div class="step-num">01</div>
+        <h4>A person reads your message</h4>
+        <p>Not a bot, not an auto-reply. A trained member of our team reads every message personally, within 24 hours.</p>
+      </div>
+      <div class="step" data-reveal>
+        <div class="step-num">02</div>
+        <h4>We reach out gently</h4>
+        <p>Through your preferred channel — or not at all, if you asked for that. You stay in control of every interaction.</p>
+      </div>
+      <div class="step" data-reveal>
+        <div class="step-num">03</div>
+        <h4>We build a path forward</h4>
+        <p>Safety plan, legal referral, shelter, counselling — whatever the right next step is for you, we figure it out together.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- CRISIS NUMBERS -->
+  <div class="crisis-strip" data-reveal>
+    <div class="crisis-top">
+      <p class="sec-tag gold">If you are in immediate danger</p>
+      <p>Call one of these numbers right now. They are free, confidential, and available 24/7.</p>
+    </div>
+    <div class="crisis-grid">
+      <div class="crisis-item">
+        <h4>Women's Helpline</h4>
+        <a href="tel:181">181</a>
+        <p>National, free, 24/7</p>
+      </div>
+      <div class="crisis-item">
+        <h4>Police Emergency</h4>
+        <a href="tel:100">100</a>
+        <p>All India emergency</p>
+      </div>
+      <div class="crisis-item">
+        <h4>NCW Helpline</h4>
+        <a href="tel:7827170170">7827-170-170</a>
+        <p>National Commission for Women</p>
+      </div>
+      <div class="crisis-item">
+        <h4>Vandrevala Foundation</h4>
+        <a href="tel:18602662345">1860-2662-345</a>
+        <p>24/7 mental health crisis</p>
+      </div>
+      <div class="crisis-item">
+        <h4>Shakti Shalini</h4>
+        <a href="tel:01124373736">011-24373736</a>
+        <p>Domestic violence support</p>
+      </div>
+      <div class="crisis-item">
+        <h4>iCall (TISS)</h4>
+        <a href="tel:9152987821">9152987821</a>
+        <p>Psychosocial helpline</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+<!-- FOOTER -->
+<footer>
+  <div class="ft-cloud fc1"></div>
+  <div class="ft-cloud fc2"></div>
+  <div class="ft-inner">
+    <div class="ft-brand">
+      <div class="ft-logo">
+        <svg width="44" height="36" viewBox="0 0 76 62" fill="none">
+          <path d="M20 56 C8 52,4 40,12 30 C18 22,22 16,18 8" stroke="#8BAFD4" stroke-width="2.2" stroke-linecap="round" fill="none" opacity=".95"/>
+          <path d="M18 8 C14 2,22 0,26 6 C30 12,28 22,22 30 C16 38,14 46,22 54" stroke="#8BAFD4" stroke-width="2.2" stroke-linecap="round" fill="none" opacity=".85"/>
+          <circle cx="18" cy="5" r="4.5" fill="#1479C7"/>
+          <path d="M52 56 C40 52,36 40,44 30 C50 22,54 16,50 8" stroke="#8BAFD4" stroke-width="2.2" stroke-linecap="round" fill="none" opacity=".95"/>
+          <path d="M50 8 C46 2,54 0,58 6 C62 12,60 22,54 30 C48 38,46 46,54 54" stroke="#8BAFD4" stroke-width="2.2" stroke-linecap="round" fill="none" opacity=".85"/>
+          <circle cx="50" cy="5" r="4.5" fill="#F2CE3A"/>
+        </svg>
+        <span class="ft-name">Project Nithya</span>
+      </div>
+      <p class="ft-desc">A women's welfare organisation dedicated to mental health, safety, and holistic wellbeing across India.</p>
+      <p class="ft-tagline">Strength in every woman. Dignity in every life.</p>
+      <div class="ft-contact">
+        <p>Email: <a href="mailto:hello@projectnithya.org">hello@projectnithya.org</a></p>
+        <p>Phone: <a href="tel:+918000000000">+91 80 0000 0000</a></p>
+        <p>Chennai, Tamil Nadu, India</p>
+      </div>
+    </div>
+    <div class="don-wrap">
+      <h3 class="ft-don-head">Support this work</h3>
+      <p class="ft-don-sub">Every donation funds a safety plan, a legal referral, or a woman's first night in a safe place.</p>
+      <form id="donForm" onsubmit="return false">
+        <div class="ft-row2">
+          <div class="ft-fg"><label>Name</label><input class="ft-fi" name="name" type="text" placeholder="Your name"></div>
+          <div class="ft-fg"><label>Amount (₹)</label><input class="ft-fi" name="amount" type="text" placeholder="500"></div>
+        </div>
+        <div class="ft-fg"><label>Email</label><input class="ft-fi" name="email" type="email" placeholder="you@example.com"></div>
+        <button type="submit" class="btn-gold">Donate Now</button>
+        <p class="don-note">80G tax exemption · Powered by Razorpay</p>
+      </form>
+    </div>
+  </div>
+  <div class="ft-bar">
+    <p>© 2025 Project Nithya. All rights reserved.</p>
+    <p><a href="index.html">Home</a> &nbsp;·&nbsp; <a href="mental-health.html">Mental Health</a> &nbsp;·&nbsp; <a href="health-guidance.html">Health Guidance</a></p>
+  </div>
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="nithya.js"></script>
+<script>
+  /* Shift emergency banner when nav floats */
+  const banner = document.getElementById('emergencyBanner');
+  window.addEventListener('scroll', () => {
+    banner.classList.toggle('banner--shift', window.scrollY > 72);
+  }, { passive: true });
+
+  document.getElementById('helpForm').addEventListener('submit', function() {
+    submitHelpRequest(this, 'safety');
+  });
+  document.getElementById('donForm').addEventListener('submit', function() {
+    submitDonation(this);
+  });
+</script>
+</body>
+</html>

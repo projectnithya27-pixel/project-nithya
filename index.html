@@ -11,7 +11,10 @@
     :root {
       --blue:    #62BEF0;
       --navy:    #1479C7;
-      --gold:    #E8A825;
+      --gold:    #F2CE3A;
+      --gold-pale: #F7E07A;
+      --pink:    #F9C8D5;
+      --pink-deep: #E8899E;
       --cream:   #F5F0E8;
       --dark:    #062952;
       --mid:     #0A3D82;
@@ -115,7 +118,7 @@
       transition: color 0.25s;
     }
 
-    .nav-links a:hover { color: var(--gold); }
+    .nav-links a:hover { color: var(--pink); }
 
     .nav-cta {
       font-size: 11px;
@@ -227,8 +230,8 @@
       width: 440px; height: 440px;
       border-radius: 50%;
       background: radial-gradient(circle,
-        rgba(232, 168, 37, 0.28) 0%,
-        rgba(232, 168, 37, 0.10) 38%,
+        rgba(242, 206, 58, 0.28) 0%,
+        rgba(242, 206, 58, 0.10) 38%,
         transparent 65%);
       opacity: 0;
       transform: scale(0.2);
@@ -244,12 +247,12 @@
       transform: translateX(-50%) translateY(-50%) scale(0.1);
       width: 52px; height: 52px;
       border-radius: 50%;
-      background: radial-gradient(circle, #FFFBE8 0%, #F5C842 45%, rgba(232,168,37,0) 75%);
+      background: radial-gradient(circle, #FFFBE8 0%, #F2CE3A 45%, rgba(242,206,58,0) 75%);
       opacity: 0;
       animation: coreRise 2.4s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards;
       pointer-events: none;
       z-index: 4;
-      box-shadow: 0 0 40px 20px rgba(232, 168, 37, 0.35), 0 0 80px 40px rgba(232, 168, 37, 0.12);
+      box-shadow: 0 0 40px 20px rgba(242, 206, 58, 0.35), 0 0 80px 40px rgba(242, 206, 58, 0.12);
     }
 
     /* Sun rays SVG — spans the full hero so rays reach viewport edges */
@@ -320,7 +323,7 @@
       font-weight: 300;
       letter-spacing: 0.28em;
       text-transform: uppercase;
-      color: var(--blue);
+      color: var(--pink);
       margin-bottom: 18px;
     }
 
@@ -338,6 +341,7 @@
       font-style: italic;
       color: var(--gold);
       display: block;
+      text-shadow: 0 0 60px rgba(249,200,213,0.18);
     }
 
     .hero-tagline {
@@ -431,7 +435,7 @@
       background: rgba(14, 80, 185, 0.13);
     }
 
-    .svc:hover { background: rgba(139, 175, 212, 0.11); }
+    .svc:hover { background: rgba(249, 200, 213, 0.10); }
 
     .svc-icon {
       width: 34px; height: 34px;
@@ -457,7 +461,7 @@
     .svc-more {
       font-size: 11.5px;
       letter-spacing: 0.06em;
-      color: var(--blue);
+      color: var(--pink-deep);
       font-weight: 400;
     }
 
@@ -498,7 +502,7 @@
       font-weight: 300;
       letter-spacing: 0.28em;
       text-transform: uppercase;
-      color: var(--blue);
+      color: var(--pink-deep);
       margin-bottom: 14px;
     }
 
@@ -527,15 +531,15 @@
     .blockquote {
       margin-top: 30px;
       padding: 18px 22px;
-      border-left: 2.5px solid var(--gold);
+      border-left: 2.5px solid var(--pink-deep);
       background: rgba(255, 255, 255, 0.52);
       backdrop-filter: blur(10px) saturate(1.2);
       -webkit-backdrop-filter: blur(10px) saturate(1.2);
       border-radius: 0 10px 10px 0;
-      border-top: 1px solid rgba(232, 168, 37, 0.12);
-      border-right: 1px solid rgba(232, 168, 37, 0.08);
-      border-bottom: 1px solid rgba(232, 168, 37, 0.08);
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+      border-top: 1px solid rgba(249, 200, 213, 0.25);
+      border-right: 1px solid rgba(249, 200, 213, 0.14);
+      border-bottom: 1px solid rgba(249, 200, 213, 0.14);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8), 0 2px 12px rgba(232,137,158,0.06);
     }
 
     .blockquote p {
@@ -567,7 +571,7 @@
     .img-orb-1 {
       width: 240px; height: 240px;
       top: -60px; right: -60px;
-      background: radial-gradient(circle, rgba(232,168,37,0.22), transparent 68%);
+      background: radial-gradient(circle, rgba(242,206,58,0.22), transparent 68%);
     }
 
     .img-orb-2 {
@@ -681,7 +685,7 @@
 
     .stat-stripe {
       height: 4px;
-      background: linear-gradient(90deg, var(--blue) 0%, rgba(139,175,212,0.22) 100%);
+      background: linear-gradient(90deg, var(--pink-deep) 0%, var(--gold) 55%, rgba(242,206,58,0.18) 100%);
     }
 
     .stat-body {
@@ -752,8 +756,8 @@
     }
 
     .fi:focus {
-      border-color: var(--blue);
-      box-shadow: 0 0 0 3px rgba(139,175,212,0.14);
+      border-color: var(--pink-deep);
+      box-shadow: 0 0 0 3px rgba(249,200,213,0.22);
     }
 
     select.fi {
@@ -815,7 +819,7 @@
       bottom: -50px; left: -50px;
       width: 220px; height: 220px;
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(232,168,37,0.11), transparent 68%);
+      background: radial-gradient(circle, rgba(242,206,58,0.11), transparent 68%);
       pointer-events: none;
     }
 
@@ -823,7 +827,7 @@
       font-size: 10.5px;
       letter-spacing: 0.26em;
       text-transform: uppercase;
-      color: var(--gold);
+      color: var(--pink);
       margin-bottom: 10px;
       position: relative; z-index: 1;
     }
@@ -1144,7 +1148,7 @@
       <path d="M52 56 C40 52, 36 40, 44 30 C50 22, 54 16, 50 8" stroke="#8BAFD4" stroke-width="2.2" stroke-linecap="round" fill="none" opacity="0.95"/>
       <path d="M50 8 C46 2, 54 0, 58 6 C62 12, 60 22, 54 30 C48 38, 46 46, 54 54" stroke="#8BAFD4" stroke-width="2.2" stroke-linecap="round" fill="none" opacity="0.85"/>
       <!-- Gold dot — right figure head -->
-      <circle cx="50" cy="5" r="4.5" fill="#E8A825"/>
+      <circle cx="50" cy="5" r="4.5" fill="#F2CE3A"/>
     </svg>
     <span class="nav-wordmark">Project Nithya</span>
   </a>
@@ -1152,7 +1156,7 @@
   <ul class="nav-links">
     <li><a href="#about">About</a></li>
     <li><a href="#impact">Impact</a></li>
-    <li><a href="#causes">Causes</a></li>
+    <li><a href="#causes">Our Work</a></li>
     <li><a href="#volunteer">Volunteer</a></li>
   </ul>
 
@@ -1183,12 +1187,12 @@
 
   <!-- Content -->
   <div class="hero-content">
-    <p class="hero-eyebrow">Autoimmune Patient Advocacy</p>
+    <p class="hero-eyebrow">Women's Welfare &amp; Empowerment</p>
     <h1 class="hero-title">
       Project
       <em>Nithya</em>
     </h1>
-    <p class="hero-tagline">Care that walks with you.</p>
+    <p class="hero-tagline">Strength in every woman. Dignity in every life.</p>
     <div class="hero-scroll-indicator">
       <span>Scroll</span>
       <div class="scroll-bar"></div>
@@ -1207,36 +1211,43 @@
   <div class="services-panel" id="causes">
 
     <a href="#causes" class="svc">
-      <!-- Heart + loop icon -->
+      <!-- Mind/mental health icon -->
       <svg class="svc-icon" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
         <circle cx="17" cy="17" r="16" stroke="#8BAFD4" stroke-width="1.4" opacity="0.6"/>
-        <path d="M11 16.5 C11 13 13.5 11 16 12.8 C18.5 11 21 13 21 16.5 C21 20 17 23.5 16 24.5 C15 23.5 11 20 11 16.5Z"
-              stroke="#2C3E6B" stroke-width="1.5" fill="rgba(139,175,212,0.14)" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M11 20 C11 14.5 13.5 10.5 17 10.5 C20.5 10.5 23 14.5 23 20" stroke="#2C3E6B" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+        <path d="M13 22 C13 21 13.5 20 14.5 20 L19.5 20 C20.5 20 21 21 21 22 L21 23 C21 23.6 20.6 24 20 24 L14 24 C13.4 24 13 23.6 13 23 Z" stroke="#2C3E6B" stroke-width="1.3" fill="rgba(139,175,212,0.14)"/>
+        <line x1="15" y1="20" x2="15" y2="16" stroke="#2C3E6B" stroke-width="1.2" stroke-linecap="round"/>
+        <line x1="17" y1="20" x2="17" y2="14" stroke="#2C3E6B" stroke-width="1.2" stroke-linecap="round"/>
+        <line x1="19" y1="20" x2="19" y2="16.5" stroke="#2C3E6B" stroke-width="1.2" stroke-linecap="round"/>
       </svg>
-      <h3 class="svc-head">Causes</h3>
-      <p class="svc-desc">We support autoimmune condition individuals — walking beside them through invisible battles.</p>
+      <h3 class="svc-head">Mental Health</h3>
+      <p class="svc-desc">Grief, anxiety, trauma, burnout — we provide a safe space where a woman's inner world is heard without judgement.</p>
       <span class="svc-more">Learn more ↓</span>
     </a>
 
     <a href="#guidance" class="svc" id="guidance">
-      <!-- Compass/direction icon -->
+      <!-- Shield / safety icon -->
       <svg class="svc-icon" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
         <circle cx="17" cy="17" r="16" stroke="#8BAFD4" stroke-width="1.4" opacity="0.6"/>
-        <path d="M10 17 L24 17 M19 12 L24 17 L19 22" stroke="#2C3E6B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M17 10 L23 12.5 L23 18 C23 21.5 20 24 17 25 C14 24 11 21.5 11 18 L11 12.5 Z" stroke="#2C3E6B" stroke-width="1.4" fill="rgba(139,175,212,0.12)" stroke-linejoin="round"/>
+        <path d="M14.5 17.5 L16 19 L19.5 15" stroke="#2C3E6B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
-      <h3 class="svc-head">Guidance</h3>
-      <p class="svc-desc">We connect you to the right medical field, diagnostic tests, and specialist doctors.</p>
+      <h3 class="svc-head">Safety &amp; Refuge</h3>
+      <p class="svc-desc">From domestic violence to workplace harassment — we help women find protection, legal recourse, and a path forward.</p>
       <span class="svc-more">Learn more ↓</span>
     </a>
 
     <a href="#support" class="svc" id="support">
-      <!-- Plus/extend icon -->
+      <!-- Health / caduceus icon -->
       <svg class="svc-icon" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
         <circle cx="17" cy="17" r="16" stroke="#8BAFD4" stroke-width="1.4" opacity="0.6"/>
-        <path d="M17 11 L17 23 M11 17 L23 17" stroke="#E8A825" stroke-width="1.8" stroke-linecap="round"/>
+        <line x1="17" y1="10" x2="17" y2="25" stroke="#2C3E6B" stroke-width="1.5" stroke-linecap="round"/>
+        <path d="M17 13 C19.5 13 21 14.5 21 16.5 C21 18.5 19 19.5 17 19.5" stroke="#F2CE3A" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+        <path d="M17 13 C14.5 13 13 14.5 13 16.5 C13 18.5 15 19.5 17 19.5" stroke="#F2CE3A" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+        <circle cx="17" cy="11" r="1.5" fill="#F2CE3A"/>
       </svg>
-      <h3 class="svc-head">Support</h3>
-      <p class="svc-desc">Support our mission through donations or by joining our network of dedicated volunteers.</p>
+      <h3 class="svc-head">Health Guidance</h3>
+      <p class="svc-desc">Reproductive wellness, preventive care, and navigating India's healthcare system — with clarity and compassion beside you.</p>
       <span class="svc-more">Learn more ↓</span>
     </a>
 
@@ -1255,15 +1266,18 @@
 
       <div>
         <p class="sec-tag">Who we are</p>
-        <h2 class="sec-head">Two parallel journeys,<br><em>one shared path.</em></h2>
+        <h2 class="sec-head">Every woman deserves to<br><em>be seen, heard, held.</em></h2>
         <p class="body-p">
-          Project Nithya was born from a simple truth: no one should navigate the labyrinth of autoimmune illness alone. We walk alongside patients, families, and caregivers — offering clarity where there is confusion, and community where there is isolation.
+          Project Nithya was born from a simple, urgent truth: too many women in India suffer in silence. Whether navigating the aftermath of abuse, wrestling with their mental health, or searching for trustworthy healthcare — they do so without a hand to hold. We exist to change that.
         </p>
         <p class="body-p">
-          Our name, Nithya, means <em style="font-style:italic;">eternal</em> in Sanskrit. Like the persistent hope of those who live with chronic conditions, our commitment is unwavering. We believe that with the right guidance, every individual can reclaim their story.
+          Our name, Nithya, means <em style="font-style:italic;">eternal</em> in Sanskrit — the eternal strength that lives within every woman, waiting to be recognised. We are a women's welfare organisation working at the intersection of mental health, safety, and holistic wellbeing. Our work is not charity; it is solidarity.
+        </p>
+        <p class="body-p">
+          We walk beside women from all walks of life — the homemaker who has lost herself, the survivor rebuilding after violence, the young professional silently drowning, the mother who forgets she too deserves care. No story is too small. No struggle is invisible here.
         </p>
         <blockquote class="blockquote">
-          <p>"Between diagnosis and understanding, there is a vast silence. We fill that silence with knowledge, compassion, and an unwavering human presence."</p>
+          <p>"A woman's wellbeing is not a privilege to be earned — it is a right to be fiercely protected. We stand at that boundary, and we do not move."</p>
         </blockquote>
       </div>
 
@@ -1284,7 +1298,7 @@
         </svg>
 
         <div class="about-caption">
-          <p>"Where two paths converge, healing begins — in the shared witness of those who truly understand the walk."</p>
+          <p>"She was told to be silent. We taught her that her voice is the most powerful thing she owns."</p>
         </div>
       </div>
 
@@ -1296,27 +1310,27 @@
     <section class="impact" id="impact">
       <p class="sec-tag" style="text-align:center">Our reach</p>
       <h2 class="impact-head">Measured in lives,<br>not just numbers.</h2>
-      <p class="impact-sub">Every figure is a person who found their footing.</p>
+      <p class="impact-sub">Every figure is a woman who found her footing — and reclaimed her future.</p>
 
       <div class="stats">
         <div class="stat-card" data-stat>
           <div class="stat-stripe"></div>
           <div class="stat-body">
-            <div class="stat-num">1,240+</div>
-            <div class="stat-lbl">Patients Supported</div>
+            <div class="stat-num">2,800+</div>
+            <div class="stat-lbl">Women Supported</div>
           </div>
         </div>
         <div class="stat-card" data-stat>
           <div class="stat-stripe"></div>
           <div class="stat-body">
-            <div class="stat-num">380+</div>
-            <div class="stat-lbl">Volunteers</div>
+            <div class="stat-num">430+</div>
+            <div class="stat-lbl">Volunteers & Counsellors</div>
           </div>
         </div>
         <div class="stat-card" data-stat>
           <div class="stat-stripe"></div>
           <div class="stat-body">
-            <div class="stat-num">64</div>
+            <div class="stat-num">78</div>
             <div class="stat-lbl">Partner Organisations</div>
           </div>
         </div>
@@ -1345,11 +1359,12 @@
             <label for="vr">How would you like to help?</label>
             <select id="vr" class="fi">
               <option value="" disabled selected>Select a role</option>
-              <option>Patient Support Companion</option>
-              <option>Medical Guidance Volunteer</option>
-              <option>Community Outreach</option>
+              <option>Mental Health Companion</option>
+              <option>Safety &amp; Crisis Support</option>
+              <option>Community Health Worker</option>
+              <option>Legal Aid &amp; Advocacy</option>
+              <option>Outreach &amp; Awareness</option>
               <option>Fundraising &amp; Events</option>
-              <option>Research &amp; Documentation</option>
               <option>Other</option>
             </select>
           </div>
@@ -1361,8 +1376,8 @@
       <div id="donate">
         <div class="don-card">
           <p class="don-tag">Make a difference</p>
-          <h3 class="don-head">Support a patient's<br>journey today.</h3>
-          <p class="don-sub">Your generosity funds counselling, medical navigation, and community building for autoimmune patients across India.</p>
+          <h3 class="don-head">Back a woman's<br>journey to safety.</h3>
+          <p class="don-sub">Your generosity funds counselling sessions, crisis interventions, health guidance, and community support for women across India.</p>
           <form onsubmit="return false">
             <div class="don-fg">
               <label>Name</label>
@@ -1405,14 +1420,14 @@
           <circle cx="18" cy="5" r="4.5" fill="#1479C7"/>
           <path d="M52 56 C40 52, 36 40, 44 30 C50 22, 54 16, 50 8" stroke="#8BAFD4" stroke-width="2.2" stroke-linecap="round" fill="none" opacity="0.95"/>
           <path d="M50 8 C46 2, 54 0, 58 6 C62 12, 60 22, 54 30 C48 38, 46 46, 54 54" stroke="#8BAFD4" stroke-width="2.2" stroke-linecap="round" fill="none" opacity="0.85"/>
-          <circle cx="50" cy="5" r="4.5" fill="#E8A825"/>
+          <circle cx="50" cy="5" r="4.5" fill="#F2CE3A"/>
         </svg>
         <span class="ft-name">Project Nithya</span>
       </div>
 
-      <p class="ft-desc">An autoimmune patient advocacy organisation dedicated to guiding, supporting, and empowering those living with chronic illness across India.</p>
+      <p class="ft-desc">A women's welfare organisation dedicated to mental health, safety from abuse, and holistic health guidance — standing beside women across India.</p>
 
-      <p class="ft-tagline">Care that walks with you.</p>
+      <p class="ft-tagline">Strength in every woman. Dignity in every life.</p>
 
       <div class="ft-contact">
         <p>Email: <a href="mailto:hello@projectnithya.org">hello@projectnithya.org</a></p>
@@ -1501,7 +1516,7 @@
       line.setAttribute('y1', sy.toFixed(1));
       line.setAttribute('x2', x2);
       line.setAttribute('y2', y2);
-      line.setAttribute('stroke', `rgba(232,168,37,${op})`);
+      line.setAttribute('stroke', `rgba(242,206,58,${op})`);
       line.setAttribute('stroke-width', sw);
       line.setAttribute('stroke-linecap', 'round');
       line.style.strokeDasharray = reach;
