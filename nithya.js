@@ -1,7 +1,7 @@
 /* ── Project Nithya — Shared JS ── */
 
-const SUPABASE_URL  = 'https://gfoeqjponxprduhejiga.supabase.co';
-const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imdmb2VxanBvbnhwcmR1aGVqaWdhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM0ODk4ODEsImV4cCI6MjA4OTA2NTg4MX0.n5ZnuEwYFEI1IY8s6oTQln8qYZeGrhp0hGHLxstoDoA';
+const SUPABASE_URL  = 'https://hdmnkxwpsxlxtrlseaqj.supabase.co';
+const SUPABASE_ANON = 'sb_publishable_exS-Kc3LNS2poEm3eWJOOg_c0uiWzLv';
 
 /* Lazily initialised — only after CDN script has loaded */
 function getSB() {
