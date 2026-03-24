@@ -1,0 +1,91 @@
+/* Project Nithya — Sub-page Shared Styles */
+
+/* ── PAGE HERO ── */
+.page-hero { padding: 148px 44px 80px; position: relative; overflow: hidden; text-align: center; }
+.hero-orb { position: absolute; border-radius: 50%; pointer-events: none; filter: blur(80px); }
+.hero-eyebrow { font-size: 11px; font-weight: 300; letter-spacing: .28em; text-transform: uppercase; margin-bottom: 16px; position: relative; z-index: 2; }
+.hero-title { font-family: 'Cormorant Garamond', serif; font-weight: 400; font-size: clamp(40px,7vw,80px); line-height: .96; color: #F5F0E8; letter-spacing: -.015em; margin-bottom: 20px; position: relative; z-index: 2; }
+.hero-title em { font-style: italic; display: block; }
+.hero-sub { font-size: clamp(15px,2vw,19px); font-weight: 300; color: rgba(245,240,232,.55); font-family: 'Cormorant Garamond', serif; font-style: italic; letter-spacing: .04em; max-width: 560px; margin: 0 auto 36px; position: relative; z-index: 2; }
+.hero-anchor { display: inline-flex; align-items: center; gap: 8px; font-size: 11.5px; letter-spacing: .14em; text-transform: uppercase; padding: 11px 28px; border-radius: 100px; text-decoration: none; transition: background .25s, border-color .25s; border: 1px solid; position: relative; z-index: 2; }
+.hero-fade { position: absolute; bottom: 0; left: 0; right: 0; height: 180px; background: linear-gradient(to bottom, transparent, var(--cream)); pointer-events: none; z-index: 3; }
+
+/* ── MAIN WRAP ── */
+.main-wrap { max-width: 1100px; margin: 0 auto; padding: 0 44px 100px; }
+
+/* ── TYPOGRAPHY ── */
+.sec-tag { font-size: 10.5px; font-weight: 300; letter-spacing: .28em; text-transform: uppercase; color: var(--pink-deep); margin-bottom: 14px; }
+.sec-tag.gold { color: var(--gold-deep); }
+.sec-tag.blue { color: var(--navy); }
+.sec-head { font-family: 'Cormorant Garamond', serif; font-weight: 400; font-size: clamp(28px,3.4vw,42px); line-height: 1.13; color: var(--navy); margin-bottom: 24px; }
+.sec-head em { font-style: italic; color: var(--muted); }
+.body-p { font-size: 14.5px; font-weight: 300; line-height: 1.82; color: #484E72; margin-bottom: 16px; }
+
+/* ── DIVIDER ── */
+.soft-divider { height: 1px; background: linear-gradient(to right, transparent, rgba(14,80,185,.1) 25%, rgba(14,80,185,.1) 75%, transparent); margin: 72px 0; }
+
+/* ── FEATURE: image + text ── */
+.feature-block { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; margin-top: 72px; margin-bottom: 4px; }
+.feature-img-wrap { position: relative; border-radius: 22px; overflow: hidden; aspect-ratio: 4/3; box-shadow: 0 8px 40px rgba(14,80,185,.07); }
+.feature-img-wrap img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; z-index: 1; }
+.img-placeholder { position: absolute; inset: 0; z-index: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; color: rgba(14,80,185,.28); }
+.img-placeholder span { font-size: 10.5px; letter-spacing: .18em; text-transform: uppercase; }
+.feature-text blockquote { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: clamp(18px,2.2vw,25px); font-weight: 400; color: var(--navy); line-height: 1.52; margin: 20px 0 22px; padding-left: 18px; }
+
+/* ── REACH OUT ── */
+.reach-section { padding: 80px 44px 100px; margin: 0 -44px; position: relative; overflow: hidden; }
+.reach-bg-orb { position: absolute; border-radius: 50%; pointer-events: none; filter: blur(100px); }
+.reach-inner { max-width: 780px; margin: 0 auto; position: relative; z-index: 2; }
+.reach-badge { display: inline-flex; align-items: center; gap: 7px; font-size: 10px; letter-spacing: .18em; text-transform: uppercase; padding: 6px 16px; border-radius: 100px; margin-bottom: 28px; }
+.reach-badge::before { content: '◉'; font-size: 8px; animation: pulseDot 2s ease-in-out infinite; }
+@keyframes pulseDot { 0%,100%{opacity:1} 50%{opacity:.3} }
+.reach-title { font-family: 'Cormorant Garamond', serif; font-weight: 400; font-size: clamp(32px,5.5vw,60px); line-height: 1.08; color: #F5F0E8; letter-spacing: -.01em; margin-bottom: 14px; }
+.reach-sub { font-size: 15px; font-weight: 300; color: rgba(245,240,232,.55); line-height: 1.75; margin-bottom: 44px; max-width: 580px; }
+.reach-reassure { font-size: 12.5px; font-weight: 300; color: rgba(245,240,232,.4); line-height: 1.7; margin-bottom: 44px; max-width: 520px; padding-left: 14px; border-left: 2px solid rgba(242,206,58,.3); }
+.reach-card { background: rgba(255,255,255,.06); border-radius: 24px; padding: 52px 56px 56px; backdrop-filter: blur(40px) saturate(1.4); }
+.anonymous-note { font-size: 12px; font-weight: 300; color: rgba(245,240,232,.35); margin-bottom: 22px; line-height: 1.6; }
+
+/* ── FORM — dark variant ── */
+.reach-form .fg { margin-bottom: 18px; }
+.reach-form .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.reach-form label { display: block; font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: rgba(245,240,232,.4); margin-bottom: 6px; }
+.reach-form .fi { width: 100%; padding: 13px 16px; background: rgba(245,240,232,.07); border: 1px solid rgba(245,240,232,.12); border-radius: 10px; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 300; color: #F5F0E8; outline: none; transition: border-color .25s, background .25s; appearance: none; }
+.reach-form .fi::placeholder { color: rgba(245,240,232,.28); }
+.reach-form .fi.field-error { border-color: #ff6b8a !important; }
+.reach-form textarea.fi { resize: vertical; min-height: 120px; }
+.reach-form select.fi { cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='7'%3E%3Cpath d='M1 1l4.5 4.5L10 1' stroke='%23aabbcc' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; }
+
+/* ── BTN / REACH NOTE ── */
+.btn-reach { width: 100%; padding: 16px; margin-top: 8px; border: none; border-radius: 12px; font-family: 'DM Sans', sans-serif; font-size: 12.5px; font-weight: 400; letter-spacing: .14em; text-transform: uppercase; cursor: pointer; transition: opacity .25s, transform .15s; }
+.btn-reach:hover { opacity: .9; transform: translateY(-1px); }
+.btn-reach:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+.reach-note { font-size: 11.5px; font-weight: 300; color: rgba(245,240,232,.32); text-align: center; margin-top: 16px; line-height: 1.6; }
+
+/* ── STEPS ── */
+.steps { display: grid; grid-template-columns: repeat(3,1fr); gap: 28px; margin-top: 36px; }
+.step { text-align: center; padding: 36px 24px 38px; background: rgba(255,255,255,.72); backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,.7); border-radius: 18px; box-shadow: 0 4px 24px rgba(14,80,185,.06); opacity: 0; transform: translateY(24px); transition: opacity .7s ease, transform .7s ease; }
+.step.in-view { opacity: 1; transform: translateY(0); }
+.step:nth-child(2) { transition-delay: .14s; }
+.step:nth-child(3) { transition-delay: .28s; }
+.step-num { font-family: 'Cormorant Garamond', serif; font-weight: 500; font-size: 42px; margin-bottom: 10px; line-height: 1; }
+.step h4 { font-family: 'Cormorant Garamond', serif; font-weight: 500; font-size: 19px; color: var(--navy); margin-bottom: 8px; }
+.step p { font-size: 13px; font-weight: 300; color: #484E72; line-height: 1.7; }
+
+/* ── SUCCESS STATE ── */
+.success-state { text-align: center; padding: 40px 20px; }
+.success-icon { width: 52px; height: 52px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; margin: 0 auto 20px; }
+.success-state h3 { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 400; color: #F5F0E8; margin-bottom: 10px; }
+.success-state p { font-size: 14px; font-weight: 300; color: rgba(245,240,232,.6); line-height: 1.7; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 960px) {
+  .page-hero { padding: 120px 24px 60px; }
+  .main-wrap { padding: 0 20px 80px; }
+  .reach-section { padding: 60px 20px 80px; margin: 0 -20px; }
+  .reach-card { padding: 32px 24px 36px; }
+  .reach-form .row2 { grid-template-columns: 1fr; }
+  .steps { grid-template-columns: 1fr; }
+}
+@media (max-width: 760px) {
+  .feature-block { grid-template-columns: 1fr; gap: 28px; }
+}

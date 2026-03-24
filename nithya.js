@@ -53,7 +53,7 @@ async function submitHelpRequest(formEl, page) {
     page,
   };
 
-  if (!payload.situation) { showFieldError(formEl, 'situation', 'Please tell us a little about what's happening.'); return; }
+  if (!payload.situation) { showFieldError(formEl, 'situation', "Please tell us a little about what's happening."); return; }
 
   btn.textContent = 'Sending…';
   btn.disabled = true;
@@ -115,9 +115,9 @@ async function submitDonation(formEl) {
 /* ── Helpers ── */
 function showSuccess(container, type) {
   const messages = {
-    reach: { h: 'We've received your message.', p: 'Someone from our team will read this and reach out within 24 hours. You are not alone in this.' },
-    vol:   { h: 'Thank you for stepping forward.', p: 'We'll be in touch soon with the next steps to join our volunteer network.' },
-    don:   { h: 'Thank you for your generosity.', p: 'Your support makes this work possible. We'll reach out with payment details shortly.' },
+    reach: { h: "We've received your message.", p: 'Someone from our team will read this and reach out within 24 hours. You are not alone in this.' },
+    vol:   { h: 'Thank you for stepping forward.', p: "We'll be in touch soon with the next steps to join our volunteer network." },
+    don:   { h: 'Thank you for your generosity.', p: "Your support makes this work possible. We'll reach out with payment details shortly." },
   };
   const m = messages[type] || messages.reach;
   if (!container) return;

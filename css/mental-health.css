@@ -1,0 +1,69 @@
+/* Project Nithya — Mental Health page styles */
+
+/* ── HERO ── */
+.page-hero {
+  background: linear-gradient(168deg, var(--dark) 0%, #1a2d6e 40%, #2a4a8a 70%, #1e5fa0 100%);
+}
+.ho1 { width:500px; height:250px; background:rgba(249,200,213,0.12); top:10%; left:-8%; }
+.ho2 { width:400px; height:200px; background:rgba(249,200,213,0.10); bottom:15%; right:-5%; }
+.ho3 { width:600px; height:300px; background:rgba(20,100,195,0.35); top:20%; right:10%; }
+.hero-eyebrow { color: var(--pink); }
+.hero-title em { color: var(--pink); }
+.hero-anchor { color: var(--pink); border-color: rgba(249,200,213,.35); }
+.hero-anchor:hover { background: rgba(249,200,213,.1); border-color: rgba(249,200,213,.6); }
+
+/* ── SUPPORT PILLARS ── */
+.pillars { margin-top: 60px; }
+.pillars-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:20px; margin-top:36px; }
+.pillar {
+  background:rgba(255,255,255,0.72); backdrop-filter:blur(16px);
+  border:1px solid rgba(255,255,255,.7); border-radius:18px; padding:32px 30px 34px;
+  box-shadow:0 4px 24px rgba(14,80,185,.06), inset 0 1px 0 rgba(255,255,255,.9);
+  opacity:0; transform:translateY(24px);
+  transition:opacity .7s ease, transform .7s ease, box-shadow .3s;
+}
+.pillar.in-view { opacity:1; transform:translateY(0); }
+.pillar:nth-child(2) { transition-delay:.12s; }
+.pillar:nth-child(3) { transition-delay:.24s; }
+.pillar:nth-child(4) { transition-delay:.36s; }
+.pillar:hover { box-shadow:0 12px 40px rgba(232,137,158,.14), inset 0 1px 0 rgba(255,255,255,.9); }
+.pillar-stripe { height:3px; width:36px; border-radius:2px; background:linear-gradient(90deg,var(--pink-deep),var(--gold)); margin-bottom:16px; }
+.pillar h3 { font-family:'Cormorant Garamond',serif; font-weight:500; font-size:21px; color:var(--navy); margin-bottom:8px; }
+.pillar p { font-size:13.5px; font-weight:300; color:#484E72; line-height:1.72; }
+
+/* ── REACH SECTION ── */
+.reach-section {
+  background: linear-gradient(168deg, var(--dark) 0%, #1a2d6e 40%, #1e4a8a 70%, #163d7a 100%);
+}
+.rbo1 { width:600px; height:300px; background:rgba(249,200,213,0.10); top:-60px; left:-100px; }
+.rbo2 { width:500px; height:250px; background:rgba(242,206,58,0.07); bottom:-40px; right:-80px; }
+.reach-badge { color:var(--pink); border-color:rgba(249,200,213,.28); background:rgba(249,200,213,.07); }
+.reach-title em { color: var(--pink); }
+.reach-form .fi:focus { border-color:rgba(249,200,213,.5); background:rgba(245,240,232,.10); }
+.btn-reach { background:var(--pink-deep); color:#fff; box-shadow:0 8px 32px rgba(232,137,158,.35); }
+.success-icon { background:rgba(249,200,213,.2); border:1.5px solid rgba(249,200,213,.4); color:var(--pink); }
+.step-num { color: rgba(232,137,158,.22); }
+
+/* ── FEATURE BLOCK ── */
+.feature-img-wrap {
+  background: linear-gradient(145deg,rgba(249,200,213,.22) 0%,rgba(20,60,140,.1) 100%);
+  border: 1px solid rgba(249,200,213,.3);
+}
+.feature-text blockquote { border-left-color: rgba(232,137,158,.45); }
+
+/* ── HELPLINES ── */
+.helplines {
+  margin-top:72px; padding:40px 48px;
+  background:rgba(249,200,213,.1); border:1px solid rgba(249,200,213,.25); border-radius:20px;
+}
+.helplines .sec-tag { margin-bottom:18px; }
+.helpline-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; margin-top:8px; }
+.helpline-item h4 { font-size:13.5px; font-weight:400; color:var(--navy); margin-bottom:3px; }
+.helpline-item a { font-size:18px; font-family:'Cormorant Garamond',serif; font-weight:500; color:var(--pink-deep); text-decoration:none; }
+.helpline-item p { font-size:11.5px; font-weight:300; color:var(--faint); margin-top:2px; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 960px) {
+  .pillars-grid { grid-template-columns: 1fr; }
+  .helpline-grid { grid-template-columns: 1fr 1fr; gap:16px; }
+}

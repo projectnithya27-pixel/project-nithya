@@ -1,0 +1,75 @@
+/* Project Nithya — Health Guidance page styles */
+
+/* ── HERO ── */
+.page-hero {
+  background: linear-gradient(168deg, #041e42 0%, #083568 40%, #0d4a90 65%, #1464b4 100%);
+}
+.hero-fade { height: 200px; }
+.ho1 { width:480px; height:240px; background:rgba(98,190,240,0.14); top:12%; left:-8%; }
+.ho2 { width:400px; height:200px; background:rgba(98,190,240,0.10); bottom:12%; right:-6%; }
+.ho3 { width:550px; height:280px; background:rgba(10,55,145,0.4); top:20%; right:5%; }
+.hero-eyebrow { color: var(--blue); }
+.hero-title em { color: var(--blue); }
+.hero-anchor { color:var(--blue); border-color:rgba(98,190,240,.35); }
+.hero-anchor:hover { background:rgba(98,190,240,.1); border-color:rgba(98,190,240,.65); }
+
+/* ── AREA CARDS ── */
+.areas-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-top:36px; }
+.area-card {
+  background:rgba(255,255,255,.72); backdrop-filter:blur(16px);
+  border:1px solid rgba(255,255,255,.7); border-radius:18px; padding:30px 26px 32px;
+  box-shadow:0 4px 24px rgba(14,80,185,.06), inset 0 1px 0 rgba(255,255,255,.9);
+  opacity:0; transform:translateY(24px);
+  transition:opacity .7s ease, transform .7s ease, box-shadow .3s;
+}
+.area-card.in-view { opacity:1; transform:translateY(0); }
+.area-card:nth-child(2) { transition-delay:.1s; }
+.area-card:nth-child(3) { transition-delay:.2s; }
+.area-card:nth-child(4) { transition-delay:.3s; }
+.area-card:nth-child(5) { transition-delay:.4s; }
+.area-card:nth-child(6) { transition-delay:.5s; }
+.area-card:hover { box-shadow:0 12px 40px rgba(20,121,199,.13), inset 0 1px 0 rgba(255,255,255,.9); }
+.area-stripe { height:3px; width:32px; border-radius:2px; background:linear-gradient(90deg,var(--blue),var(--pink)); margin-bottom:14px; }
+.area-card h3 { font-family:'Cormorant Garamond',serif; font-weight:500; font-size:19px; color:var(--navy); margin-bottom:7px; }
+.area-card p { font-size:13px; font-weight:300; color:#484E72; line-height:1.72; }
+
+/* ── REACH SECTION ── */
+.reach-section {
+  background: linear-gradient(168deg, #041e42 0%, #083568 42%, #0d4888 70%, #0a3070 100%);
+}
+.rbo1 { width:600px; height:300px; background:rgba(98,190,240,0.10); top:-60px; left:-100px; }
+.rbo2 { width:500px; height:250px; background:rgba(249,200,213,0.07); bottom:-40px; right:-80px; }
+.reach-badge { color:var(--blue); border-color:rgba(98,190,240,.28); background:rgba(98,190,240,.07); }
+.reach-title em { color: var(--blue); }
+.reach-card { border-color: rgba(98,190,240,.2); }
+.reach-form .fi:focus { border-color:rgba(98,190,240,.5); background:rgba(245,240,232,.10); }
+.btn-reach { background:var(--blue-mid); color:#fff; box-shadow:0 8px 32px rgba(20,121,199,.35); }
+.success-icon { background:rgba(98,190,240,.15); border:1.5px solid rgba(98,190,240,.35); color:var(--blue); }
+.step-num { color: rgba(20,121,199,.18); }
+
+/* ── FEATURE BLOCK ── */
+.feature-img-wrap {
+  background: linear-gradient(145deg,rgba(98,190,240,.18) 0%,rgba(14,80,185,.1) 100%);
+  border: 1px solid rgba(98,190,240,.26);
+}
+.feature-text blockquote { border-left-color: rgba(20,121,199,.42); }
+
+/* ── RIGHTS STRIP ── */
+.rights-strip {
+  margin-top:72px; padding:42px 48px;
+  background:rgba(98,190,240,.08); border:1px solid rgba(98,190,240,.22); border-radius:20px;
+}
+.rights-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:20px; margin-top:24px; }
+.right-item { display:flex; gap:14px; align-items:flex-start; }
+.right-dot { flex-shrink:0; width:7px; height:7px; border-radius:50%; background:var(--blue-mid); margin-top:6px; }
+.right-item h4 { font-size:14px; font-weight:400; color:var(--navy); margin-bottom:3px; }
+.right-item p { font-size:12.5px; font-weight:300; color:#484E72; line-height:1.65; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 960px) {
+  .areas-grid { grid-template-columns: 1fr 1fr; }
+  .rights-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+  .areas-grid { grid-template-columns: 1fr; }
+}
