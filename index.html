@@ -135,8 +135,11 @@
     }
 
     .nav-cta:hover { opacity: 0.88; transform: translateY(-1px); }
-    .nav-cta--pink { background: var(--pink); color: var(--navy); }
+    .nav-cta--pink { background: var(--pink-deep); color: #fff; }
     .nav-actions { display: flex; gap: 8px; align-items: center; flex-shrink: 0; }
+    .btn-pink-deep { width:100%; padding:13px; background:var(--pink-deep); color:#fff; border:none; border-radius:10px; font-family:'DM Sans',sans-serif; font-size:12px; font-weight:500; letter-spacing:.13em; text-transform:uppercase; cursor:pointer; margin-top:6px; transition:opacity .25s,transform .15s; box-shadow:0 6px 24px rgba(232,137,158,.35); }
+    .btn-pink-deep:hover { opacity:.88; transform:translateY(-1px); }
+    .ft-fi.ft-select { appearance:none; -webkit-appearance:none; cursor:pointer; }
 
     /* ─────────────────────────────────────────────
        HERO
@@ -1442,27 +1445,36 @@
       </div>
     </div>
 
-    <!-- Contact form column -->
+    <!-- Reach-out form column -->
     <div>
-      <h3 class="ft-form-head">Get in touch</h3>
-      <form onsubmit="return false">
+      <h3 class="ft-form-head">Reach out to us</h3>
+      <p class="ft-don-sub" style="margin-bottom:20px;">Whether you need support, want to get involved, or simply have a question — we're here. Everything shared with us is handled with care and confidentiality.</p>
+      <form onsubmit="submitHelpRequest(this,'footer'); return false;">
         <div class="ft-fg">
           <label>Name</label>
-          <input type="text" class="ft-fi" placeholder="Your name">
+          <input type="text" name="name" class="ft-fi" placeholder="Your name (or stay anonymous)">
         </div>
         <div class="ft-fg">
           <label>Email</label>
-          <input type="email" class="ft-fi" placeholder="you@example.com">
+          <input type="email" name="email" class="ft-fi" placeholder="you@example.com">
         </div>
         <div class="ft-fg">
-          <label>Subject</label>
-          <input type="text" class="ft-fi" placeholder="How can we help?">
+          <label>How can we support you?</label>
+          <select name="situation" class="ft-fi ft-select">
+            <option value="">Choose a type of support…</option>
+            <option value="Mental health support">Mental health support</option>
+            <option value="Safety &amp; legal guidance">Safety &amp; legal guidance</option>
+            <option value="Health guidance">Health guidance</option>
+            <option value="I'd like to volunteer">I'd like to volunteer</option>
+            <option value="I'd like to donate">I'd like to donate</option>
+            <option value="General enquiry">General enquiry</option>
+          </select>
         </div>
         <div class="ft-fg">
-          <label>Message</label>
-          <textarea class="ft-fi" rows="4" placeholder="Tell us more…"></textarea>
+          <label>Message <span style="font-size:10px;opacity:.45;text-transform:none;letter-spacing:0">(optional)</span></label>
+          <textarea name="message" class="ft-fi" rows="3" placeholder="Anything else you'd like to share…"></textarea>
         </div>
-        <button type="submit" class="btn-ghost">Send Message</button>
+        <button type="submit" class="btn-pink-deep">Reach Out</button>
       </form>
     </div>
 

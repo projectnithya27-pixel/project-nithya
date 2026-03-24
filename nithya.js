@@ -43,11 +43,13 @@ async function submitHelpRequest(formEl, page) {
   const btn  = formEl.querySelector('button[type="submit"]');
   const wrap = formEl.closest('.reach-card') || formEl.closest('.reach-form-wrap');
 
+  const sel = (formEl.querySelector('[name="situation"]')?.value || '').trim();
+  const msg = (formEl.querySelector('[name="message"]')?.value  || '').trim();
   const payload = {
     name:              (formEl.querySelector('[name="name"]')?.value   || '').trim() || 'Anonymous',
     email:             (formEl.querySelector('[name="email"]')?.value  || '').trim() || null,
     phone:             (formEl.querySelector('[name="phone"]')?.value  || '').trim() || null,
-    situation:         (formEl.querySelector('[name="situation"]')?.value || '').trim(),
+    situation:         msg ? `${sel} — ${msg}` : sel,
     urgency:           formEl.querySelector('[name="urgency"]')?.value || 'normal',
     preferred_contact: formEl.querySelector('[name="pref"]')?.value    || null,
     page,
