@@ -59,7 +59,7 @@
 .reach-reassure { border-left-color: rgba(242,206,58,.3); }
 .reach-card { border-color: rgba(242,206,58,.18); }
 .reach-form .fi:focus { border-color:rgba(242,206,58,.5); background:rgba(245,240,232,.10); }
-.btn-reach { background:var(--gold); color:#000; font-weight:500; box-shadow:0 8px 32px rgba(212,168,0,.3); }
+.btn-reach { background:var(--gold); color:var(--dark); font-weight:500; box-shadow:0 8px 32px rgba(212,168,0,.3); }
 .success-icon { background:rgba(242,206,58,.15); border:1.5px solid rgba(242,206,58,.35); color:var(--gold); }
 .step-num { color: rgba(212,168,0,.22); }
 
