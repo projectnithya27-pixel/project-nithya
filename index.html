@@ -125,7 +125,7 @@
       font-weight: 400;
       letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: var(--navy);
+      color: #000;
       background: var(--gold);
       padding: 9px 22px;
       border-radius: 100px;
@@ -135,7 +135,8 @@
     }
 
     .nav-cta:hover { opacity: 0.88; transform: translateY(-1px); }
-    .nav-cta--pink { background: var(--pink); color: var(--dark); }
+    .nav-cta--pink { background: var(--pink); color: var(--navy); }
+    .nav-actions { display: flex; gap: 8px; align-items: center; flex-shrink: 0; }
 
     /* ─────────────────────────────────────────────
        HERO
@@ -1162,8 +1163,10 @@
     <li><a href="#volunteer">Volunteer</a></li>
   </ul>
 
-  <a href="mental-health.html#reach-out" class="nav-cta nav-cta--pink">Reach Out</a>
-  <a href="#donate" class="nav-cta">Donate</a>
+  <div class="nav-actions">
+    <a href="mental-health.html#reach-out" class="nav-cta nav-cta--pink">Reach Out</a>
+    <a href="#donate" class="nav-cta">Donate</a>
+  </div>
 </nav>
 
 
