@@ -331,6 +331,28 @@
     .toast--warn { border:1px solid rgba(242,206,58,.4); }
     .toast--error { border:1px solid rgba(232,137,158,.4); }
 
+    /* FEATURE: image + text */
+    .feature-block { display:grid; grid-template-columns:1fr 1fr; gap:56px; align-items:center; margin-top:72px; margin-bottom:4px; }
+    .feature-img-wrap {
+      position:relative; border-radius:22px; overflow:hidden; aspect-ratio:4/3;
+      background:linear-gradient(145deg,rgba(249,200,213,.22) 0%,rgba(20,60,140,.1) 100%);
+      border:1px solid rgba(249,200,213,.3);
+      box-shadow:0 8px 40px rgba(14,80,185,.07);
+    }
+    .feature-img-wrap img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block; z-index:1; }
+    .img-placeholder {
+      position:absolute; inset:0; z-index:0; display:flex; flex-direction:column;
+      align-items:center; justify-content:center; gap:12px; color:rgba(14,80,185,.28);
+    }
+    .img-placeholder span { font-size:10.5px; letter-spacing:.18em; text-transform:uppercase; }
+    .feature-text blockquote {
+      font-family:'Cormorant Garamond',serif; font-style:italic;
+      font-size:clamp(18px,2.2vw,25px); font-weight:400; color:var(--navy);
+      line-height:1.52; margin:20px 0 22px;
+      padding-left:18px; border-left:2px solid rgba(232,137,158,.45);
+    }
+    @media(max-width:760px) { .feature-block { grid-template-columns:1fr; gap:28px; } }
+
     @media(max-width:960px) {
       nav { padding:0 24px; }
       .nav-links { display:none; }
@@ -391,6 +413,24 @@
 
 <!-- MAIN -->
 <div class="main-wrap">
+
+  <!-- FEATURE BLOCK: image + text -->
+  <div class="feature-block">
+    <div class="feature-img-wrap">
+      <img src="" alt="Project Nithya mental health support — add image here">
+      <div class="img-placeholder">
+        <svg width="44" height="44" viewBox="0 0 44 44" fill="none"><rect x="2" y="6" width="40" height="32" rx="5" stroke="currentColor" stroke-width="1.5"/><circle cx="15" cy="20" r="4.5" stroke="currentColor" stroke-width="1.5"/><path d="M2 34l11-9 7 7 8-8 14 10" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        <span>Add image here</span>
+      </div>
+    </div>
+    <div class="feature-text">
+      <p class="sec-tag">Our approach</p>
+      <h2 class="sec-head">Held, not handled.<br><em>Heard, not assessed.</em></h2>
+      <blockquote>"You don't need to perform wellness here. You just need to show up as you are."</blockquote>
+      <p class="body-p">Project Nithya's mental health support begins with one simple act: listening. Not to assess, not to categorise, not to fill a form — but to really listen, without a clock on the wall.</p>
+      <p class="body-p">We work alongside trained counsellors, peer supporters, and women who have been through their own journeys of healing. Whatever shape your need takes, we will find the right support to match it.</p>
+    </div>
+  </div>
 
   <!-- SUPPORT PILLARS -->
   <div class="pillars" id="support">
