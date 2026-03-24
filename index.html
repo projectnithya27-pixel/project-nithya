@@ -1,0 +1,1566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Nithya — Care that walks with you.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,200;0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --blue:    #8BAFD4;
+      --navy:    #2C3E6B;
+      --gold:    #E8A825;
+      --cream:   #F5F0E8;
+      --dark:    #0E1525;
+      --mid:     #1A1F2E;
+      --deep:    #1E2640;
+      --text:    #1C2340;
+      --muted:   #4A5280;
+      --faint:   #7A85A8;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      background: var(--cream);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* ─────────────────────────────────────────────
+       NAV
+    ───────────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100vw;
+      z-index: 200;
+      height: 70px;
+      padding: 0 52px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      backdrop-filter: blur(22px) saturate(1.3);
+      -webkit-backdrop-filter: blur(22px) saturate(1.3);
+      background: rgba(10, 15, 28, 0.36);
+      border-radius: 0;
+      border: 1px solid transparent;
+      border-bottom-color: rgba(139, 175, 212, 0.11);
+      box-shadow: none;
+      transition:
+        top 0.58s cubic-bezier(0.16, 1, 0.3, 1),
+        width 0.58s cubic-bezier(0.16, 1, 0.3, 1),
+        border-radius 0.58s cubic-bezier(0.16, 1, 0.3, 1),
+        height 0.45s ease,
+        padding 0.45s ease,
+        background 0.35s ease,
+        box-shadow 0.45s ease,
+        border-color 0.35s ease;
+    }
+
+    nav.nav--float {
+      top: 14px;
+      width: min(960px, calc(100vw - 40px));
+      height: 58px;
+      padding: 0 28px;
+      border-radius: 100px;
+      background: rgba(10, 16, 30, 0.82);
+      backdrop-filter: blur(36px) saturate(1.7) brightness(1.1);
+      -webkit-backdrop-filter: blur(36px) saturate(1.7) brightness(1.1);
+      border-color: rgba(139, 175, 212, 0.2);
+      box-shadow:
+        0 8px 48px rgba(0, 0, 0, 0.38),
+        0 2px 14px rgba(0, 0, 0, 0.22),
+        inset 0 1px 0 rgba(255, 255, 255, 0.07),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.12);
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      text-decoration: none;
+      flex-shrink: 0;
+    }
+
+    .nav-wordmark {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 500;
+      font-size: 19px;
+      letter-spacing: 0.025em;
+      color: #F5F0E8;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 34px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 11.5px;
+      font-weight: 300;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(245, 240, 232, 0.65);
+      text-decoration: none;
+      transition: color 0.25s;
+    }
+
+    .nav-links a:hover { color: var(--gold); }
+
+    .nav-cta {
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--navy);
+      background: var(--gold);
+      padding: 9px 22px;
+      border-radius: 100px;
+      text-decoration: none;
+      transition: opacity 0.25s, transform 0.15s;
+      flex-shrink: 0;
+    }
+
+    .nav-cta:hover { opacity: 0.88; transform: translateY(-1px); }
+
+    /* ─────────────────────────────────────────────
+       HERO
+    ───────────────────────────────────────────── */
+    #hero {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      min-height: 620px;
+      overflow: hidden;
+      background: linear-gradient(168deg, var(--dark) 0%, var(--mid) 38%, var(--deep) 65%, #253261 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Blur cloud shapes */
+    .cloud {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(90px);
+      pointer-events: none;
+    }
+
+    .c1 {
+      width: 700px; height: 320px;
+      background: rgba(44, 62, 107, 0.55);
+      top: 8%; left: -12%;
+      animation: drift1 48s ease-in-out infinite;
+    }
+    .c2 {
+      width: 850px; height: 380px;
+      background: rgba(26, 31, 46, 0.7);
+      top: 28%; right: -18%;
+      animation: drift2 62s ease-in-out infinite;
+    }
+    .c3 {
+      width: 550px; height: 260px;
+      background: rgba(16, 22, 42, 0.8);
+      top: 58%; left: 18%;
+      animation: drift3 52s ease-in-out infinite;
+    }
+    .c4 {
+      width: 650px; height: 300px;
+      background: rgba(44, 62, 107, 0.38);
+      top: 2%; right: 8%;
+      animation: drift1 72s ease-in-out infinite reverse;
+    }
+    .c5 {
+      width: 420px; height: 200px;
+      background: rgba(139, 175, 212, 0.07);
+      bottom: 15%; left: 55%;
+      animation: drift2 44s ease-in-out infinite reverse;
+    }
+
+    @keyframes drift1 {
+      0%, 100% { transform: translate(0, 0); }
+      33%       { transform: translate(28px, -18px); }
+      66%       { transform: translate(-16px, 12px); }
+    }
+    @keyframes drift2 {
+      0%, 100% { transform: translate(0, 0); }
+      25%       { transform: translate(-22px, 14px); }
+      75%       { transform: translate(18px, -10px); }
+    }
+    @keyframes drift3 {
+      0%, 100% { transform: translate(0, 0); }
+      50%       { transform: translate(20px, 22px); }
+    }
+
+    /* Sun elements — all positioned at top‑center */
+    .sun-clearing {
+      position: absolute;
+      top: calc(18% - 280px);
+      left: calc(50% - 280px);
+      width: 560px; height: 560px;
+      border-radius: 50%;
+      background: radial-gradient(circle,
+        rgba(139, 175, 212, 0.22) 0%,
+        rgba(44, 62, 107, 0.12) 50%,
+        transparent 72%);
+      opacity: 0;
+      transform: scale(0.25);
+      animation: clearing 3.8s cubic-bezier(0.16, 1, 0.3, 1) 0.9s forwards;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .sun-glow {
+      position: absolute;
+      top: calc(18% - 220px);
+      left: calc(50% - 220px);
+      width: 440px; height: 440px;
+      border-radius: 50%;
+      background: radial-gradient(circle,
+        rgba(232, 168, 37, 0.28) 0%,
+        rgba(232, 168, 37, 0.10) 38%,
+        transparent 65%);
+      opacity: 0;
+      transform: scale(0.2);
+      animation: clearing 3.2s cubic-bezier(0.16, 1, 0.3, 1) 0.7s forwards;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .sun-core {
+      position: absolute;
+      top: 18%;
+      left: 50%;
+      transform: translateX(-50%) translateY(-50%) scale(0.1);
+      width: 52px; height: 52px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #FFFBE8 0%, #F5C842 45%, rgba(232,168,37,0) 75%);
+      opacity: 0;
+      animation: coreRise 2.4s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards;
+      pointer-events: none;
+      z-index: 4;
+      box-shadow: 0 0 40px 20px rgba(232, 168, 37, 0.35), 0 0 80px 40px rgba(232, 168, 37, 0.12);
+    }
+
+    /* Sun rays SVG — spans the full hero so rays reach viewport edges */
+    .sun-rays-svg {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 3;
+    }
+
+    @keyframes clearing {
+      to { opacity: 1; transform: scale(1); }
+    }
+    @keyframes coreRise {
+      0%   { opacity: 0; transform: translateX(-50%) translateY(-50%) scale(0.1); }
+      60%  { opacity: 1; transform: translateX(-50%) translateY(-50%) scale(1.12); }
+      100% { opacity: 1; transform: translateX(-50%) translateY(-50%) scale(1); }
+    }
+    @keyframes drawRay {
+      to { stroke-dashoffset: 0; opacity: var(--op); }
+    }
+
+    /* White cone of light below the sun */
+    .sun-beam {
+      position: absolute;
+      top: 18%;
+      left: calc(50% - 480px);
+      width: 960px;
+      height: 78vh;
+      clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+      background: linear-gradient(
+        to bottom,
+        rgba(255, 254, 248, 0.22) 0%,
+        rgba(255, 252, 235, 0.12) 28%,
+        rgba(255, 248, 220, 0.055) 55%,
+        transparent 80%
+      );
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0;
+      transform-origin: top center;
+      animation: beamIn 3.2s cubic-bezier(0.16, 1, 0.3, 1) 1.1s forwards;
+    }
+
+    @keyframes beamIn {
+      0%   { opacity: 0; transform: scaleY(0.2) scaleX(0.4); }
+      100% { opacity: 1; transform: scaleY(1) scaleX(1); }
+    }
+
+    /* Hero content */
+    .hero-content {
+      position: relative;
+      z-index: 6;
+      text-align: center;
+      padding: 0 24px;
+      opacity: 0;
+      animation: contentIn 1.6s cubic-bezier(0.16, 1, 0.3, 1) 2s forwards;
+    }
+
+    @keyframes contentIn {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-eyebrow {
+      font-size: 11px;
+      font-weight: 300;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 18px;
+    }
+
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 400;
+      font-size: clamp(58px, 9vw, 102px);
+      line-height: 0.92;
+      color: var(--cream);
+      letter-spacing: -0.015em;
+      margin-bottom: 22px;
+    }
+
+    .hero-title em {
+      font-style: italic;
+      color: var(--gold);
+      display: block;
+    }
+
+    .hero-tagline {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-weight: 300;
+      font-size: clamp(17px, 2.4vw, 24px);
+      color: rgba(245, 240, 232, 0.58);
+      letter-spacing: 0.06em;
+    }
+
+    .hero-scroll-indicator {
+      margin-top: 52px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .hero-scroll-indicator span {
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(245, 240, 232, 0.32);
+    }
+
+    .scroll-bar {
+      width: 1px;
+      height: 44px;
+      background: linear-gradient(to bottom, rgba(245, 240, 232, 0.35), transparent);
+      animation: barPulse 2.2s ease-in-out infinite;
+    }
+
+    @keyframes barPulse {
+      0%, 100% { opacity: 0.35; transform: scaleY(1); }
+      50%       { opacity: 0.9;  transform: scaleY(1.15); }
+    }
+
+    /* Bottom fade — hero bleeds into cream */
+    .hero-fade-out {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 240px;
+      background: linear-gradient(to bottom, transparent, var(--cream));
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    /* ─────────────────────────────────────────────
+       FROSTED GLASS STRIP
+    ───────────────────────────────────────────── */
+    #services-wrap {
+      position: relative;
+      z-index: 10;
+      max-width: 1160px;
+      margin: -96px auto 0;
+      padding: 0 44px;
+    }
+
+    .services-panel {
+      backdrop-filter: blur(36px) saturate(1.6) brightness(1.08);
+      -webkit-backdrop-filter: blur(36px) saturate(1.6) brightness(1.08);
+      background: rgba(248, 244, 236, 0.52);
+      border: 1px solid rgba(255, 255, 255, 0.70);
+      border-radius: 22px;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      overflow: hidden;
+      box-shadow:
+        0 24px 64px rgba(14, 21, 37, 0.18),
+        0 4px 18px rgba(14, 21, 37, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.90),
+        inset 0 -1px 0 rgba(44, 62, 107, 0.04);
+    }
+
+    .svc {
+      padding: 38px 34px 36px;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      transition: background 0.3s;
+      position: relative;
+    }
+
+    .svc + .svc::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 18%; bottom: 18%;
+      width: 1px;
+      background: rgba(44, 62, 107, 0.13);
+    }
+
+    .svc:hover { background: rgba(139, 175, 212, 0.11); }
+
+    .svc-icon {
+      width: 34px; height: 34px;
+      margin-bottom: 14px;
+    }
+
+    .svc-head {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 500;
+      font-size: 21px;
+      color: var(--navy);
+      margin-bottom: 7px;
+    }
+
+    .svc-desc {
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.65;
+      margin-bottom: 14px;
+    }
+
+    .svc-more {
+      font-size: 11.5px;
+      letter-spacing: 0.06em;
+      color: var(--blue);
+      font-weight: 400;
+    }
+
+    /* ─────────────────────────────────────────────
+       MAIN CARD
+    ───────────────────────────────────────────── */
+    #main-card {
+      max-width: 1160px;
+      margin: 56px auto 0;
+      padding: 0 44px 80px;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.76);
+      backdrop-filter: blur(24px) saturate(1.35) brightness(1.02);
+      -webkit-backdrop-filter: blur(24px) saturate(1.35) brightness(1.02);
+      border-radius: 28px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.72);
+      box-shadow:
+        0 32px 80px rgba(44, 62, 107, 0.11),
+        0 8px 24px rgba(44, 62, 107, 0.06),
+        inset 0 1px 0 rgba(255, 255, 255, 0.95),
+        inset 0 -1px 0 rgba(44, 62, 107, 0.04);
+    }
+
+    /* ── 3A ABOUT ── */
+    .about {
+      padding: 80px 68px;
+      display: grid;
+      grid-template-columns: 55% 1fr;
+      gap: 60px;
+      align-items: start;
+    }
+
+    .sec-tag {
+      font-size: 10.5px;
+      font-weight: 300;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 14px;
+    }
+
+    .sec-head {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 400;
+      font-size: clamp(30px, 3.6vw, 46px);
+      line-height: 1.13;
+      color: var(--navy);
+      margin-bottom: 26px;
+    }
+
+    .sec-head em {
+      font-style: italic;
+      color: var(--muted);
+    }
+
+    .body-p {
+      font-size: 14.5px;
+      font-weight: 300;
+      line-height: 1.82;
+      color: #484E72;
+      margin-bottom: 18px;
+    }
+
+    .blockquote {
+      margin-top: 30px;
+      padding: 18px 22px;
+      border-left: 2.5px solid var(--gold);
+      background: rgba(255, 255, 255, 0.52);
+      backdrop-filter: blur(10px) saturate(1.2);
+      -webkit-backdrop-filter: blur(10px) saturate(1.2);
+      border-radius: 0 10px 10px 0;
+      border-top: 1px solid rgba(232, 168, 37, 0.12);
+      border-right: 1px solid rgba(232, 168, 37, 0.08);
+      border-bottom: 1px solid rgba(232, 168, 37, 0.08);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    }
+
+    .blockquote p {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-weight: 400;
+      font-size: 17.5px;
+      line-height: 1.62;
+      color: var(--navy);
+    }
+
+    /* About image area */
+    .about-img {
+      border-radius: 18px;
+      overflow: hidden;
+      aspect-ratio: 5 / 6;
+      background: linear-gradient(148deg, #243360 0%, #1A2A55 45%, #8BAFD4 100%);
+      position: relative;
+      display: flex;
+      align-items: flex-end;
+    }
+
+    .img-orb {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .img-orb-1 {
+      width: 240px; height: 240px;
+      top: -60px; right: -60px;
+      background: radial-gradient(circle, rgba(232,168,37,0.22), transparent 68%);
+    }
+
+    .img-orb-2 {
+      width: 320px; height: 320px;
+      bottom: 25%; left: -90px;
+      background: radial-gradient(circle, rgba(139,175,212,0.24), transparent 68%);
+    }
+
+    .img-grain {
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      opacity: 0.055;
+      mix-blend-mode: overlay;
+    }
+
+    .about-mark {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 68%;
+      opacity: 0.11;
+      pointer-events: none;
+    }
+
+    .about-caption {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 28px 28px 30px;
+      background: linear-gradient(to top, rgba(10, 16, 34, 0.72), transparent);
+    }
+
+    .about-caption p {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-weight: 300;
+      font-size: 15.5px;
+      line-height: 1.55;
+      color: rgba(245, 240, 232, 0.82);
+    }
+
+    /* ── DIVIDER ── */
+    .c-divider {
+      height: 1px;
+      background: linear-gradient(to right,
+        transparent,
+        rgba(44, 62, 107, 0.1) 25%,
+        rgba(44, 62, 107, 0.1) 75%,
+        transparent);
+      margin: 0 68px;
+    }
+
+    /* ── 3B IMPACT ── */
+    .impact {
+      padding: 80px 68px;
+      text-align: center;
+    }
+
+    .impact-head {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 400;
+      font-size: clamp(30px, 3.4vw, 44px);
+      color: var(--navy);
+      margin-bottom: 9px;
+    }
+
+    .impact-sub {
+      font-size: 13.5px;
+      font-weight: 300;
+      color: var(--faint);
+      letter-spacing: 0.04em;
+      margin-bottom: 52px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    .stat-card {
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.65);
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.75s ease, transform 0.75s ease, box-shadow 0.3s;
+      backdrop-filter: blur(16px) saturate(1.3);
+      -webkit-backdrop-filter: blur(16px) saturate(1.3);
+      background: rgba(255, 255, 255, 0.52);
+      box-shadow:
+        0 4px 24px rgba(44, 62, 107, 0.07),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    }
+
+    .stat-card.in-view {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .stat-card:nth-child(2) { transition-delay: 0.16s; }
+    .stat-card:nth-child(3) { transition-delay: 0.32s; }
+
+    .stat-card:hover {
+      box-shadow:
+        0 16px 48px rgba(44, 62, 107, 0.13),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9);
+      transform: translateY(-3px);
+    }
+
+    .stat-stripe {
+      height: 4px;
+      background: linear-gradient(90deg, var(--blue) 0%, rgba(139,175,212,0.22) 100%);
+    }
+
+    .stat-body {
+      padding: 34px 24px 36px;
+      background: transparent;
+    }
+
+    .stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 500;
+      font-size: 54px;
+      line-height: 1;
+      color: var(--navy);
+      margin-bottom: 7px;
+    }
+
+    .stat-lbl {
+      font-size: 12.5px;
+      font-weight: 300;
+      letter-spacing: 0.07em;
+      color: var(--muted);
+    }
+
+    /* ── 3C GET INVOLVED ── */
+    .involve {
+      padding: 76px 68px 80px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 44px;
+      background: rgba(245, 240, 232, 0.32);
+    }
+
+    .vol-head {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 400;
+      font-size: 30px;
+      color: var(--navy);
+      margin-bottom: 28px;
+    }
+
+    .fg { margin-bottom: 15px; }
+
+    .fg label {
+      display: block;
+      font-size: 10.5px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--faint);
+      margin-bottom: 5px;
+    }
+
+    .fi {
+      width: 100%;
+      padding: 11.5px 15px;
+      border: 1px solid rgba(44, 62, 107, 0.13);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.68);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13.5px;
+      font-weight: 300;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.25s, box-shadow 0.25s, background 0.25s;
+      appearance: none;
+      box-shadow: inset 0 1px 2px rgba(44, 62, 107, 0.04);
+    }
+
+    .fi:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(139,175,212,0.14);
+    }
+
+    select.fi {
+      cursor: pointer;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='7'%3E%3Cpath d='M1 1l4.5 4.5L10 1' stroke='%237A85A8' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+    }
+
+    .btn-navy {
+      width: 100%;
+      padding: 13.5px;
+      background: var(--navy);
+      color: var(--cream);
+      border: none;
+      border-radius: 10px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 400;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      cursor: pointer;
+      margin-top: 6px;
+      transition: background 0.25s, transform 0.15s;
+    }
+
+    .btn-navy:hover { background: #3a52a0; transform: translateY(-1px); }
+
+    /* Donation card */
+    .don-card {
+      background: rgba(26, 42, 86, 0.88);
+      backdrop-filter: blur(24px) saturate(1.5);
+      -webkit-backdrop-filter: blur(24px) saturate(1.5);
+      border-radius: 22px;
+      padding: 42px 38px 44px;
+      color: var(--cream);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(139, 175, 212, 0.2);
+      box-shadow:
+        0 24px 64px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.09),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+    }
+
+    .don-card::before {
+      content: '';
+      position: absolute;
+      top: -90px; right: -90px;
+      width: 300px; height: 300px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(139,175,212,0.14), transparent 68%);
+      pointer-events: none;
+    }
+
+    .don-card::after {
+      content: '';
+      position: absolute;
+      bottom: -50px; left: -50px;
+      width: 220px; height: 220px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(232,168,37,0.11), transparent 68%);
+      pointer-events: none;
+    }
+
+    .don-tag {
+      font-size: 10.5px;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 10px;
+      position: relative; z-index: 1;
+    }
+
+    .don-head {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 400;
+      font-size: 27px;
+      line-height: 1.2;
+      margin-bottom: 10px;
+      position: relative; z-index: 1;
+    }
+
+    .don-sub {
+      font-size: 13px;
+      font-weight: 300;
+      color: rgba(245,240,232,0.55);
+      line-height: 1.65;
+      margin-bottom: 30px;
+      position: relative; z-index: 1;
+    }
+
+    .don-fg { margin-bottom: 12px; position: relative; z-index: 1; }
+
+    .don-fg label {
+      display: block;
+      font-size: 10px;
+      letter-spacing: 0.17em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,0.38);
+      margin-bottom: 5px;
+    }
+
+    .don-input {
+      width: 100%;
+      padding: 11px 13px;
+      background: rgba(245,240,232,0.07);
+      border: 1px solid rgba(245,240,232,0.11);
+      border-radius: 8px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13.5px;
+      font-weight: 300;
+      color: var(--cream);
+      outline: none;
+      transition: border-color 0.25s, background 0.25s;
+    }
+
+    .don-input::placeholder { color: rgba(245,240,232,0.25); }
+
+    .don-input:focus {
+      border-color: rgba(139,175,212,0.45);
+      background: rgba(245,240,232,0.1);
+    }
+
+    .btn-gold {
+      width: 100%;
+      padding: 13.5px;
+      background: var(--gold);
+      color: var(--navy);
+      border: none;
+      border-radius: 10px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      cursor: pointer;
+      margin-top: 6px;
+      transition: opacity 0.25s, transform 0.15s;
+      position: relative; z-index: 1;
+    }
+
+    .btn-gold:hover { opacity: 0.88; transform: translateY(-1px); }
+
+    .don-note {
+      font-size: 11px;
+      font-weight: 300;
+      color: rgba(245,240,232,0.36);
+      text-align: center;
+      margin-top: 11px;
+      position: relative; z-index: 1;
+    }
+
+    /* ─────────────────────────────────────────────
+       FOOTER
+    ───────────────────────────────────────────── */
+    footer {
+      position: relative;
+      background: linear-gradient(172deg, var(--dark) 0%, var(--mid) 32%, var(--deep) 60%, #253261 100%);
+      overflow: hidden;
+      padding-top: 80px;
+      margin-top: 0;
+    }
+
+    /* Cloud shapes mirroring hero */
+    .ft-cloud {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(90px);
+      pointer-events: none;
+    }
+
+    .fc1 {
+      width: 750px; height: 340px;
+      background: rgba(44,62,107,0.52);
+      top: 6%; left: -14%;
+    }
+
+    .fc2 {
+      width: 620px; height: 280px;
+      background: rgba(26,31,46,0.65);
+      top: 38%; right: -12%;
+    }
+
+    .fc3 {
+      width: 500px; height: 220px;
+      background: rgba(14,20,38,0.75);
+      bottom: 18%; left: 28%;
+    }
+
+    /* Top halo — sky glow from above */
+    .ft-halo {
+      position: absolute;
+      top: -260px; left: 50%;
+      transform: translateX(-50%);
+      width: 900px; height: 560px;
+      border-radius: 50%;
+      background: radial-gradient(ellipse, rgba(139,175,212,0.16) 0%, transparent 68%);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .ft-inner {
+      position: relative;
+      z-index: 2;
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 0 52px 64px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 88px;
+    }
+
+    /* Footer brand column */
+    .ft-brand {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .ft-logo {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+    }
+
+    .ft-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 500;
+      font-size: 21px;
+      color: var(--cream);
+    }
+
+    .ft-desc {
+      font-size: 13.5px;
+      font-weight: 300;
+      color: rgba(245,240,232,0.52);
+      line-height: 1.72;
+      max-width: 340px;
+    }
+
+    .ft-tagline {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 18px;
+      color: rgba(245,240,232,0.65);
+    }
+
+    .ft-contact p {
+      font-size: 13px;
+      font-weight: 300;
+      color: rgba(245,240,232,0.44);
+      margin-bottom: 5px;
+      line-height: 1.5;
+    }
+
+    .ft-contact a {
+      color: var(--blue);
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+
+    .ft-contact a:hover { opacity: 0.75; }
+
+    /* Footer contact form column */
+    .ft-form-head {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 400;
+      font-size: 28px;
+      color: var(--cream);
+      margin-bottom: 26px;
+    }
+
+    .ft-fg { margin-bottom: 13px; }
+
+    .ft-fg label {
+      display: block;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,0.32);
+      margin-bottom: 5px;
+    }
+
+    .ft-fi {
+      width: 100%;
+      padding: 10.5px 13px;
+      background: rgba(245,240,232,0.055);
+      border: 1px solid rgba(245,240,232,0.09);
+      border-radius: 8px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--cream);
+      outline: none;
+      transition: border-color 0.25s, background 0.25s;
+      resize: none;
+    }
+
+    .ft-fi::placeholder { color: rgba(245,240,232,0.22); }
+
+    .ft-fi:focus {
+      border-color: rgba(139,175,212,0.38);
+      background: rgba(245,240,232,0.08);
+    }
+
+    .btn-ghost {
+      width: 100%;
+      padding: 12.5px;
+      background: transparent;
+      color: rgba(245,240,232,0.75);
+      border: 1px solid rgba(245,240,232,0.22);
+      border-radius: 8px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11.5px;
+      font-weight: 300;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: background 0.25s, border-color 0.25s, color 0.25s;
+    }
+
+    .btn-ghost:hover {
+      background: rgba(245,240,232,0.07);
+      border-color: rgba(245,240,232,0.42);
+      color: var(--cream);
+    }
+
+    /* Footer base bar */
+    .ft-bar {
+      position: relative;
+      z-index: 2;
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 18px 52px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid rgba(245,240,232,0.07);
+    }
+
+    .ft-bar p {
+      font-size: 11px;
+      font-weight: 300;
+      color: rgba(245,240,232,0.28);
+      letter-spacing: 0.04em;
+    }
+
+    /* ─────────────────────────────────────────────
+       RESPONSIVE
+    ───────────────────────────────────────────── */
+    @media (max-width: 960px) {
+      nav { padding: 0 24px; }
+      .nav-links { display: none; }
+
+      #services-wrap { padding: 0 20px; margin-top: -56px; }
+      .services-panel { grid-template-columns: 1fr; }
+      .svc + .svc::before { left: 8%; right: 8%; top: 0; bottom: auto; width: auto; height: 1px; background: rgba(44,62,107,0.11); }
+
+      #main-card { padding: 0 16px 60px; margin-top: 40px; }
+      .about { grid-template-columns: 1fr; padding: 48px 32px; gap: 38px; }
+      .impact { padding: 48px 32px; }
+      .stats { grid-template-columns: 1fr; }
+      .involve { grid-template-columns: 1fr; padding: 48px 32px 52px; }
+      .c-divider { margin: 0 32px; }
+
+      .ft-inner { grid-template-columns: 1fr; gap: 48px; padding: 0 24px 52px; }
+      .ft-bar { padding: 18px 24px; flex-direction: column; gap: 8px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════
+     NAV
+══════════════════════════════════════════════ -->
+<nav>
+  <a href="#hero" class="nav-logo">
+    <!-- Logo: two looping pathway figures -->
+    <svg width="44" height="36" viewBox="0 0 76 62" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Left figure — looping path journey -->
+      <path d="M20 56 C8 52, 4 40, 12 30 C18 22, 22 16, 18 8" stroke="#8BAFD4" stroke-width="2.2" stroke-linecap="round" fill="none" opacity="0.95"/>
+      <path d="M18 8 C14 2, 22 0, 26 6 C30 12, 28 22, 22 30 C16 38, 14 46, 22 54" stroke="#8BAFD4" stroke-width="2.2" stroke-linecap="round" fill="none" opacity="0.85"/>
+      <!-- Navy dot — left figure head -->
+      <circle cx="18" cy="5" r="4.5" fill="#2C3E6B"/>
+      <!-- Right figure — looping path journey -->
+      <path d="M52 56 C40 52, 36 40, 44 30 C50 22, 54 16, 50 8" stroke="#8BAFD4" stroke-width="2.2" stroke-linecap="round" fill="none" opacity="0.95"/>
+      <path d="M50 8 C46 2, 54 0, 58 6 C62 12, 60 22, 54 30 C48 38, 46 46, 54 54" stroke="#8BAFD4" stroke-width="2.2" stroke-linecap="round" fill="none" opacity="0.85"/>
+      <!-- Gold dot — right figure head -->
+      <circle cx="50" cy="5" r="4.5" fill="#E8A825"/>
+    </svg>
+    <span class="nav-wordmark">Project Nithya</span>
+  </a>
+
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#impact">Impact</a></li>
+    <li><a href="#causes">Causes</a></li>
+    <li><a href="#volunteer">Volunteer</a></li>
+  </ul>
+
+  <a href="#donate" class="nav-cta">Donate</a>
+</nav>
+
+
+<!-- ═══════════════════════════════════════════
+     HERO
+══════════════════════════════════════════════ -->
+<section id="hero">
+
+  <!-- Atmosphere clouds -->
+  <div class="cloud c1"></div>
+  <div class="cloud c2"></div>
+  <div class="cloud c3"></div>
+  <div class="cloud c4"></div>
+  <div class="cloud c5"></div>
+
+  <!-- Sun burst elements -->
+  <div class="sun-clearing"></div>
+  <div class="sun-glow"></div>
+  <div class="sun-beam"></div>
+  <div class="sun-core"></div>
+
+  <!-- Sun rays (SVG, populated by JS — full hero size) -->
+  <svg id="sunRaysSVG" class="sun-rays-svg" xmlns="http://www.w3.org/2000/svg"></svg>
+
+  <!-- Content -->
+  <div class="hero-content">
+    <p class="hero-eyebrow">Autoimmune Patient Advocacy</p>
+    <h1 class="hero-title">
+      Project
+      <em>Nithya</em>
+    </h1>
+    <p class="hero-tagline">Care that walks with you.</p>
+    <div class="hero-scroll-indicator">
+      <span>Scroll</span>
+      <div class="scroll-bar"></div>
+    </div>
+  </div>
+
+  <!-- Seamless fade to page background -->
+  <div class="hero-fade-out"></div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     FROSTED GLASS STRIP
+══════════════════════════════════════════════ -->
+<div id="services-wrap">
+  <div class="services-panel" id="causes">
+
+    <a href="#causes" class="svc">
+      <!-- Heart + loop icon -->
+      <svg class="svc-icon" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="17" cy="17" r="16" stroke="#8BAFD4" stroke-width="1.4" opacity="0.6"/>
+        <path d="M11 16.5 C11 13 13.5 11 16 12.8 C18.5 11 21 13 21 16.5 C21 20 17 23.5 16 24.5 C15 23.5 11 20 11 16.5Z"
+              stroke="#2C3E6B" stroke-width="1.5" fill="rgba(139,175,212,0.14)" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <h3 class="svc-head">Causes</h3>
+      <p class="svc-desc">We support autoimmune condition individuals — walking beside them through invisible battles.</p>
+      <span class="svc-more">Learn more ↓</span>
+    </a>
+
+    <a href="#guidance" class="svc" id="guidance">
+      <!-- Compass/direction icon -->
+      <svg class="svc-icon" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="17" cy="17" r="16" stroke="#8BAFD4" stroke-width="1.4" opacity="0.6"/>
+        <path d="M10 17 L24 17 M19 12 L24 17 L19 22" stroke="#2C3E6B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <h3 class="svc-head">Guidance</h3>
+      <p class="svc-desc">We connect you to the right medical field, diagnostic tests, and specialist doctors.</p>
+      <span class="svc-more">Learn more ↓</span>
+    </a>
+
+    <a href="#support" class="svc" id="support">
+      <!-- Plus/extend icon -->
+      <svg class="svc-icon" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="17" cy="17" r="16" stroke="#8BAFD4" stroke-width="1.4" opacity="0.6"/>
+        <path d="M17 11 L17 23 M11 17 L23 17" stroke="#E8A825" stroke-width="1.8" stroke-linecap="round"/>
+      </svg>
+      <h3 class="svc-head">Support</h3>
+      <p class="svc-desc">Support our mission through donations or by joining our network of dedicated volunteers.</p>
+      <span class="svc-more">Learn more ↓</span>
+    </a>
+
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════
+     MAIN CARD
+══════════════════════════════════════════════ -->
+<div id="main-card">
+  <div class="card">
+
+    <!-- ── 3A ABOUT ── -->
+    <section class="about" id="about">
+
+      <div>
+        <p class="sec-tag">Who we are</p>
+        <h2 class="sec-head">Two parallel journeys,<br><em>one shared path.</em></h2>
+        <p class="body-p">
+          Project Nithya was born from a simple truth: no one should navigate the labyrinth of autoimmune illness alone. We walk alongside patients, families, and caregivers — offering clarity where there is confusion, and community where there is isolation.
+        </p>
+        <p class="body-p">
+          Our name, Nithya, means <em style="font-style:italic;">eternal</em> in Sanskrit. Like the persistent hope of those who live with chronic conditions, our commitment is unwavering. We believe that with the right guidance, every individual can reclaim their story.
+        </p>
+        <blockquote class="blockquote">
+          <p>"Between diagnosis and understanding, there is a vast silence. We fill that silence with knowledge, compassion, and an unwavering human presence."</p>
+        </blockquote>
+      </div>
+
+      <!-- Atmospheric image area -->
+      <div class="about-img">
+        <div class="img-orb img-orb-1"></div>
+        <div class="img-orb img-orb-2"></div>
+        <div class="img-grain"></div>
+
+        <!-- Watermark logo -->
+        <svg class="about-mark" viewBox="0 0 76 62" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20 56 C8 52, 4 40, 12 30 C18 22, 22 16, 18 8" stroke="white" stroke-width="2" stroke-linecap="round" fill="none"/>
+          <path d="M18 8 C14 2, 22 0, 26 6 C30 12, 28 22, 22 30 C16 38, 14 46, 22 54" stroke="white" stroke-width="2" stroke-linecap="round" fill="none"/>
+          <circle cx="18" cy="5" r="4.5" fill="white"/>
+          <path d="M52 56 C40 52, 36 40, 44 30 C50 22, 54 16, 50 8" stroke="white" stroke-width="2" stroke-linecap="round" fill="none"/>
+          <path d="M50 8 C46 2, 54 0, 58 6 C62 12, 60 22, 54 30 C48 38, 46 46, 54 54" stroke="white" stroke-width="2" stroke-linecap="round" fill="none"/>
+          <circle cx="50" cy="5" r="4.5" fill="white"/>
+        </svg>
+
+        <div class="about-caption">
+          <p>"Where two paths converge, healing begins — in the shared witness of those who truly understand the walk."</p>
+        </div>
+      </div>
+
+    </section>
+
+    <div class="c-divider"></div>
+
+    <!-- ── 3B IMPACT ── -->
+    <section class="impact" id="impact">
+      <p class="sec-tag" style="text-align:center">Our reach</p>
+      <h2 class="impact-head">Measured in lives,<br>not just numbers.</h2>
+      <p class="impact-sub">Every figure is a person who found their footing.</p>
+
+      <div class="stats">
+        <div class="stat-card" data-stat>
+          <div class="stat-stripe"></div>
+          <div class="stat-body">
+            <div class="stat-num">1,240+</div>
+            <div class="stat-lbl">Patients Supported</div>
+          </div>
+        </div>
+        <div class="stat-card" data-stat>
+          <div class="stat-stripe"></div>
+          <div class="stat-body">
+            <div class="stat-num">380+</div>
+            <div class="stat-lbl">Volunteers</div>
+          </div>
+        </div>
+        <div class="stat-card" data-stat>
+          <div class="stat-stripe"></div>
+          <div class="stat-body">
+            <div class="stat-num">64</div>
+            <div class="stat-lbl">Partner Organisations</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="c-divider"></div>
+
+    <!-- ── 3C GET INVOLVED ── -->
+    <section class="involve">
+
+      <!-- Left: volunteer form -->
+      <div id="volunteer">
+        <p class="sec-tag">Join us</p>
+        <h3 class="vol-head">Volunteer with<br>Project Nithya</h3>
+        <form onsubmit="return false">
+          <div class="fg">
+            <label for="vn">Full Name</label>
+            <input type="text" id="vn" class="fi" placeholder="Your name">
+          </div>
+          <div class="fg">
+            <label for="ve">Email Address</label>
+            <input type="email" id="ve" class="fi" placeholder="you@example.com">
+          </div>
+          <div class="fg">
+            <label for="vr">How would you like to help?</label>
+            <select id="vr" class="fi">
+              <option value="" disabled selected>Select a role</option>
+              <option>Patient Support Companion</option>
+              <option>Medical Guidance Volunteer</option>
+              <option>Community Outreach</option>
+              <option>Fundraising &amp; Events</option>
+              <option>Research &amp; Documentation</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <button type="submit" class="btn-navy">Register as Volunteer</button>
+        </form>
+      </div>
+
+      <!-- Right: donation card -->
+      <div id="donate">
+        <div class="don-card">
+          <p class="don-tag">Make a difference</p>
+          <h3 class="don-head">Support a patient's<br>journey today.</h3>
+          <p class="don-sub">Your generosity funds counselling, medical navigation, and community building for autoimmune patients across India.</p>
+          <form onsubmit="return false">
+            <div class="don-fg">
+              <label>Name</label>
+              <input type="text" class="don-input" placeholder="Your name">
+            </div>
+            <div class="don-fg">
+              <label>Email</label>
+              <input type="email" class="don-input" placeholder="you@example.com">
+            </div>
+            <button type="submit" class="btn-gold">Donate Now</button>
+            <p class="don-note">80G tax exemption available &nbsp;·&nbsp; Powered by Razorpay</p>
+          </form>
+        </div>
+      </div>
+
+    </section>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════
+     FOOTER
+══════════════════════════════════════════════ -->
+<footer id="support">
+
+  <!-- Sky atmosphere -->
+  <div class="ft-halo"></div>
+  <div class="ft-cloud fc1"></div>
+  <div class="ft-cloud fc2"></div>
+  <div class="ft-cloud fc3"></div>
+
+  <div class="ft-inner">
+
+    <!-- Brand column -->
+    <div class="ft-brand">
+      <div class="ft-logo">
+        <svg width="44" height="36" viewBox="0 0 76 62" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20 56 C8 52, 4 40, 12 30 C18 22, 22 16, 18 8" stroke="#8BAFD4" stroke-width="2.2" stroke-linecap="round" fill="none" opacity="0.95"/>
+          <path d="M18 8 C14 2, 22 0, 26 6 C30 12, 28 22, 22 30 C16 38, 14 46, 22 54" stroke="#8BAFD4" stroke-width="2.2" stroke-linecap="round" fill="none" opacity="0.85"/>
+          <circle cx="18" cy="5" r="4.5" fill="#2C3E6B"/>
+          <path d="M52 56 C40 52, 36 40, 44 30 C50 22, 54 16, 50 8" stroke="#8BAFD4" stroke-width="2.2" stroke-linecap="round" fill="none" opacity="0.95"/>
+          <path d="M50 8 C46 2, 54 0, 58 6 C62 12, 60 22, 54 30 C48 38, 46 46, 54 54" stroke="#8BAFD4" stroke-width="2.2" stroke-linecap="round" fill="none" opacity="0.85"/>
+          <circle cx="50" cy="5" r="4.5" fill="#E8A825"/>
+        </svg>
+        <span class="ft-name">Project Nithya</span>
+      </div>
+
+      <p class="ft-desc">An autoimmune patient advocacy organisation dedicated to guiding, supporting, and empowering those living with chronic illness across India.</p>
+
+      <p class="ft-tagline">Care that walks with you.</p>
+
+      <div class="ft-contact">
+        <p>Email: <a href="mailto:hello@projectnithya.org">hello@projectnithya.org</a></p>
+        <p>Phone: <a href="tel:+918000000000">+91 80 0000 0000</a></p>
+        <p>Chennai, Tamil Nadu, India</p>
+      </div>
+    </div>
+
+    <!-- Contact form column -->
+    <div>
+      <h3 class="ft-form-head">Get in touch</h3>
+      <form onsubmit="return false">
+        <div class="ft-fg">
+          <label>Name</label>
+          <input type="text" class="ft-fi" placeholder="Your name">
+        </div>
+        <div class="ft-fg">
+          <label>Email</label>
+          <input type="email" class="ft-fi" placeholder="you@example.com">
+        </div>
+        <div class="ft-fg">
+          <label>Subject</label>
+          <input type="text" class="ft-fi" placeholder="How can we help?">
+        </div>
+        <div class="ft-fg">
+          <label>Message</label>
+          <textarea class="ft-fi" rows="4" placeholder="Tell us more…"></textarea>
+        </div>
+        <button type="submit" class="btn-ghost">Send Message</button>
+      </form>
+    </div>
+
+  </div>
+
+  <div class="ft-bar">
+    <p>© 2025 Project Nithya. All rights reserved.</p>
+    <p>Made with care. Registered NGO — India.</p>
+  </div>
+</footer>
+
+
+<script>
+  /* ── SUN RAYS — reach viewport edges ── */
+  (function () {
+    const svg = document.getElementById('sunRaysSVG');
+    if (!svg) return;
+
+    const W = window.innerWidth;
+    const H = window.innerHeight;
+
+    // Set SVG viewBox to match hero dimensions
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+
+    // Sun pixel position
+    const sx = W * 0.5;
+    const sy = H * 0.18;
+
+    // For a given angle, find how far the ray travels before hitting the viewport edge
+    function edgeLen(angle) {
+      const cx = Math.cos(angle);
+      const cy = Math.sin(angle);
+      const lh = Math.abs(cx) > 1e-9
+        ? (cx > 0 ? W - sx : sx) / Math.abs(cx)
+        : Infinity;
+      const lv = Math.abs(cy) > 1e-9
+        ? (cy > 0 ? H - sy : sy) / Math.abs(cy)
+        : Infinity;
+      return Math.min(lh, lv);
+    }
+
+    const count = 32;
+    for (let i = 0; i < count; i++) {
+      const angle = (i / count) * Math.PI * 2;
+      const maxL  = edgeLen(angle);
+      // Horizontal rays (near 0° / 180°) go full distance; others slightly shorter
+      const reach = maxL * (0.88 + Math.random() * 0.14);
+      const op    = (0.10 + Math.random() * 0.30).toFixed(3);
+      const delay = (1.2 + i * 0.038).toFixed(3);
+      const sw    = (0.6 + Math.random() * 0.9).toFixed(2);
+
+      const x2 = (sx + Math.cos(angle) * reach).toFixed(1);
+      const y2 = (sy + Math.sin(angle) * reach).toFixed(1);
+
+      const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      line.setAttribute('x1', sx.toFixed(1));
+      line.setAttribute('y1', sy.toFixed(1));
+      line.setAttribute('x2', x2);
+      line.setAttribute('y2', y2);
+      line.setAttribute('stroke', `rgba(232,168,37,${op})`);
+      line.setAttribute('stroke-width', sw);
+      line.setAttribute('stroke-linecap', 'round');
+      line.style.strokeDasharray = reach;
+      line.style.strokeDashoffset = reach;
+      line.style.opacity = '0';
+
+      line.animate(
+        [
+          { strokeDashoffset: reach, opacity: 0 },
+          { strokeDashoffset: 0,     opacity: op }
+        ],
+        {
+          duration: 1800,
+          delay: delay * 1000,
+          fill: 'forwards',
+          easing: 'cubic-bezier(0.16, 1, 0.3, 1)'
+        }
+      );
+
+      svg.appendChild(line);
+    }
+  })();
+
+  /* ── STAT CARD SCROLL REVEAL ── */
+  const statObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in-view');
+        statObserver.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.25 });
+
+  document.querySelectorAll('[data-stat]').forEach(el => statObserver.observe(el));
+
+  /* ── SMOOTH SCROLL for anchor links ── */
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        const offset = 80; /* nav height */
+        const top = target.getBoundingClientRect().top + window.scrollY - offset;
+        window.scrollTo({ top, behavior: 'smooth' });
+      }
+    });
+  });
+
+  /* ── NAV — floating modal on scroll ── */
+  const nav = document.querySelector('nav');
+  let navFloating = false;
+  window.addEventListener('scroll', () => {
+    const shouldFloat = window.scrollY > 72;
+    if (shouldFloat !== navFloating) {
+      navFloating = shouldFloat;
+      nav.classList.toggle('nav--float', shouldFloat);
+    }
+  }, { passive: true });
+</script>
+
+</body>
+</html>
