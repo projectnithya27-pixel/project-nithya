@@ -1,20 +1,70 @@
 /* Project Nithya — Safety & Refuge page styles */
 
-/* ── EMERGENCY BANNER ── */
-.emergency-banner {
-  position:fixed; top:70px; left:0; right:0; z-index:190;
-  background:rgba(212,168,0,0.97); backdrop-filter:blur(12px);
-  padding:10px 52px;
-  display:flex; align-items:center; justify-content:center; gap:28px; flex-wrap:wrap;
-  font-size:12px; font-weight:400; letter-spacing:.04em; color:var(--dark);
-  border-bottom:1px solid rgba(6,35,95,0.12); transition:top .45s ease;
+/* ── HELPLINE TICKER (inside nav) ── */
+/* Default state: absolute strip hanging below the nav bar */
+.eb-ticker {
+  position: absolute;
+  bottom: -46px; left: -52px; right: -52px; /* cancel nav's 52px padding */
+  height: 46px;
+  background: rgba(212,168,0,0.97);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(6,35,95,0.12);
+  font-size: 12px; font-weight: 400; letter-spacing: .04em; color: var(--dark);
+  pointer-events: auto;
 }
-.emergency-banner.banner--shift { top:128px; }
-.eb-label { font-weight:500; letter-spacing:.12em; text-transform:uppercase; font-size:10px; opacity:.7; }
-.eb-number { font-family:'Cormorant Garamond',serif; font-weight:600; font-size:17px; letter-spacing:.02em; }
-.eb-item { display:flex; flex-direction:column; align-items:center; gap:1px; }
-.eb-item a { color:var(--dark); text-decoration:none; }
-.eb-sep { width:1px; height:28px; background:rgba(6,35,95,0.2); }
+.eb-track {
+  display: flex; align-items: center;
+  flex-shrink: 0; width: max-content;
+}
+.eb-set {
+  display: flex; align-items: center; gap: 28px;
+  padding: 0 48px; flex-shrink: 0;
+}
+.eb-set + .eb-set { display: none; } /* hide duplicate in strip mode */
+
+.eb-label { font-weight: 500; letter-spacing: .12em; text-transform: uppercase; font-size: 10px; opacity: .7; }
+.eb-number { font-family: 'Cormorant Garamond', serif; font-weight: 600; font-size: 17px; letter-spacing: .02em; }
+.eb-item { display: flex; flex-direction: column; align-items: center; gap: 1px; }
+.eb-item a { color: var(--dark); text-decoration: none; }
+.eb-sep { width: 1px; height: 28px; background: rgba(6,35,95,0.2); flex-shrink: 0; }
+
+/* ── NAV: PILL STATE (safety page) ── */
+/* Single pill — logo + CTA left, yellow ticker fills entire right */
+nav.nav--float {
+  overflow: hidden; /* clips ticker to pill shape */
+  align-items: stretch; /* let ticker fill full pill height */
+  padding: 0 0 0 16px !important; /* left only — ticker goes edge-to-edge on right */
+}
+nav.nav--float .nav-wordmark { display: none; } /* CTA replaces wordmark */
+nav.nav--float .nav-links { display: none; }
+nav.nav--float .nav-logo { align-self: center; flex-shrink: 0; }
+nav.nav--float .nav-cta--pink {
+  align-self: center; flex-shrink: 0;
+  margin-left: 10px; margin-right: 0;
+}
+
+/* Ticker becomes right-fill flex child in pill */
+nav.nav--float .eb-ticker {
+  position: relative;
+  bottom: auto; left: auto; right: auto;
+  flex: 1;
+  height: auto; /* align-self: stretch via parent align-items:stretch */
+  border-bottom: none;
+  border-left: 1px solid rgba(255,255,255,0.14);
+  backdrop-filter: none; -webkit-backdrop-filter: none;
+  justify-content: flex-start;
+  margin-left: 14px;
+}
+nav.nav--float .eb-set { padding: 0 52px; }
+nav.nav--float .eb-set + .eb-set { display: flex; } /* show duplicate for loop */
+nav.nav--float .eb-track { animation: eb-scroll 24s linear infinite; }
+
+@keyframes eb-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
 
 /* ── HERO ── */
 .page-hero {
@@ -85,8 +135,8 @@
 
 /* ── RESPONSIVE ── */
 @media (max-width: 960px) {
-  .emergency-banner { padding:10px 20px; gap:14px; top:70px; font-size:11px; }
-  .eb-sep { display:none; }
+  .eb-set { padding: 10px 20px; gap: 14px; }
+  .eb-sep { display: none; }
   .page-hero { padding-top: 190px; }
   .pillars-grid { grid-template-columns: 1fr; }
   .crisis-grid { grid-template-columns: 1fr 1fr; gap:16px; }

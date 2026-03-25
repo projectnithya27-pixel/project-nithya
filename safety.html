@@ -13,7 +13,7 @@
 </head>
 <body>
 
-<!-- NAV -->
+<!-- NAV — ticker lives inside nav so pill clips it -->
 <nav>
   <a href="index.html" class="nav-logo">
     <svg width="44" height="36" viewBox="0 0 76 62" fill="none">
@@ -33,30 +33,30 @@
     <li><a href="index.html#volunteer">Volunteer</a></li>
   </ul>
   <a href="#reach-out" class="nav-cta nav-cta--pink">I Need Help</a>
+  <!-- Helpline ticker — absolute strip in default, right-side fill in pill -->
+  <div class="eb-ticker">
+    <div class="eb-track">
+      <div class="eb-set">
+        <div class="eb-item"><span class="eb-label">Women's Helpline</span><a href="tel:181" class="eb-number">181</a></div>
+        <div class="eb-sep"></div>
+        <div class="eb-item"><span class="eb-label">Police</span><a href="tel:100" class="eb-number">100</a></div>
+        <div class="eb-sep"></div>
+        <div class="eb-item"><span class="eb-label">NCW Helpline</span><a href="tel:7827170170" class="eb-number">7827-170-170</a></div>
+        <div class="eb-sep"></div>
+        <div class="eb-item"><span class="eb-label">24/7 Crisis Line</span><a href="tel:18602662345" class="eb-number">1860-2662-345</a></div>
+      </div>
+      <div class="eb-set" aria-hidden="true">
+        <div class="eb-item"><span class="eb-label">Women's Helpline</span><a href="tel:181" class="eb-number">181</a></div>
+        <div class="eb-sep"></div>
+        <div class="eb-item"><span class="eb-label">Police</span><a href="tel:100" class="eb-number">100</a></div>
+        <div class="eb-sep"></div>
+        <div class="eb-item"><span class="eb-label">NCW Helpline</span><a href="tel:7827170170" class="eb-number">7827-170-170</a></div>
+        <div class="eb-sep"></div>
+        <div class="eb-item"><span class="eb-label">24/7 Crisis Line</span><a href="tel:18602662345" class="eb-number">1860-2662-345</a></div>
+      </div>
+    </div>
+  </div>
 </nav>
-
-<!-- EMERGENCY NUMBERS — persistent top strip -->
-<div class="emergency-banner" id="emergencyBanner">
-  <div class="eb-item">
-    <span class="eb-label">Women's Helpline</span>
-    <a href="tel:181" class="eb-number">181</a>
-  </div>
-  <div class="eb-sep"></div>
-  <div class="eb-item">
-    <span class="eb-label">Police</span>
-    <a href="tel:100" class="eb-number">100</a>
-  </div>
-  <div class="eb-sep"></div>
-  <div class="eb-item">
-    <span class="eb-label">NCW Helpline</span>
-    <a href="tel:7827170170" class="eb-number">7827-170-170</a>
-  </div>
-  <div class="eb-sep"></div>
-  <div class="eb-item">
-    <span class="eb-label">24/7 Crisis Line</span>
-    <a href="tel:18602662345" class="eb-number">1860-2662-345</a>
-  </div>
-</div>
 
 
 <!-- HERO -->
@@ -306,12 +306,6 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script src="nithya.js"></script>
 <script>
-  /* Shift emergency banner when nav floats */
-  const banner = document.getElementById('emergencyBanner');
-  window.addEventListener('scroll', () => {
-    banner.classList.toggle('banner--shift', window.scrollY > 72);
-  }, { passive: true });
-
   document.getElementById('helpForm').addEventListener('submit', function() {
     submitHelpRequest(this, 'safety');
   });
