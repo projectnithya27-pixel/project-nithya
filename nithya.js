@@ -157,9 +157,36 @@ function initReveal() {
   document.querySelectorAll('[data-reveal]').forEach(el => obs.observe(el));
 }
 
+/* ── Mobile menu ── */
+function toggleMobileMenu() {
+  const menu   = document.getElementById('mobileMenu');
+  const burger = document.getElementById('navBurger');
+  if (!menu || !burger) return;
+  const open = menu.classList.toggle('is-open');
+  burger.classList.toggle('is-open', open);
+  document.body.style.overflow = open ? 'hidden' : '';
+}
+
+function closeMobileMenu() {
+  const menu   = document.getElementById('mobileMenu');
+  const burger = document.getElementById('navBurger');
+  if (!menu || !burger) return;
+  menu.classList.remove('is-open');
+  burger.classList.remove('is-open');
+  document.body.style.overflow = '';
+}
+
 /* ── Boot ── */
 document.addEventListener('DOMContentLoaded', () => {
   initNav();
   initScroll();
   initReveal();
+
+  /* Close mobile menu when a link inside it is clicked */
+  const mobileMenu = document.getElementById('mobileMenu');
+  if (mobileMenu) {
+    mobileMenu.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', closeMobileMenu);
+    });
+  }
 });

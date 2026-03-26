@@ -28,11 +28,20 @@
   </a>
   <ul class="nav-links">
     <li><a href="mental-health.html">Mental Health</a></li>
-    <li><a href="safety.html">Safety &amp; Refuge</a></li>
-    <li><a href="health-guidance.html">Health Guidance</a></li>
+    <li><a href="safety.html">Safety</a></li>
+    <li><a href="health-guidance.html">Health</a></li>
     <li><a href="index.html#volunteer">Volunteer</a></li>
   </ul>
-  <a href="#reach-out" class="nav-cta nav-cta--pink">I Need Help</a>
+  <div class="nav-actions">
+    <a href="#reach-out" class="nav-cta nav-cta--pink">I Need Help</a>
+    <button class="nav-burger" id="navBurger" onclick="toggleMobileMenu()" aria-label="Open menu">
+      <svg width="20" height="14" viewBox="0 0 20 14" fill="none">
+        <line class="bar1" x1="0" y1="1"  x2="20" y2="1"  stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        <line class="bar2" x1="0" y1="7"  x2="20" y2="7"  stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        <line class="bar3" x1="0" y1="13" x2="20" y2="13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+      </svg>
+    </button>
+  </div>
   <!-- Helpline ticker — absolute strip in default, right-side fill in pill -->
   <div class="eb-ticker">
     <div class="eb-track">
@@ -57,6 +66,16 @@
     </div>
   </div>
 </nav>
+
+<!-- Mobile menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html"           class="mob-link">Home</a>
+  <a href="mental-health.html"   class="mob-link">Mental Health</a>
+  <a href="safety.html"          class="mob-link">Safety &amp; Refuge</a>
+  <a href="health-guidance.html" class="mob-link">Health Guidance</a>
+  <a href="index.html#volunteer" class="mob-link">Volunteer</a>
+  <a href="#reach-out"           class="mob-link">I Need Help</a>
+</div>
 
 
 <!-- HERO -->
@@ -274,12 +293,11 @@
         </svg>
         <span class="ft-name">Project Nithya</span>
       </div>
-      <p class="ft-desc">A women's welfare organisation dedicated to mental health, safety, and holistic wellbeing across India.</p>
+      <p class="ft-desc">A women's welfare organisation dedicated to mental health, safety, and holistic wellbeing.</p>
       <p class="ft-tagline">Strength in every woman. Dignity in every life.</p>
       <div class="ft-contact">
         <p>Email: <a href="mailto:hello@projectnithya.org">hello@projectnithya.org</a></p>
-        <p>Phone: <a href="tel:+918000000000">+91 80 0000 0000</a></p>
-        <p>Chennai, Tamil Nadu, India</p>
+        <p style="font-size:12px;color:rgba(245,240,232,0.32);margin-top:10px;letter-spacing:0.02em;">PROJECT NITHYA LTD &nbsp;·&nbsp; Company number 16778538</p>
       </div>
     </div>
     <div class="don-wrap">
@@ -297,7 +315,7 @@
     </div>
   </div>
   <div class="ft-bar">
-    <p>© 2025 Project Nithya. All rights reserved.</p>
+    <p>© 2026 Project Nithya Ltd. All rights reserved. &nbsp;·&nbsp; Company number 16778538 &nbsp;·&nbsp; England &amp; Wales</p>
     <p><a href="index.html">Home</a> &nbsp;·&nbsp; <a href="mental-health.html">Mental Health</a> &nbsp;·&nbsp; <a href="health-guidance.html">Health Guidance</a></p>
   </div>
 </footer>
