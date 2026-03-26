@@ -446,16 +446,14 @@
   var current = -1;
 
   function goTo(index) {
+    if (index === current) return;
     if (current >= 0) {
       slides[current].classList.remove('is-active');
       slides[current].setAttribute('aria-hidden', 'true');
-      slides[current].style.visibility = 'hidden';
     }
     current = index;
-    track.style.transform = 'translateX(-' + (current * 100) + '%)';
     var slide = slides[current];
     slide.setAttribute('aria-hidden', 'false');
-    slide.style.visibility = 'visible';
     requestAnimationFrame(function () {
       requestAnimationFrame(function () {
         slide.classList.add('is-active');
@@ -467,6 +465,10 @@
     prevBtn.disabled = current === 0;
     nextBtn.disabled = current === total - 1;
   }
+
+  slides.forEach(function (slide, i) {
+    slide.addEventListener('click', function () { goTo(i); });
+  });
 
   prevBtn.addEventListener('click', function () { if (current > 0) goTo(current - 1); });
   nextBtn.addEventListener('click', function () { if (current < total - 1) goTo(current + 1); });
