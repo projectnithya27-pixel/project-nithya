@@ -588,9 +588,31 @@
       max-width: 1100px;
       margin: 0 auto;
       display: grid;
-      grid-template-columns: 1fr 280px;
-      gap: 72px;
-      align-items: center;
+      grid-template-columns: 1fr 360px;
+      gap: 64px;
+      align-items: start;
+    }
+
+    .casen-photos { display: flex; flex-direction: column; gap: 12px; }
+
+    .casen-photo-main {
+      width: 100%;
+      display: block;
+      border-radius: 16px;
+      object-fit: cover;
+      aspect-ratio: 3 / 4;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+    }
+
+    .casen-photo-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+    .casen-photo-sm {
+      width: 100%;
+      display: block;
+      border-radius: 12px;
+      object-fit: cover;
+      aspect-ratio: 1 / 1;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.10);
     }
 
     .casen-head {
@@ -698,10 +720,8 @@
     /* ── 3A ABOUT ── */
     .about {
       padding: 80px 68px;
-      display: grid;
-      grid-template-columns: 55% 1fr;
-      gap: 60px;
-      align-items: start;
+      max-width: 760px;
+      margin: 0 auto;
     }
 
     .sec-tag {
@@ -1344,11 +1364,11 @@
 
       #main-card { padding: 0 16px 60px; margin-top: 40px; }
       .casen-story { padding: 52px 24px 40px; }
-      .casen-inner { grid-template-columns: 1fr; gap: 28px; }
-      .casen-motif { order: -1; height: 160px; }
-      .casen-n { font-size: 130px; }
+      .casen-inner { grid-template-columns: 1fr; gap: 32px; }
+      .casen-photos { order: -1; }
       .casen-head { font-size: 32px; }
       .botanical-divider { padding: 4px 0 16px; }
+      .about { padding: 56px 24px; }
       .about { grid-template-columns: 1fr; padding: 48px 32px; gap: 38px; }
       .impact { padding: 48px 32px; }
       .stats { grid-template-columns: 1fr; }
@@ -1519,9 +1539,12 @@
             <span class="casen-line casen-closer">Project Nithya is that someone.</span>
           </p>
         </div>
-        <div class="casen-motif">
-          <div class="casen-wash"></div>
-          <span class="casen-n">N</span>
+        <div class="casen-photos">
+          <img class="casen-photo-main" src="https://hdmnkxwpsxlxtrlseaqj.supabase.co/storage/v1/object/public/assets/nithya.jpg" alt="Nithya">
+          <div class="casen-photo-row">
+            <img class="casen-photo-sm" src="https://hdmnkxwpsxlxtrlseaqj.supabase.co/storage/v1/object/public/assets/nithya-2.jpg" alt="Nithya">
+            <img class="casen-photo-sm" src="https://hdmnkxwpsxlxtrlseaqj.supabase.co/storage/v1/object/public/assets/nithya-3.jpg" alt="Nithya">
+          </div>
         </div>
       </div>
     </section>
@@ -1544,44 +1567,20 @@
     <!-- ── 3A ABOUT ── -->
     <section class="about">
 
-      <div>
-        <p class="sec-tag">Who we are</p>
-        <h2 class="sec-head">Every woman deserves to<br><em>be seen, heard, held.</em></h2>
-        <p class="body-p">
-          Project Nithya was born from a simple, urgent truth: too many women across India, Sri Lanka, and Southeast Asia suffer in silence. Whether navigating the aftermath of abuse, wrestling with their mental health, or searching for trustworthy healthcare — they do so without a hand to hold. We exist to change that.
-        </p>
-        <p class="body-p">
-          Our name, Nithya, means <em style="font-style:italic;">eternal</em> in Sanskrit — the eternal strength that lives within every woman, waiting to be recognised. We are a women's welfare organisation working at the intersection of mental health, safety, and holistic wellbeing. Our work is not charity; it is solidarity.
-        </p>
-        <p class="body-p">
-          We walk beside women from all walks of life — the homemaker who has lost herself, the survivor rebuilding after violence, the young professional silently drowning, the mother who forgets she too deserves care. No story is too small. No struggle is invisible here.
-        </p>
-        <blockquote class="blockquote">
-          <p>"A woman's wellbeing is not a privilege to be earned — it is a right to be fiercely protected. We stand at that boundary, and we do not move."</p>
-        </blockquote>
-      </div>
-
-      <!-- Atmospheric image area -->
-      <div class="about-img">
-        <img src="https://hdmnkxwpsxlxtrlseaqj.supabase.co/storage/v1/object/public/assets/nithya.jpg" alt="Nithya — strength in every woman">
-        <div class="img-orb img-orb-1"></div>
-        <div class="img-orb img-orb-2"></div>
-        <div class="img-grain"></div>
-
-        <!-- Watermark logo -->
-        <svg class="about-mark" viewBox="0 0 76 62" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M20 56 C8 52, 4 40, 12 30 C18 22, 22 16, 18 8" stroke="white" stroke-width="2" stroke-linecap="round" fill="none"/>
-          <path d="M18 8 C14 2, 22 0, 26 6 C30 12, 28 22, 22 30 C16 38, 14 46, 22 54" stroke="white" stroke-width="2" stroke-linecap="round" fill="none"/>
-          <circle cx="18" cy="5" r="4.5" fill="white"/>
-          <path d="M52 56 C40 52, 36 40, 44 30 C50 22, 54 16, 50 8" stroke="white" stroke-width="2" stroke-linecap="round" fill="none"/>
-          <path d="M50 8 C46 2, 54 0, 58 6 C62 12, 60 22, 54 30 C48 38, 46 46, 54 54" stroke="white" stroke-width="2" stroke-linecap="round" fill="none"/>
-          <circle cx="50" cy="5" r="4.5" fill="white"/>
-        </svg>
-
-        <div class="about-caption">
-          <p>"She was told to be silent. We taught her that her voice is the most powerful thing she owns."</p>
-        </div>
-      </div>
+      <p class="sec-tag">Who we are</p>
+      <h2 class="sec-head">Every woman deserves to<br><em>be seen, heard, held.</em></h2>
+      <p class="body-p">
+        Project Nithya was born from a simple, urgent truth: too many women across India, Sri Lanka, and Southeast Asia suffer in silence. Whether navigating the aftermath of abuse, wrestling with their mental health, or searching for trustworthy healthcare — they do so without a hand to hold. We exist to change that.
+      </p>
+      <p class="body-p">
+        Our name, Nithya, means <em style="font-style:italic;">eternal</em> in Sanskrit — the eternal strength that lives within every woman, waiting to be recognised. We are a women's welfare organisation working at the intersection of mental health, safety, and holistic wellbeing. Our work is not charity; it is solidarity.
+      </p>
+      <p class="body-p">
+        We walk beside women from all walks of life — the homemaker who has lost herself, the survivor rebuilding after violence, the young professional silently drowning, the mother who forgets she too deserves care. No story is too small. No struggle is invisible here.
+      </p>
+      <blockquote class="blockquote">
+        <p>"A woman's wellbeing is not a privilege to be earned — it is a right to be fiercely protected. We stand at that boundary, and we do not move."</p>
+      </blockquote>
 
     </section>
 
@@ -1871,16 +1870,12 @@
     const story = document.querySelector('.casen-story');
     if (!story) return;
     const head  = story.querySelector('.casen-head');
-    const wash  = story.querySelector('.casen-wash');
-    const nGlyph = story.querySelector('.casen-n');
     const lines = story.querySelectorAll('.casen-line');
 
     const obs = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (!entry.isIntersecting) return;
         head.classList.add('cn-vis');
-        wash.classList.add('cn-vis');
-        nGlyph.classList.add('cn-vis');
         lines.forEach((line, i) => {
           line.style.transitionDelay = (0.35 + i * 0.15) + 's';
           line.classList.add('cn-vis');
