@@ -26,8 +26,8 @@
 
 /* ── FEATURE: image + text ── */
 .feature-block { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; margin-top: 72px; margin-bottom: 4px; }
-.feature-img-wrap { position: relative; border-radius: 22px; overflow: hidden; aspect-ratio: 4/3; box-shadow: 0 8px 40px rgba(14,80,185,.07); }
-.feature-img-wrap img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; z-index: 1; }
+.feature-img-wrap { border-radius: 22px; overflow: hidden; box-shadow: 0 8px 40px rgba(14,80,185,.07); }
+.feature-img-wrap img { width: 100%; height: auto; display: block; }
 .img-placeholder { position: absolute; inset: 0; z-index: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; color: rgba(14,80,185,.28); }
 .img-placeholder span { font-size: 10.5px; letter-spacing: .18em; text-transform: uppercase; }
 .feature-text blockquote { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: clamp(18px,2.2vw,25px); font-weight: 400; color: var(--navy); line-height: 1.52; margin: 20px 0 22px; padding-left: 18px; }
