@@ -20,7 +20,7 @@
 
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; }
-body { font-family: 'DM Sans', sans-serif; font-weight: 300; background: var(--cream); color: var(--text); overflow-x: hidden; }
+body { font-family: 'DM Sans', sans-serif; font-weight: 300; background: var(--cream); color: var(--text); overflow-x: clip; }
 
 /* ── NAV ── */
 nav {
@@ -167,10 +167,14 @@ nav.nav--float .nav-links a {
   border: none;
   cursor: pointer;
   color: rgba(245,240,232,0.72);
-  padding: 6px;
+  padding: 12px;
   flex-shrink: 0;
   transition: color 0.2s;
   line-height: 0;
+  touch-action: manipulation;
+  min-width: 44px;
+  min-height: 44px;
+  -webkit-tap-highlight-color: transparent;
 }
 .nav-burger:hover { color: var(--cream); }
 .nav-burger svg line {

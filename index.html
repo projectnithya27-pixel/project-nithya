@@ -33,7 +33,7 @@
       font-weight: 300;
       background: var(--cream);
       color: var(--text);
-      overflow-x: hidden;
+      overflow-x: clip;
     }
 
     /* ─────────────────────────────────────────────
@@ -131,10 +131,14 @@
       border: none;
       cursor: pointer;
       color: rgba(245,240,232,0.72);
-      padding: 6px;
+      padding: 12px;
       flex-shrink: 0;
       transition: color 0.2s;
       line-height: 0;
+      touch-action: manipulation;
+      min-width: 44px;
+      min-height: 44px;
+      -webkit-tap-highlight-color: transparent;
     }
     .nav-burger:hover { color: var(--cream); }
     .nav-burger svg line { transition: transform 0.3s ease, opacity 0.2s ease; transform-origin: center; }

@@ -182,6 +182,15 @@ document.addEventListener('DOMContentLoaded', () => {
   initScroll();
   initReveal();
 
+  /* Ensure hamburger responds to touch immediately (iOS fix) */
+  const burger = document.getElementById('navBurger');
+  if (burger) {
+    burger.addEventListener('touchstart', function(e) {
+      e.preventDefault();
+      toggleMobileMenu();
+    }, { passive: false });
+  }
+
   /* Close mobile menu when a link inside it is clicked */
   const mobileMenu = document.getElementById('mobileMenu');
   if (mobileMenu) {
