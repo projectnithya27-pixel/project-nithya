@@ -79,7 +79,7 @@ footer { background: linear-gradient(172deg, var(--dark) 0%, var(--mid) 32%, var
 .ft-brand { display: flex; flex-direction: column; gap: 18px; }
 .ft-logo { display: flex; align-items: center; gap: 11px; }
 .ft-logo img { filter: drop-shadow(0 0 6px rgba(255,255,255,0.22)) drop-shadow(0 0 16px rgba(255,255,255,0.1)); }
-.ft-name { font-family: 'Cormorant Garamond', serif; font-weight: 500; font-size: 21px; color: #F5F0E8; }
+.ft-name { font-family: 'Cormorant Garamond', serif; font-weight: 500; font-size: 24px; color: #F5F0E8; }
 .ft-desc { font-size: 13.5px; font-weight: 300; color: rgba(245,240,232,.52); line-height: 1.72; max-width: 320px; }
 .ft-tagline { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 17px; color: rgba(245,240,232,.6); }
 .ft-contact p { font-size: 13px; font-weight: 300; color: rgba(245,240,232,.44); margin-bottom: 4px; }
