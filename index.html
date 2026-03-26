@@ -1596,21 +1596,21 @@
         <div class="stat-card" data-stat>
           <div class="stat-stripe"></div>
           <div class="stat-body">
-            <div class="stat-num">2,800+</div>
+            <div class="stat-num" id="stat-women">0</div>
             <div class="stat-lbl">Women Supported</div>
           </div>
         </div>
         <div class="stat-card" data-stat>
           <div class="stat-stripe"></div>
           <div class="stat-body">
-            <div class="stat-num">430+</div>
-            <div class="stat-lbl">Volunteers & Counsellors</div>
+            <div class="stat-num" id="stat-volunteers">0</div>
+            <div class="stat-lbl">Volunteers &amp; Counsellors</div>
           </div>
         </div>
         <div class="stat-card" data-stat>
           <div class="stat-stripe"></div>
           <div class="stat-body">
-            <div class="stat-num">78</div>
+            <div class="stat-num" id="stat-partners">0</div>
             <div class="stat-lbl">Partner Organisations</div>
           </div>
         </div>
@@ -1889,6 +1889,45 @@
 </script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script src="nithya.js"></script>
+<script>
+(function () {
+  var SB_URL  = 'https://hdmnkxwpsxlxtrlseaqj.supabase.co';
+  var SB_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhkbW5reHdwc3hseHRybHNlYXFqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQzNzcxNjIsImV4cCI6MjA4OTk1MzE2Mn0.vEO1ivlzVx5zWwwb5tpFOStZ9ii9X5w49O0Tcr8BFEU';
+
+  function fetchCount(table) {
+    return fetch(SB_URL + '/rest/v1/' + table + '?select=id', {
+      headers: {
+        'apikey': SB_ANON,
+        'Authorization': 'Bearer ' + SB_ANON,
+        'Prefer': 'count=exact',
+        'Range': '0-0'
+      }
+    }).then(function (res) {
+      var cr = res.headers.get('content-range');
+      if (!cr) return 0;
+      var total = parseInt(cr.split('/')[1], 10);
+      return isNaN(total) ? 0 : total;
+    });
+  }
+
+  function setStatCard(id, count) {
+    var el = document.getElementById(id);
+    if (el) el.textContent = count > 0 ? count + '+' : '0';
+  }
+
+  Promise.all([
+    fetchCount('women_supported'),
+    fetchCount('volunteers_counsellors'),
+    fetchCount('partner_organisations')
+  ]).then(function (results) {
+    setStatCard('stat-women',     results[0]);
+    setStatCard('stat-volunteers', results[1]);
+    setStatCard('stat-partners',   results[2]);
+  }).catch(function (err) {
+    console.error('Stats failed to load:', err);
+  });
+})();
+</script>
 
 </body>
 </html>
