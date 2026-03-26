@@ -122,14 +122,24 @@
     .nav-links a:hover { color: var(--pink); }
 
     /* ── Pill nav — centred + compact ── */
+    nav.nav--float {
+      gap: 20px;                   /* hard gap: logo ↔ links ↔ buttons */
+    }
     nav.nav--float .nav-links {
       flex: 1;
       justify-content: center;
-      gap: 20px;
+      align-items: center;
+      gap: 16px;
+    }
+    nav.nav--float .nav-links li {
+      display: flex;
+      align-items: center;
     }
     nav.nav--float .nav-links a {
       font-size: 10px;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.07em;
+      white-space: nowrap;
+      line-height: 1;
     }
 
     .nav-cta {
