@@ -121,6 +121,54 @@
 
     .nav-links a:hover { color: var(--pink); }
 
+    /* ── HAMBURGER ── */
+    .nav-burger {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: rgba(245,240,232,0.72);
+      padding: 6px;
+      flex-shrink: 0;
+      transition: color 0.2s;
+      line-height: 0;
+    }
+    .nav-burger:hover { color: var(--cream); }
+    .nav-burger svg line { transition: transform 0.3s ease, opacity 0.2s ease; transform-origin: center; }
+    .nav-burger.is-open .bar1 { transform: translateY(6px) rotate(45deg); }
+    .nav-burger.is-open .bar2 { opacity: 0; }
+    .nav-burger.is-open .bar3 { transform: translateY(-6px) rotate(-45deg); }
+
+    /* ── FLOATING CTA BUBBLE ── */
+    .fab-cta {
+      display: none;
+      position: fixed;
+      bottom: 28px;
+      right: 20px;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 10px;
+      z-index: 300;
+    }
+    .fab-btn {
+      display: block;
+      padding: 13px 24px;
+      border-radius: 100px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      text-align: center;
+      white-space: nowrap;
+      box-shadow: 0 6px 28px rgba(0,0,0,0.32), 0 2px 8px rgba(0,0,0,0.18);
+      transition: opacity 0.2s, transform 0.15s;
+    }
+    .fab-btn:hover { opacity: 0.88; transform: translateY(-2px); }
+    .fab-btn--pink { background: var(--pink-deep); color: #fff; }
+    .fab-btn--gold { background: var(--gold); color: #000; }
+
     /* ── Pill nav — centred + compact ── */
     nav.nav--float {
       gap: 20px;                   /* hard gap: logo ↔ links ↔ buttons */
@@ -1146,6 +1194,9 @@
     @media (max-width: 960px) {
       nav { padding: 0 24px; }
       .nav-links { display: none; }
+      .nav-actions .nav-cta { display: none; }
+      .nav-burger { display: flex; align-items: center; justify-content: center; }
+      .fab-cta { display: flex; }
 
       #services-wrap { padding: 0 20px; margin-top: -56px; }
       .services-panel { grid-template-columns: 1fr; }
@@ -1214,6 +1265,12 @@
   <a href="safety.html"          class="mob-link">Safety &amp; Refuge</a>
   <a href="health-guidance.html" class="mob-link">Health Guidance</a>
   <a href="#volunteer"           class="mob-link">Volunteer</a>
+</div>
+
+<!-- Floating CTA bubble — mobile only -->
+<div class="fab-cta">
+  <a href="mental-health.html#reach-out" class="fab-btn fab-btn--pink">Reach Out</a>
+  <a href="#donate"                      class="fab-btn fab-btn--gold">Donate</a>
 </div>
 
 
