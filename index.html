@@ -115,10 +115,22 @@
       text-transform: uppercase;
       color: rgba(245, 240, 232, 0.65);
       text-decoration: none;
+      white-space: nowrap;
       transition: color 0.25s;
     }
 
     .nav-links a:hover { color: var(--pink); }
+
+    /* ── Pill nav — centred + compact ── */
+    nav.nav--float .nav-links {
+      flex: 1;
+      justify-content: center;
+      gap: 20px;
+    }
+    nav.nav--float .nav-links a {
+      font-size: 10px;
+      letter-spacing: 0.08em;
+    }
 
     .nav-cta {
       font-size: 11px;

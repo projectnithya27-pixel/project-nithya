@@ -107,9 +107,17 @@ footer { background: linear-gradient(172deg, var(--dark) 0%, var(--mid) 32%, var
 .toast--warn { border: 1px solid rgba(242,206,58,.4); }
 .toast--error { border: 1px solid rgba(232,137,158,.4); }
 
-/* ── PILL NAV — compact link sizing ── */
-nav.nav--float .nav-links { gap: 22px; }
-nav.nav--float .nav-links a { font-size: 10px; letter-spacing: 0.1em; }
+/* ── PILL NAV — compact + centred ── */
+nav.nav--float .nav-links {
+  flex: 1;
+  justify-content: center;
+  gap: 20px;
+}
+nav.nav--float .nav-links a {
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
 
 /* ── HAMBURGER BUTTON ── */
 .nav-burger {
