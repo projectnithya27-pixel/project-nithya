@@ -60,7 +60,7 @@ nav.nav--float {
     inset 0 -1px 0 rgba(0,0,0,0.12);
 }
 .nav-logo { display: flex; align-items: center; gap: 11px; text-decoration: none; flex-shrink: 0; }
-.nav-logo img { filter: drop-shadow(0 0 4px rgba(255,255,255,0.95)) drop-shadow(0 0 12px rgba(255,255,255,0.75)) drop-shadow(0 0 28px rgba(255,255,255,0.45)) drop-shadow(0 0 52px rgba(255,255,255,0.2)); }
+.nav-logo img { filter: drop-shadow(0 0 10px rgba(255,255,255,0.28)); }
 .nav-wordmark { font-family: 'Cormorant Garamond', serif; font-weight: 500; font-size: 19px; letter-spacing: 0.025em; color: #F5F0E8; }
 .nav-links { display: flex; gap: 34px; list-style: none; }
 .nav-links a { font-size: 11.5px; font-weight: 300; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(245,240,232,0.65); text-decoration: none; transition: color 0.25s; }
@@ -78,7 +78,7 @@ footer { background: linear-gradient(172deg, var(--dark) 0%, var(--mid) 32%, var
 .ft-inner { position: relative; z-index: 2; max-width: 1100px; margin: 0 auto; padding: 0 52px 64px; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; }
 .ft-brand { display: flex; flex-direction: column; gap: 18px; }
 .ft-logo { display: flex; align-items: center; gap: 11px; }
-.ft-logo img { filter: drop-shadow(0 0 4px rgba(255,255,255,0.95)) drop-shadow(0 0 12px rgba(255,255,255,0.75)) drop-shadow(0 0 28px rgba(255,255,255,0.45)) drop-shadow(0 0 52px rgba(255,255,255,0.2)); }
+.ft-logo img { filter: drop-shadow(0 0 10px rgba(255,255,255,0.28)); }
 .ft-name { font-family: 'Cormorant Garamond', serif; font-weight: 500; font-size: 24px; color: #F5F0E8; }
 .ft-desc { font-size: 13.5px; font-weight: 300; color: rgba(245,240,232,.52); line-height: 1.72; max-width: 320px; }
 .ft-tagline { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 17px; color: rgba(245,240,232,.6); }
