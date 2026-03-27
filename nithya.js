@@ -94,6 +94,69 @@ async function submitVolunteer(formEl) {
   }
 }
 
+/* ── Donation coming-soon popup ── */
+function showDonationComingSoon() {
+  // Remove any existing popup
+  var existing = document.getElementById('don-popup');
+  if (existing) existing.remove();
+
+  var overlay = document.createElement('div');
+  overlay.id = 'don-popup';
+  overlay.style.cssText = [
+    'position:fixed;inset:0;z-index:9000',
+    'display:flex;align-items:center;justify-content:center',
+    'background:rgba(6,41,82,.38)',
+    'backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)',
+    'padding:24px',
+    'animation:donFadeIn .18s ease',
+  ].join(';');
+
+  overlay.innerHTML = [
+    '<style>@keyframes donFadeIn{from{opacity:0}to{opacity:1}}',
+    '@keyframes donSlideUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}</style>',
+    '<div style="',
+      'background:#F5F0E8;border-radius:20px;',
+      'padding:36px 32px;max-width:380px;width:100%;',
+      'box-shadow:0 12px 60px rgba(6,41,82,.22);',
+      'text-align:center;position:relative;',
+      'animation:donSlideUp .22s cubic-bezier(.22,1,.36,1)',
+    '">',
+      '<button id="don-popup-close" style="',
+        'position:absolute;top:14px;right:16px;',
+        'background:none;border:none;cursor:pointer;',
+        'font-size:18px;color:#5080AA;line-height:1;padding:4px;',
+      '">&#x2715;</button>',
+      '<div style="font-size:28px;margin-bottom:14px">🌸</div>',
+      '<h3 style="',
+        'font-family:Cormorant Garamond,serif;font-size:22px;font-weight:500;',
+        'color:#062952;margin:0 0 10px;',
+      '">Coming soon</h3>',
+      '<p style="',
+        'font-size:14px;color:#2B5C94;line-height:1.65;margin:0 0 22px;font-weight:300;',
+      '">Online donations have not been enabled yet.<br>',
+      'To express your interest or donate directly, please reach out to the Project Nithya team.</p>',
+      '<a href="#support" id="don-popup-cta" style="',
+        'display:inline-block;background:#E8899E;color:#fff;',
+        'border-radius:100px;padding:11px 26px;',
+        'font-size:14px;font-family:DM Sans,sans-serif;',
+        'text-decoration:none;transition:opacity .2s;',
+      '">Contact the team</a>',
+    '</div>',
+  ].join('');
+
+  document.body.appendChild(overlay);
+
+  document.getElementById('don-popup-close').addEventListener('click', function () {
+    overlay.remove();
+  });
+  document.getElementById('don-popup-cta').addEventListener('click', function () {
+    overlay.remove();
+  });
+  overlay.addEventListener('click', function (e) {
+    if (e.target === overlay) overlay.remove();
+  });
+}
+
 /* ── Donation intent form ── */
 async function submitDonation(formEl) {
   const btn = formEl.querySelector('button[type="submit"]');
