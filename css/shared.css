@@ -222,6 +222,8 @@ nav.nav--float .nav-links a {
 }
 .mob-link:hover { color: var(--pink); padding-left: 4px; }
 .mob-link:last-child { border-bottom: none; }
+.mob-link--highlight { color: var(--pink-deep); font-weight: 400; }
+.mob-link--subtle { color: rgba(245,240,232,0.38); font-size: 13px; }
 
 /* ── RESPONSIVE ── */
 @media (min-width: 961px) {

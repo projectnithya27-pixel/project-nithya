@@ -245,13 +245,19 @@ document.addEventListener('DOMContentLoaded', () => {
   initScroll();
   initReveal();
 
-  /* Ensure hamburger responds to touch immediately (iOS fix) */
+  /* Hamburger — touch fires first, then synthetic click fires too.
+     Track last touch time and skip the click if it follows within 500ms. */
   const burger = document.getElementById('navBurger');
   if (burger) {
+    let lastTouch = 0;
     burger.addEventListener('touchstart', function(e) {
       e.preventDefault();
+      lastTouch = Date.now();
       toggleMobileMenu();
     }, { passive: false });
+    burger.addEventListener('click', function() {
+      if (Date.now() - lastTouch > 500) toggleMobileMenu();
+    });
   }
 
   /* Close mobile menu when a link inside it is clicked */
