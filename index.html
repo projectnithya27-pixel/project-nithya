@@ -1626,18 +1626,18 @@
       <div id="volunteer">
         <p class="sec-tag">Join us</p>
         <h3 class="vol-head">Volunteer with<br>Project Nithya</h3>
-        <form onsubmit="return false">
+        <form onsubmit="submitVolunteer(this); return false;">
           <div class="fg">
             <label for="vn">Full Name</label>
-            <input type="text" id="vn" class="fi" placeholder="Your name">
+            <input type="text" id="vn" name="name" class="fi" placeholder="Your name">
           </div>
           <div class="fg">
             <label for="ve">Email Address</label>
-            <input type="email" id="ve" class="fi" placeholder="you@example.com">
+            <input type="email" id="ve" name="email" class="fi" placeholder="you@example.com">
           </div>
           <div class="fg">
             <label for="vr">How would you like to help?</label>
-            <select id="vr" class="fi">
+            <select id="vr" name="role" class="fi">
               <option value="" disabled selected>Select a role</option>
               <option>Mental Health Companion</option>
               <option>Safety &amp; Crisis Support</option>
@@ -1648,7 +1648,9 @@
               <option>Other</option>
             </select>
           </div>
-          <button type="submit" class="btn-navy">Register as Volunteer</button>
+          <div class="vol-wrap">
+            <button type="submit" class="btn-navy">Register as Volunteer</button>
+          </div>
         </form>
       </div>
 
@@ -1658,14 +1660,18 @@
           <p class="don-tag">Make a difference</p>
           <h3 class="don-head">Back a woman's<br>journey to safety.</h3>
           <p class="don-sub">Your generosity funds counselling sessions, crisis interventions, health guidance, and community support for women across India, Sri Lanka, and Southeast Asia.</p>
-          <form onsubmit="return false">
+          <form onsubmit="submitDonation(this); return false;" class="don-wrap">
             <div class="don-fg">
               <label>Name</label>
-              <input type="text" class="don-input" placeholder="Your name">
+              <input type="text" name="name" class="don-input" placeholder="Your name">
             </div>
             <div class="don-fg">
               <label>Email</label>
-              <input type="email" class="don-input" placeholder="you@example.com">
+              <input type="email" name="email" class="don-input" placeholder="you@example.com">
+            </div>
+            <div class="don-fg">
+              <label>Amount (₹)</label>
+              <input type="text" name="amount" class="don-input" placeholder="500">
             </div>
             <button type="submit" class="btn-gold">Donate Now</button>
             <p class="don-note">80G tax exemption available &nbsp;·&nbsp; Powered by Razorpay</p>
