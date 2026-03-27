@@ -245,24 +245,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initScroll();
   initReveal();
 
-  /* Hamburger — debounce across touchend + click so both can't double-fire.
-     touchend fires first; its preventDefault() suppresses the synthetic click
-     on most browsers. The 600ms debounce catches any that slip through. */
-  const burger = document.getElementById('navBurger');
-  if (burger) {
-    let lastToggle = 0;
-    function _doToggle() {
-      const now = Date.now();
-      if (now - lastToggle < 600) return;
-      lastToggle = now;
-      toggleMobileMenu();
-    }
-    burger.addEventListener('touchend', function(e) {
-      e.preventDefault();
-      _doToggle();
-    }, { passive: false });
-    burger.addEventListener('click', _doToggle);
-  }
+  /* Hamburger handled via onclick in HTML — nothing needed here */
 
   /* Close mobile menu when a link inside it is clicked */
   const mobileMenu = document.getElementById('mobileMenu');
