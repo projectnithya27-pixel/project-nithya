@@ -245,19 +245,23 @@ document.addEventListener('DOMContentLoaded', () => {
   initScroll();
   initReveal();
 
-  /* Hamburger — touch fires first, then synthetic click fires too.
-     Track last touch time and skip the click if it follows within 500ms. */
+  /* Hamburger — debounce across touchend + click so both can't double-fire.
+     touchend fires first; its preventDefault() suppresses the synthetic click
+     on most browsers. The 600ms debounce catches any that slip through. */
   const burger = document.getElementById('navBurger');
   if (burger) {
-    let lastTouch = 0;
-    burger.addEventListener('touchstart', function(e) {
-      e.preventDefault();
-      lastTouch = Date.now();
+    let lastToggle = 0;
+    function _doToggle() {
+      const now = Date.now();
+      if (now - lastToggle < 600) return;
+      lastToggle = now;
       toggleMobileMenu();
+    }
+    burger.addEventListener('touchend', function(e) {
+      e.preventDefault();
+      _doToggle();
     }, { passive: false });
-    burger.addEventListener('click', function() {
-      if (Date.now() - lastTouch > 500) toggleMobileMenu();
-    });
+    burger.addEventListener('click', _doToggle);
   }
 
   /* Close mobile menu when a link inside it is clicked */
