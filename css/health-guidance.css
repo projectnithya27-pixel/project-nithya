@@ -158,7 +158,7 @@
 .sc-navy  .sc-pull,
 .sc-deep  .sc-pull { color: var(--pink); opacity: .88; }
 .sc-cream .sc-pull,
-.sc-blush .sc-pull { color: var(--pink-deep); }
+.sc-blush .sc-pull { color: #b85270; }
 
 .sc-body {
   font-size: 13.5px;
