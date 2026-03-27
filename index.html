@@ -1762,13 +1762,16 @@
     const svg = document.getElementById('sunRaysSVG');
     if (!svg) return;
 
-    const W = window.innerWidth;
-    const H = window.innerHeight;
+    // Use the SVG's actual rendered size so the ray origin matches the CSS
+    // top:18% sun position on all devices, including mobile where 100vh ≠ window.innerHeight
+    const rect = svg.getBoundingClientRect();
+    const W = rect.width  || window.innerWidth;
+    const H = rect.height || window.innerHeight;
 
     // Set SVG viewBox to match hero dimensions
     svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
 
-    // Sun pixel position
+    // Sun pixel position — must match CSS top:18% on .sun-core
     const sx = W * 0.5;
     const sy = H * 0.18;
 
