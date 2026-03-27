@@ -1,0 +1,1570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Admin — Project Nithya</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+  <style>
+    /* ── Design tokens (mirror shared.css) ── */
+    :root {
+      --cream:      #F5F0E8;
+      --dark:       #062952;
+      --mid:        #0A3D82;
+      --text:       #0D2B5E;
+      --muted:      #2B5C94;
+      --faint:      #5080AA;
+      --coral:      #E8899E;
+      --coral-dim:  rgba(232,137,158,.12);
+      --gold:       #F2CE3A;
+      --border:     rgba(13,43,94,.10);
+      --border-soft:rgba(13,43,94,.06);
+      --shadow-sm:  0 2px 16px rgba(6,41,82,.06);
+      --shadow-md:  0 4px 32px rgba(6,41,82,.09);
+      --shadow-lg:  0 8px 56px rgba(6,41,82,.12);
+      --radius-sm:  10px;
+      --radius-md:  16px;
+      --radius-lg:  20px;
+      --sidebar-w:  224px;
+      --topbar-h:   58px;
+    }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { height: 100%; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      background: var(--cream);
+      color: var(--text);
+      overflow-x: hidden;
+      min-height: 100%;
+    }
+
+    /* ════════════════════════════════════════
+       LOADING SCREEN
+    ════════════════════════════════════════ */
+    #loading-screen {
+      position: fixed; inset: 0; z-index: 9000;
+      background: var(--cream);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .ld-dots { display: flex; gap: 7px; }
+    .ld-dot {
+      width: 9px; height: 9px; border-radius: 50%;
+      background: var(--coral); opacity: .3;
+      animation: ld 1.3s ease-in-out infinite;
+    }
+    .ld-dot:nth-child(2) { animation-delay: .18s; }
+    .ld-dot:nth-child(3) { animation-delay: .36s; }
+    @keyframes ld {
+      0%,100% { opacity: .2; transform: scale(.8); }
+      50%      { opacity: 1;  transform: scale(1.2); }
+    }
+
+    /* ════════════════════════════════════════
+       LOGIN SCREEN
+    ════════════════════════════════════════ */
+    #login-screen {
+      display: none;
+      position: fixed; inset: 0; z-index: 8000;
+      background: var(--cream);
+      align-items: center; justify-content: center; flex-direction: column;
+      gap: 28px;
+    }
+    #login-screen.vis { display: flex; }
+
+    .login-brand {
+      display: flex; align-items: center; gap: 10px;
+    }
+    .login-brand img { height: 34px; }
+    .login-brand-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 17px; font-weight: 500; color: var(--dark);
+    }
+
+    .login-card {
+      background: #fff; border-radius: var(--radius-lg);
+      padding: 44px 48px; text-align: center;
+      box-shadow: var(--shadow-lg);
+      width: min(420px, calc(100vw - 40px));
+    }
+    .login-card h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 32px; font-weight: 500; color: var(--dark);
+      margin-bottom: 8px;
+    }
+    .login-card p {
+      font-size: 14px; color: var(--muted); line-height: 1.65;
+      margin-bottom: 30px;
+    }
+
+    .login-email-input {
+      width: 100%; border: 1.5px solid rgba(13,43,94,.15);
+      border-radius: var(--radius-sm); padding: 12px 14px;
+      font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 300;
+      color: var(--text); background: var(--cream);
+      outline: none; margin-bottom: 12px;
+      transition: border-color .18s;
+    }
+    .login-email-input:focus { border-color: var(--coral); }
+
+    .btn-magic {
+      display: block; width: 100%;
+      background: var(--coral); color: #fff;
+      border: none; border-radius: 100px;
+      padding: 13px 24px;
+      font-family: 'DM Sans', sans-serif; font-size: 14.5px; font-weight: 400;
+      cursor: pointer;
+      transition: opacity .2s, transform .15s;
+    }
+    .btn-magic:hover   { opacity: .88; transform: translateY(-1px); }
+    .btn-magic:active  { transform: translateY(0); }
+    .btn-magic:disabled { opacity: .45; cursor: default; transform: none; }
+
+    .login-sent {
+      display: none; background: #e6f7ed; border: 1px solid #a3d9b5;
+      border-radius: var(--radius-sm); padding: 16px 18px;
+      font-size: 13.5px; color: #186638; line-height: 1.6;
+    }
+    .login-sent.vis { display: block; }
+
+    .login-err {
+      margin-top: 16px; padding: 13px 16px;
+      background: #fff0f4; border: 1px solid #f5c5d0;
+      border-radius: var(--radius-sm);
+      font-size: 13px; color: #b03060;
+      display: none;
+    }
+    .login-err.vis { display: block; }
+
+    /* ════════════════════════════════════════
+       DASHBOARD SHELL
+    ════════════════════════════════════════ */
+    #dashboard { display: none; min-height: 100vh; }
+    #dashboard.vis { display: flex; }
+
+    /* ── Sidebar ── */
+    #sidebar {
+      position: fixed; top: 0; left: 0; bottom: 0;
+      width: var(--sidebar-w); z-index: 200;
+      background: var(--cream);
+      border-right: 1px solid var(--border);
+      display: flex; flex-direction: column;
+      overflow-y: auto; overflow-x: hidden;
+    }
+    .sb-logo {
+      display: flex; align-items: center; gap: 10px;
+      padding: 20px 18px 17px; text-decoration: none;
+      border-bottom: 1px solid var(--border-soft);
+      flex-shrink: 0;
+    }
+    .sb-logo img { height: 26px; }
+    .sb-logo-text { font-family: 'Cormorant Garamond', serif; font-size: 15.5px; font-weight: 500; color: var(--dark); }
+    .sb-logo-sub  { font-family: 'DM Sans', sans-serif; font-size: 9.5px; font-weight: 400; color: var(--muted); letter-spacing: .07em; text-transform: uppercase; }
+
+    .sb-nav { list-style: none; padding: 10px 0; flex: 1; }
+    .sb-nav li a {
+      display: flex; align-items: center; gap: 9px;
+      padding: 10px 18px;
+      font-size: 13.5px; font-weight: 300; color: var(--muted);
+      text-decoration: none; cursor: pointer;
+      border-left: 3px solid transparent;
+      transition: background .15s, color .15s;
+    }
+    .sb-nav li a:hover { background: var(--coral-dim); color: var(--dark); }
+    .sb-nav li a.active {
+      color: var(--coral);
+      background: var(--coral-dim);
+      border-left-color: var(--coral);
+      font-weight: 500;
+    }
+    .sb-icon { font-size: 14px; flex-shrink: 0; opacity: .8; }
+
+    /* ── Main area ── */
+    #main {
+      margin-left: var(--sidebar-w);
+      flex: 1; display: flex; flex-direction: column; min-height: 100vh;
+    }
+
+    /* ── Top bar ── */
+    #topbar {
+      position: sticky; top: 0; z-index: 100;
+      height: var(--topbar-h);
+      background: rgba(245,240,232,.95);
+      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 28px; flex-shrink: 0;
+    }
+    .tb-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 19px; font-weight: 500; color: var(--dark);
+    }
+    .tb-user { display: flex; align-items: center; gap: 9px; }
+    .tb-avatar {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--coral); overflow: hidden; flex-shrink: 0;
+    }
+    .tb-avatar img { width: 100%; height: 100%; object-fit: cover; display: none; }
+    .tb-name  { font-size: 13px; color: var(--text); }
+    .tb-signout {
+      font-size: 12px; color: var(--muted); background: none;
+      border: none; cursor: pointer; text-decoration: underline;
+      font-family: 'DM Sans', sans-serif; padding: 0;
+      transition: color .15s;
+    }
+    .tb-signout:hover { color: var(--coral); }
+
+    /* ── Mobile nav ── */
+    #mob-nav {
+      display: none; overflow-x: auto; -webkit-overflow-scrolling: touch;
+      scrollbar-width: none; background: var(--cream);
+      border-bottom: 1px solid var(--border);
+      padding: 0 12px; gap: 2px;
+    }
+    #mob-nav::-webkit-scrollbar { display: none; }
+    .mn-btn {
+      flex-shrink: 0; white-space: nowrap;
+      padding: 11px 13px; font-size: 12.5px; font-weight: 300;
+      color: var(--muted); border: none; background: none;
+      border-bottom: 2px solid transparent;
+      font-family: 'DM Sans', sans-serif; cursor: pointer;
+      transition: color .15s, border-color .15s;
+    }
+    .mn-btn.active { color: var(--coral); border-bottom-color: var(--coral); font-weight: 500; }
+
+    /* ── Section panels ── */
+    .panel { display: none; padding: 32px 28px 72px; max-width: 1080px; }
+    .panel.active { display: block; }
+
+    .pnl-h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 26px; font-weight: 500; color: var(--dark); margin-bottom: 5px;
+    }
+    .pnl-sub { font-size: 13px; color: var(--muted); line-height: 1.6; margin-bottom: 26px; }
+
+    /* ════════════════════════════════════════
+       OVERVIEW – STAT CARDS
+    ════════════════════════════════════════ */
+    .ov-stats {
+      display: grid; grid-template-columns: repeat(4,1fr);
+      gap: 14px; margin-bottom: 28px;
+    }
+    .stat-card {
+      background: #fff; border-radius: var(--radius-md);
+      padding: 20px 22px; box-shadow: var(--shadow-sm);
+    }
+    .stat-icon  { font-size: 20px; margin-bottom: 10px; }
+    .stat-num   {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 36px; font-weight: 600; color: var(--dark);
+      line-height: 1; margin-bottom: 4px;
+    }
+    .stat-label { font-size: 11.5px; color: var(--muted); font-weight: 400; }
+
+    /* ── Overview recent lists ── */
+    .ov-recent {
+      display: grid; grid-template-columns: repeat(2,1fr); gap: 14px;
+    }
+    .rc-card {
+      background: #fff; border-radius: var(--radius-md);
+      padding: 18px 20px; box-shadow: var(--shadow-sm);
+    }
+    .rc-title {
+      font-size: 11px; font-weight: 500; color: var(--muted);
+      letter-spacing: .08em; text-transform: uppercase;
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 13px;
+    }
+    .rc-title a { font-size: 11px; color: var(--coral); text-decoration: none; font-weight: 400; letter-spacing: 0; text-transform: none; }
+    .rc-title a:hover { text-decoration: underline; }
+    .rc-list { list-style: none; }
+    .rc-list li {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 6px 0; border-bottom: 1px solid var(--border-soft);
+      font-size: 13px;
+    }
+    .rc-list li:last-child { border-bottom: none; }
+    .rc-name  { color: var(--text); }
+    .rc-date  { font-size: 11.5px; color: var(--faint); }
+    .rc-empty { font-size: 12.5px; color: var(--faint); font-style: italic; padding: 6px 0; }
+
+    /* ════════════════════════════════════════
+       FORM CARD
+    ════════════════════════════════════════ */
+    .form-card {
+      background: #fff; border-radius: var(--radius-lg);
+      padding: 28px 30px; box-shadow: var(--shadow-md);
+      margin-bottom: 28px;
+    }
+    .form-card h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 21px; font-weight: 500; color: var(--dark); margin-bottom: 20px;
+    }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px 22px; }
+    .ff       { display: flex; flex-direction: column; gap: 4px; }
+    .ff.full  { grid-column: 1 / -1; }
+    .ff label {
+      font-size: 11.5px; font-weight: 500; color: var(--muted);
+      letter-spacing: .04em; text-transform: uppercase;
+    }
+    .ff input, .ff select, .ff textarea {
+      border: 1.5px solid rgba(13,43,94,.14);
+      border-radius: var(--radius-sm);
+      padding: 9px 13px;
+      font-family: 'DM Sans', sans-serif; font-size: 13.5px; font-weight: 300;
+      color: var(--text); background: var(--cream);
+      outline: none; width: 100%;
+      transition: border-color .18s;
+    }
+    .ff input:focus, .ff select:focus, .ff textarea:focus { border-color: var(--coral); }
+    .ff textarea { resize: vertical; min-height: 78px; }
+    .ff .ferr { font-size: 11.5px; color: var(--coral); display: none; }
+    .ff.err input, .ff.err select, .ff.err textarea { border-color: var(--coral); }
+    .ff.err .ferr { display: block; }
+
+    .form-foot { margin-top: 20px; display: flex; align-items: center; gap: 14px; }
+
+    .btn-primary {
+      background: var(--coral); color: #fff;
+      border: none; border-radius: 100px;
+      padding: 11px 26px;
+      font-family: 'DM Sans', sans-serif; font-size: 13.5px; font-weight: 400;
+      cursor: pointer; transition: opacity .2s, transform .15s;
+    }
+    .btn-primary:hover   { opacity: .88; transform: translateY(-1px); }
+    .btn-primary:active  { transform: translateY(0); }
+    .btn-primary:disabled { opacity: .45; cursor: default; transform: none; }
+
+    .success-banner {
+      display: none; align-items: center; gap: 8px;
+      background: #e6f7ed; border: 1px solid #a3d9b5;
+      border-radius: var(--radius-sm); padding: 11px 16px;
+      font-size: 13px; color: #186638; margin-bottom: 18px;
+    }
+    .success-banner.vis { display: flex; }
+
+    /* ════════════════════════════════════════
+       DATA TABLE
+    ════════════════════════════════════════ */
+    .tbl-wrap {
+      background: #fff; border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm); overflow: hidden; margin-bottom: 12px;
+    }
+    .tbl-wrap table { width: 100%; border-collapse: collapse; }
+    .tbl-wrap th {
+      font-size: 11px; font-weight: 500; color: var(--muted);
+      letter-spacing: .07em; text-transform: uppercase;
+      padding: 13px 16px; text-align: left;
+      background: rgba(245,240,232,.7);
+      border-bottom: 1px solid var(--border);
+    }
+    .tbl-wrap td {
+      font-size: 13px; color: var(--text);
+      padding: 12px 16px; border-bottom: 1px solid var(--border-soft);
+      vertical-align: middle;
+    }
+    .tbl-wrap tr:last-child td { border-bottom: none; }
+    .tbl-wrap tr:hover td { background: rgba(245,240,232,.55); }
+    .tbl-empty {
+      text-align: center; font-size: 13px; color: var(--faint);
+      font-style: italic; padding: 32px 16px !important;
+    }
+
+    /* ── Delete / confirm ── */
+    .btn-del {
+      background: none; border: none; cursor: pointer;
+      color: var(--faint); font-size: 15px;
+      padding: 4px 6px; border-radius: 6px;
+      transition: color .14s, background .14s;
+    }
+    .btn-del:hover { color: #b03060; background: rgba(176,48,96,.08); }
+    .del-confirm { display: inline-flex; align-items: center; gap: 5px; white-space: nowrap; }
+    .del-confirm span { font-size: 12px; color: var(--text); }
+    .del-yes {
+      background: none; border: none; cursor: pointer;
+      font-size: 12px; font-weight: 500; color: #b03060;
+      font-family: 'DM Sans', sans-serif; text-decoration: underline; padding: 0;
+    }
+    .del-no {
+      background: none; border: none; cursor: pointer;
+      font-size: 12px; color: var(--muted);
+      font-family: 'DM Sans', sans-serif; text-decoration: underline; padding: 0;
+    }
+
+    /* ── Pagination ── */
+    .pagination {
+      display: flex; align-items: center; justify-content: center;
+      gap: 10px; padding: 14px 0;
+    }
+    .pagination button {
+      border: 1.5px solid var(--border); border-radius: 8px;
+      padding: 6px 14px; font-size: 12.5px; color: var(--muted);
+      font-family: 'DM Sans', sans-serif; background: none; cursor: pointer;
+      transition: border-color .14s, color .14s;
+    }
+    .pagination button:hover:not(:disabled) { border-color: var(--coral); color: var(--coral); }
+    .pagination button:disabled { opacity: .32; cursor: default; }
+    .pagination span { font-size: 12.5px; color: var(--muted); }
+
+    /* ── Outcome expand ── */
+    .exp-btn {
+      font-size: 11.5px; color: var(--coral); cursor: pointer;
+      text-decoration: underline; background: none; border: none;
+      font-family: 'DM Sans', sans-serif; padding: 0; margin-left: 3px;
+    }
+
+    /* ════════════════════════════════════════
+       MESSAGES
+    ════════════════════════════════════════ */
+    .msg-tabs { display: flex; gap: 6px; margin-bottom: 20px; }
+    .msg-tab {
+      padding: 8px 18px; border-radius: 100px;
+      border: 1.5px solid var(--border); font-size: 13px; font-weight: 300;
+      color: var(--muted); background: none; cursor: pointer;
+      font-family: 'DM Sans', sans-serif; transition: all .15s;
+    }
+    .msg-tab.active { background: var(--coral); color: #fff; border-color: var(--coral); }
+
+    .msg-list { display: flex; flex-direction: column; gap: 14px; }
+    .msg-card {
+      background: #fff; border-radius: var(--radius-md);
+      padding: 20px 22px; box-shadow: var(--shadow-sm);
+      transition: opacity .3s;
+    }
+    .msg-card.resolved { opacity: .42; }
+    .msg-hdr { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+    .msg-sender { font-size: 14.5px; font-weight: 500; color: var(--dark); }
+    .msg-dt    { font-size: 11.5px; color: var(--faint); }
+    .msg-topic {
+      display: inline-block; background: var(--coral-dim); color: var(--coral);
+      border-radius: 100px; padding: 3px 10px; font-size: 11px; margin-bottom: 9px;
+    }
+    .msg-body { font-size: 13.5px; color: var(--text); line-height: 1.65; margin-bottom: 12px; }
+    .msg-contact { font-size: 12px; color: var(--muted); margin-bottom: 14px; }
+    .msg-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+
+    .btn-responded {
+      background: none; border: 1.5px solid var(--border); border-radius: 100px;
+      padding: 7px 14px; font-size: 12.5px; color: var(--muted);
+      cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all .15s;
+    }
+    .btn-responded:hover { border-color: #186638; color: #186638; }
+    .btn-responded:disabled { opacity: .4; cursor: default; }
+
+    .btn-reply {
+      background: var(--coral); color: #fff; border: none; border-radius: 100px;
+      padding: 7px 14px; font-size: 12.5px; text-decoration: none;
+      font-family: 'DM Sans', sans-serif; transition: opacity .15s; cursor: pointer;
+    }
+    .btn-reply:hover { opacity: .85; }
+
+    .responded-badge {
+      font-size: 11.5px; color: #186638; background: #e6f7ed;
+      border-radius: 100px; padding: 3px 10px;
+    }
+
+    /* ════════════════════════════════════════
+       DONATIONS
+    ════════════════════════════════════════ */
+    .don-chips { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 24px; }
+    .don-chip {
+      background: #fff; border-radius: var(--radius-md);
+      padding: 14px 20px; box-shadow: var(--shadow-sm);
+    }
+    .don-chip-lbl { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 3px; }
+    .don-chip-val { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 600; color: var(--dark); }
+
+    /* ── Add-to-roster button ── */
+    .btn-roster {
+      background: none; border: 1.5px solid var(--coral); color: var(--coral);
+      border-radius: 100px; padding: 5px 11px; font-size: 12px;
+      cursor: pointer; font-family: 'DM Sans', sans-serif;
+      transition: all .14s; white-space: nowrap;
+    }
+    .btn-roster:hover { background: var(--coral); color: #fff; }
+
+    /* ════════════════════════════════════════
+       RESPONSIVE
+    ════════════════════════════════════════ */
+    @media (max-width: 780px) {
+      #sidebar { display: none; }
+      #mob-nav { display: flex; }
+      #main    { margin-left: 0; }
+      .panel   { padding: 22px 16px 60px; }
+      .ov-stats { grid-template-columns: repeat(2,1fr); }
+      .ov-recent { grid-template-columns: 1fr; }
+      .form-grid { grid-template-columns: 1fr; }
+      .ff.full   { grid-column: 1; }
+      #topbar    { padding: 0 16px; }
+      .tb-name   { display: none; }
+    }
+    @media (max-width: 440px) {
+      .ov-stats { gap: 10px; }
+      .stat-card { padding: 15px 16px; }
+      .stat-num  { font-size: 28px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ LOADING ══ -->
+<div id="loading-screen">
+  <div class="ld-dots">
+    <div class="ld-dot"></div>
+    <div class="ld-dot"></div>
+    <div class="ld-dot"></div>
+  </div>
+</div>
+
+<!-- ══ LOGIN ══ -->
+<div id="login-screen">
+  <div class="login-brand">
+    <img src="nithya-logo.png" alt="Project Nithya" onerror="this.style.display='none'">
+    <span class="login-brand-name">Project Nithya</span>
+  </div>
+  <div class="login-card">
+    <h1>Team Access</h1>
+    <div id="login-form-wrap">
+      <form id="login-form" novalidate>
+        <input class="login-email-input" type="email" id="login-email"
+               placeholder="Your email address" autocomplete="email" required>
+        <button class="btn-magic" type="submit" id="btn-magic">Send me a login link</button>
+      </form>
+      <div class="login-err" id="login-err"></div>
+    </div>
+    <div class="login-sent" id="login-sent"></div>
+  </div>
+</div>
+
+<!-- ══ DASHBOARD ══ -->
+<div id="dashboard">
+
+  <!-- Sidebar -->
+  <aside id="sidebar">
+    <a class="sb-logo" href="index.html">
+      <img src="nithya-logo.png" alt="" onerror="this.style.display='none'">
+      <div>
+        <div class="sb-logo-text">Project Nithya</div>
+        <div class="sb-logo-sub">Admin</div>
+      </div>
+    </a>
+    <ul class="sb-nav" id="sb-nav">
+      <li><a href="#" data-sec="overview"     class="active"><span class="sb-icon">⬡</span> Overview</a></li>
+      <li><a href="#" data-sec="women"                      ><span class="sb-icon">♀</span> Women Supported</a></li>
+      <li><a href="#" data-sec="volunteers"                 ><span class="sb-icon">◎</span> Volunteers &amp; Counsellors</a></li>
+      <li><a href="#" data-sec="partners"                   ><span class="sb-icon">◇</span> Partner Organisations</a></li>
+      <li><a href="#" data-sec="applications"               ><span class="sb-icon">○</span> Volunteer Applications</a></li>
+      <li><a href="#" data-sec="messages"                   ><span class="sb-icon">◉</span> Messages &amp; Reach-Out</a></li>
+      <li><a href="#" data-sec="donations"                  ><span class="sb-icon">◈</span> Donations</a></li>
+    </ul>
+  </aside>
+
+  <!-- Main -->
+  <div id="main">
+
+    <!-- Top bar -->
+    <header id="topbar">
+      <span class="tb-title">Project Nithya — Admin</span>
+      <div class="tb-user">
+        <div class="tb-avatar" id="tb-avatar">
+          <img id="tb-avatar-img" src="" alt="">
+        </div>
+        <span class="tb-name" id="tb-name"></span>
+        <button class="tb-signout" id="btn-signout">Sign out</button>
+      </div>
+    </header>
+
+    <!-- Mobile nav -->
+    <nav id="mob-nav">
+      <button class="mn-btn active" data-sec="overview">Overview</button>
+      <button class="mn-btn" data-sec="women">Women</button>
+      <button class="mn-btn" data-sec="volunteers">Volunteers</button>
+      <button class="mn-btn" data-sec="partners">Partners</button>
+      <button class="mn-btn" data-sec="applications">Applications</button>
+      <button class="mn-btn" data-sec="messages">Messages</button>
+      <button class="mn-btn" data-sec="donations">Donations</button>
+    </nav>
+
+    <!-- ── OVERVIEW ── -->
+    <section class="panel active" id="panel-overview">
+      <h1 class="pnl-h1">Overview</h1>
+      <p class="pnl-sub">Live summary of Project Nithya's reach and activity.</p>
+      <div class="ov-stats">
+        <div class="stat-card">
+          <div class="stat-icon">♀</div>
+          <div class="stat-num" id="ov-women">—</div>
+          <div class="stat-label">Women Supported</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">◎</div>
+          <div class="stat-num" id="ov-vol">—</div>
+          <div class="stat-label">Volunteers &amp; Counsellors</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">◇</div>
+          <div class="stat-num" id="ov-partners">—</div>
+          <div class="stat-label">Partner Organisations</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">◉</div>
+          <div class="stat-num" id="ov-msgs">—</div>
+          <div class="stat-label">Pending Messages</div>
+        </div>
+      </div>
+      <div class="ov-recent" id="ov-recent"><!-- filled by JS --></div>
+    </section>
+
+    <!-- ── WOMEN SUPPORTED ── -->
+    <section class="panel" id="panel-women">
+      <h1 class="pnl-h1">Women Supported</h1>
+      <p class="pnl-sub">Log each woman supported and maintain a full record of Project Nithya's impact.</p>
+      <div class="form-card" id="women-form-card">
+        <h2>Log a woman supported.</h2>
+        <div class="success-banner" id="women-ok">✓&nbsp; Record added. The impact counter has been updated.</div>
+        <form id="women-form" novalidate>
+          <div class="form-grid">
+            <div class="ff" data-req="full_name">
+              <label>Full Name <span style="color:var(--coral)">*</span></label>
+              <input type="text" name="full_name" placeholder="e.g. Priya Sharma">
+              <span class="ferr">Full name is required.</span>
+            </div>
+            <div class="ff" data-req="age-optional">
+              <label>Age</label>
+              <input type="number" name="age" placeholder="e.g. 28" min="0" max="120">
+            </div>
+            <div class="ff" data-req="country">
+              <label>Country <span style="color:var(--coral)">*</span></label>
+              <select name="country">
+                <option value="">Select country…</option>
+                <option>India</option>
+                <option>Sri Lanka</option>
+                <option>Malaysia</option>
+                <option>Philippines</option>
+                <option>Thailand</option>
+                <option>Other</option>
+              </select>
+              <span class="ferr">Country is required.</span>
+            </div>
+            <div class="ff" data-req="support_type">
+              <label>Type of Support <span style="color:var(--coral)">*</span></label>
+              <select name="support_type">
+                <option value="">Select type…</option>
+                <option>Mental Health</option>
+                <option>Safety &amp; Refuge</option>
+                <option>Health Guidance</option>
+                <option>Legal Aid</option>
+                <option>Multiple</option>
+              </select>
+              <span class="ferr">Support type is required.</span>
+            </div>
+            <div class="ff">
+              <label>Contact Email</label>
+              <input type="email" name="contact_email" placeholder="Optional">
+            </div>
+            <div class="ff">
+              <label>Contact Phone</label>
+              <input type="text" name="contact_phone" placeholder="Optional">
+            </div>
+            <div class="ff">
+              <label>Referred By</label>
+              <input type="text" name="referred_by" placeholder="Person, organisation, or channel">
+            </div>
+            <div class="ff" data-req="date_supported">
+              <label>Date Supported <span style="color:var(--coral)">*</span></label>
+              <input type="date" name="date_supported">
+              <span class="ferr">Date is required.</span>
+            </div>
+            <div class="ff full">
+              <label>Support Detail</label>
+              <textarea name="support_detail" placeholder="Brief description of the support provided"></textarea>
+            </div>
+            <div class="ff full">
+              <label>Outcome</label>
+              <textarea name="outcome" placeholder="What happened as a result of the support"></textarea>
+            </div>
+          </div>
+          <div class="form-foot">
+            <button type="submit" class="btn-primary">Log this record</button>
+          </div>
+        </form>
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr>
+            <th>Name</th><th>Age</th><th>Country</th>
+            <th>Support Type</th><th>Date</th><th>Outcome</th>
+            <th style="width:44px"></th>
+          </tr></thead>
+          <tbody id="women-tbody"></tbody>
+        </table>
+      </div>
+      <div class="pagination" id="women-pages"></div>
+    </section>
+
+    <!-- ── VOLUNTEERS & COUNSELLORS ── -->
+    <section class="panel" id="panel-volunteers">
+      <h1 class="pnl-h1">Volunteers &amp; Counsellors</h1>
+      <p class="pnl-sub">Manage the confirmed active roster of Project Nithya volunteers and counsellors.</p>
+      <div class="form-card" id="vol-form-card">
+        <h2>Add to active roster.</h2>
+        <div class="success-banner" id="vol-ok">✓&nbsp; Added to the active roster.</div>
+        <form id="vol-form" novalidate>
+          <div class="form-grid">
+            <div class="ff" data-req="full_name">
+              <label>Full Name <span style="color:var(--coral)">*</span></label>
+              <input type="text" name="full_name" id="vf-name" placeholder="e.g. Ananya Krishnan">
+              <span class="ferr">Full name is required.</span>
+            </div>
+            <div class="ff" data-req="role">
+              <label>Role <span style="color:var(--coral)">*</span></label>
+              <select name="role" id="vf-role">
+                <option value="">Select role…</option>
+                <option>Mental Health Companion</option>
+                <option>Safety &amp; Crisis Support</option>
+                <option>Community Health Worker</option>
+                <option>Legal Aid &amp; Advocacy</option>
+                <option>Outreach &amp; Awareness</option>
+                <option>Fundraising &amp; Events</option>
+                <option>Counsellor</option>
+                <option>Other</option>
+              </select>
+              <span class="ferr">Role is required.</span>
+            </div>
+            <div class="ff">
+              <label>Email</label>
+              <input type="email" name="email" id="vf-email" placeholder="Optional">
+            </div>
+            <div class="ff">
+              <label>Phone</label>
+              <input type="text" name="phone" placeholder="Optional">
+            </div>
+            <div class="ff">
+              <label>Specialisation</label>
+              <input type="text" name="specialisation" placeholder="E.g. trauma, grief, domestic violence">
+            </div>
+            <div class="ff">
+              <label>Location</label>
+              <input type="text" name="location" placeholder="City and country">
+            </div>
+            <div class="ff">
+              <label>Availability</label>
+              <input type="text" name="availability" placeholder="E.g. weekends, evenings, full-time">
+            </div>
+            <div class="ff" data-req="onboarded_date">
+              <label>Onboarded Date <span style="color:var(--coral)">*</span></label>
+              <input type="date" name="onboarded_date">
+              <span class="ferr">Date is required.</span>
+            </div>
+          </div>
+          <div class="form-foot">
+            <button type="submit" class="btn-primary">Add to active roster</button>
+          </div>
+        </form>
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr>
+            <th>Name</th><th>Role</th><th>Location</th>
+            <th>Availability</th><th>Onboarded</th>
+            <th style="width:44px"></th>
+          </tr></thead>
+          <tbody id="vol-tbody"></tbody>
+        </table>
+      </div>
+      <div class="pagination" id="vol-pages"></div>
+    </section>
+
+    <!-- ── PARTNER ORGANISATIONS ── -->
+    <section class="panel" id="panel-partners">
+      <h1 class="pnl-h1">Partner Organisations</h1>
+      <p class="pnl-sub">Track organisations partnered with Project Nithya.</p>
+      <div class="form-card" id="partner-form-card">
+        <h2>Log a partner organisation.</h2>
+        <div class="success-banner" id="partner-ok">✓&nbsp; Partner organisation logged.</div>
+        <form id="partner-form" novalidate>
+          <div class="form-grid">
+            <div class="ff" data-req="org_name">
+              <label>Organisation Name <span style="color:var(--coral)">*</span></label>
+              <input type="text" name="org_name" placeholder="e.g. Sneha India">
+              <span class="ferr">Organisation name is required.</span>
+            </div>
+            <div class="ff" data-req="country">
+              <label>Country <span style="color:var(--coral)">*</span></label>
+              <input type="text" name="country" placeholder="e.g. India">
+              <span class="ferr">Country is required.</span>
+            </div>
+            <div class="ff" data-req="focus_area">
+              <label>Focus Area <span style="color:var(--coral)">*</span></label>
+              <input type="text" name="focus_area" placeholder="E.g. domestic violence, legal aid, health">
+              <span class="ferr">Focus area is required.</span>
+            </div>
+            <div class="ff">
+              <label>Partnership Type</label>
+              <select name="partnership_type">
+                <option value="">Select type…</option>
+                <option>Referral Partner</option>
+                <option>Funding Partner</option>
+                <option>Service Provider</option>
+                <option>Advocacy Partner</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="ff">
+              <label>Contact Name</label>
+              <input type="text" name="contact_name" placeholder="Optional">
+            </div>
+            <div class="ff">
+              <label>Contact Email</label>
+              <input type="email" name="contact_email" placeholder="Optional">
+            </div>
+            <div class="ff" data-req="start_date">
+              <label>Partnership Start Date <span style="color:var(--coral)">*</span></label>
+              <input type="date" name="start_date">
+              <span class="ferr">Start date is required.</span>
+            </div>
+          </div>
+          <div class="form-foot">
+            <button type="submit" class="btn-primary">Log this partner</button>
+          </div>
+        </form>
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr>
+            <th>Organisation</th><th>Country</th><th>Focus Area</th>
+            <th>Type</th><th>Start Date</th>
+            <th style="width:44px"></th>
+          </tr></thead>
+          <tbody id="partner-tbody"></tbody>
+        </table>
+      </div>
+      <div class="pagination" id="partner-pages"></div>
+    </section>
+
+    <!-- ── VOLUNTEER APPLICATIONS ── -->
+    <section class="panel" id="panel-applications">
+      <h1 class="pnl-h1">Volunteer Applications</h1>
+      <p class="pnl-sub" style="font-style:italic">These are expressions of interest from the public volunteer form. To add someone to the confirmed active roster, use the Volunteers &amp; Counsellors section.</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr>
+            <th>Name</th><th>Email</th><th>Role Applied For</th>
+            <th>Date Submitted</th><th></th>
+          </tr></thead>
+          <tbody id="app-tbody"></tbody>
+        </table>
+      </div>
+      <div class="pagination" id="app-pages"></div>
+    </section>
+
+    <!-- ── MESSAGES & REACH-OUT ── -->
+    <section class="panel" id="panel-messages">
+      <h1 class="pnl-h1">Messages &amp; Reach-Out</h1>
+      <p class="pnl-sub">All messages sent via the public reach-out form.</p>
+      <div class="msg-tabs">
+        <button class="msg-tab active" data-tab="pending">Pending</button>
+        <button class="msg-tab" data-tab="resolved">Responded</button>
+      </div>
+      <div class="msg-list" id="msg-list"></div>
+    </section>
+
+    <!-- ── DONATIONS ── -->
+    <section class="panel" id="panel-donations">
+      <h1 class="pnl-h1">Donations</h1>
+      <p class="pnl-sub">All donations recorded via Razorpay.</p>
+      <div class="don-chips">
+        <div class="don-chip">
+          <div class="don-chip-lbl">Total donated (all time)</div>
+          <div class="don-chip-val" id="don-total">—</div>
+        </div>
+        <div class="don-chip">
+          <div class="don-chip-lbl">This month</div>
+          <div class="don-chip-val" id="don-month">—</div>
+        </div>
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr>
+            <th>Donor Name</th><th>Email</th><th>Amount (₹)</th><th>Date</th>
+          </tr></thead>
+          <tbody id="don-tbody"></tbody>
+        </table>
+      </div>
+      <div class="pagination" id="don-pages"></div>
+    </section>
+
+  </div><!-- /main -->
+</div><!-- /dashboard -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  /* ── Config ─────────────────────────────── */
+  const SB_URL  = 'https://hdmnkxwpsxlxtrlseaqj.supabase.co';
+  const SB_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhkbW5reHdwc3hseHRybHNlYXFqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQzNzcxNjIsImV4cCI6MjA4OTk1MzE2Mn0.vEO1ivlzVx5zWwwb5tpFOStZ9ii9X5w49O0Tcr8BFEU';
+
+  /* ── Access controlled via admin_users table in Supabase ── */
+
+  const PAGE  = 20;
+  const SB    = window.supabase.createClient(SB_URL, SB_ANON);
+
+  /* ── State ───────────────────────────────── */
+  let currentUser = null;
+  let msgTab      = 'pending';
+  const pages     = { women: 0, vol: 0, partner: 0, app: 0, don: 0 };
+  const loaded    = {};   // lazy-load flags per section
+
+  /* ── Boot ────────────────────────────────── */
+  document.addEventListener('DOMContentLoaded', async function () {
+    setDefaultDates();
+
+    try {
+      const { data: { session } } = await SB.auth.getSession();
+      if (session) {
+        await handleSession(session);
+      } else {
+        showLogin();
+      }
+    } catch (_) {
+      showLogin();
+    }
+
+    SB.auth.onAuthStateChange(async function (event, session) {
+      if (event === 'SIGNED_IN' && session) {
+        await handleSession(session);
+      } else if (event === 'SIGNED_OUT') {
+        currentUser = null;
+        showLogin();
+      }
+    });
+  });
+
+  async function handleSession(session) {
+    if (await isEmailAllowed(session.user.email)) {
+      currentUser = session.user;
+      showDashboard();
+    } else {
+      await SB.auth.signOut();
+      showLogin('This Google account does not have access. Please contact the Project Nithya team.');
+    }
+  }
+
+  async function isEmailAllowed(email) {
+    var { data, error } = await SB
+      .from('admin_users')
+      .select('email')
+      .eq('email', email)
+      .maybeSingle();
+    if (error || !data) return false;
+    return true;
+  }
+
+  function setDefaultDates() {
+    var today = new Date().toISOString().split('T')[0];
+    document.querySelectorAll('input[type="date"]').forEach(function (el) {
+      if (!el.value) el.value = today;
+    });
+  }
+
+  /* ── Screen transitions ───────────────────── */
+  function showLogin(errMsg) {
+    document.getElementById('loading-screen').style.display = 'none';
+    document.getElementById('login-screen').classList.add('vis');
+    document.getElementById('dashboard').classList.remove('vis');
+    if (errMsg) {
+      var el = document.getElementById('login-err');
+      el.textContent = errMsg;
+      el.classList.add('vis');
+    }
+  }
+
+  function showDashboard() {
+    document.getElementById('loading-screen').style.display = 'none';
+    document.getElementById('login-screen').classList.remove('vis');
+    document.getElementById('dashboard').classList.add('vis');
+    fillUserInfo();
+    loadOverview();
+  }
+
+  function fillUserInfo() {
+    if (!currentUser) return;
+    var meta   = currentUser.user_metadata || {};
+    var name   = meta.full_name || meta.name || currentUser.email || '';
+    var avatar = meta.avatar_url || meta.picture || '';
+    document.getElementById('tb-name').textContent = name;
+    if (avatar) {
+      var img = document.getElementById('tb-avatar-img');
+      img.src = avatar; img.style.display = 'block';
+    }
+  }
+
+  /* ── Magic link login ─────────────────────── */
+  document.getElementById('login-form').addEventListener('submit', async function (e) {
+    e.preventDefault();
+    var email = document.getElementById('login-email').value.trim();
+    if (!email) return;
+
+    var btn = document.getElementById('btn-magic');
+    var errEl = document.getElementById('login-err');
+    errEl.classList.remove('vis');
+    btn.disabled = true; btn.textContent = 'Sending…';
+
+    var { error } = await SB.auth.signInWithOtp({
+      email: email,
+      options: { emailRedirectTo: 'https://www.projectnithya.com/admin' }
+    });
+
+    if (error) {
+      btn.disabled = false; btn.textContent = 'Send me a login link';
+      errEl.textContent = 'Something went wrong. Please try again.';
+      errEl.classList.add('vis');
+      return;
+    }
+
+    // Show confirmation, hide form
+    document.getElementById('login-form-wrap').style.display = 'none';
+    var sentEl = document.getElementById('login-sent');
+    sentEl.textContent = 'Check your inbox. We\'ve sent a login link to ' + email + '. It expires in 1 hour.';
+    sentEl.classList.add('vis');
+  });
+
+  document.getElementById('btn-signout').addEventListener('click', async function () {
+    await SB.auth.signOut();
+    window.location.reload();
+  });
+
+  // Sidebar & mobile nav share the same handler
+  function wireNav(selector) {
+    document.querySelectorAll(selector).forEach(function (el) {
+      el.addEventListener('click', function (e) {
+        e.preventDefault();
+        switchSection(el.dataset.sec);
+      });
+    });
+  }
+  wireNav('#sb-nav a');
+  wireNav('.mn-btn');
+
+  function switchSection(sec) {
+    // panels
+    document.querySelectorAll('.panel').forEach(function (p) {
+      p.classList.toggle('active', p.id === 'panel-' + sec);
+    });
+    // sidebar
+    document.querySelectorAll('#sb-nav a').forEach(function (a) {
+      a.classList.toggle('active', a.dataset.sec === sec);
+    });
+    // mobile nav
+    document.querySelectorAll('.mn-btn').forEach(function (b) {
+      b.classList.toggle('active', b.dataset.sec === sec);
+    });
+    // lazy load
+    if (!loaded[sec]) {
+      loaded[sec] = true;
+      if (sec === 'women')        loadWomen();
+      else if (sec === 'volunteers')  loadVol();
+      else if (sec === 'partners')    loadPartners();
+      else if (sec === 'applications') loadApps();
+      else if (sec === 'messages')    loadMsgs();
+      else if (sec === 'donations')   loadDonations();
+    }
+  }
+
+  /* ── Utilities ────────────────────────────── */
+  function fmt(s) {
+    if (!s) return '—';
+    var d = new Date(s);
+    if (isNaN(d)) return s;
+    return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+  }
+
+  function trunc(s, n) {
+    if (!s) return '—';
+    return s.length > n ? s.slice(0, n) + '…' : s;
+  }
+
+  function today() { return new Date().toISOString().split('T')[0]; }
+
+  function validate(form, names) {
+    var ok = true, first = true;
+    names.forEach(function (n) {
+      var el   = form.querySelector('[name="' + n + '"]');
+      if (!el) return;
+      var wrap = el.closest('.ff');
+      var bad  = !el.value.trim();
+      if (wrap) wrap.classList.toggle('err', bad);
+      if (bad) { ok = false; if (first) { el.focus(); first = false; } }
+    });
+    return ok;
+  }
+
+  function clearErrs(form) {
+    form.querySelectorAll('.ff.err').forEach(function (f) { f.classList.remove('err'); });
+  }
+
+  function flashSuccess(id) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    el.classList.add('vis');
+    setTimeout(function () { el.classList.remove('vis'); }, 4200);
+  }
+
+  function delBtn(id, cb) {
+    var td  = document.createElement('td');
+    td.style.textAlign = 'right';
+    var btn = document.createElement('button');
+    btn.className = 'btn-del'; btn.title = 'Delete'; btn.innerHTML = '&#x2715;';
+    btn.addEventListener('click', function () {
+      td.innerHTML = '';
+      var wrap = document.createElement('span');
+      wrap.className = 'del-confirm';
+      wrap.innerHTML = '<span>Remove?</span> <button class="del-yes">Yes</button> <button class="del-no">Cancel</button>';
+      wrap.querySelector('.del-yes').addEventListener('click', cb);
+      wrap.querySelector('.del-no').addEventListener('click', function () {
+        td.innerHTML = ''; td.appendChild(btn);
+      });
+      td.appendChild(wrap);
+    });
+    td.appendChild(btn);
+    return td;
+  }
+
+  function pages_render(pid, page, total, cb) {
+    var el    = document.getElementById(pid);
+    if (!el) return;
+    var total_pages = Math.ceil(total / PAGE);
+    if (total_pages <= 1) { el.innerHTML = ''; return; }
+    el.innerHTML =
+      '<button id="' + pid + '-p"' + (page === 0 ? ' disabled' : '') + '>← Prev</button>' +
+      '<span>Page ' + (page + 1) + ' of ' + total_pages + '</span>' +
+      '<button id="' + pid + '-n"' + (page >= total_pages - 1 ? ' disabled' : '') + '>Next →</button>';
+    el.querySelector('#' + pid + '-p').addEventListener('click', function () { cb(page - 1); });
+    el.querySelector('#' + pid + '-n').addEventListener('click', function () { cb(page + 1); });
+  }
+
+  /* ════════════════════════════════════════════
+     OVERVIEW
+  ════════════════════════════════════════════ */
+  async function loadOverview() {
+    var [w, v, p, m] = await Promise.all([
+      SB.from('women_supported').select('id', { count: 'exact', head: true }),
+      SB.from('volunteers_counsellors').select('id', { count: 'exact', head: true }),
+      SB.from('partner_organisations').select('id', { count: 'exact', head: true }),
+      SB.from('nithya_help_requests').select('id', { count: 'exact', head: true }).eq('status', 'pending'),
+    ]);
+    document.getElementById('ov-women').textContent   = w.count ?? '—';
+    document.getElementById('ov-vol').textContent     = v.count ?? '—';
+    document.getElementById('ov-partners').textContent = p.count ?? '—';
+    document.getElementById('ov-msgs').textContent    = m.error ? '—' : (m.count ?? '—');
+
+    var [rw, rv, rp, rm] = await Promise.all([
+      SB.from('women_supported').select('full_name,created_at').order('created_at', { ascending: false }).limit(5),
+      SB.from('volunteers_counsellors').select('full_name,created_at').order('created_at', { ascending: false }).limit(5),
+      SB.from('partner_organisations').select('org_name,created_at').order('created_at', { ascending: false }).limit(5),
+      SB.from('nithya_help_requests').select('name,created_at').order('created_at', { ascending: false }).limit(5),
+    ]);
+
+    var grid = document.getElementById('ov-recent');
+    grid.innerHTML =
+      rcCard('Recent: Women Supported', rw.data, 'full_name', 'women') +
+      rcCard('Recent: Volunteers',      rv.data, 'full_name', 'volunteers') +
+      rcCard('Recent: Partners',        rp.data, 'org_name',  'partners') +
+      rcCard('Recent: Messages',        rm.data, 'name',      'messages');
+
+    grid.querySelectorAll('[data-goto]').forEach(function (a) {
+      a.addEventListener('click', function (e) { e.preventDefault(); switchSection(a.dataset.goto); });
+    });
+  }
+
+  function rcCard(title, rows, key, sec) {
+    rows = rows || [];
+    var items = rows.length === 0
+      ? '<li class="rc-empty">No records yet.</li>'
+      : rows.map(function (r) {
+          return '<li><span class="rc-name">' + (r[key] || '—') + '</span><span class="rc-date">' + fmt(r.created_at) + '</span></li>';
+        }).join('');
+    return '<div class="rc-card"><div class="rc-title">' + title +
+           ' <a href="#" data-goto="' + sec + '">View all →</a></div>' +
+           '<ul class="rc-list">' + items + '</ul></div>';
+  }
+
+  /* ════════════════════════════════════════════
+     WOMEN SUPPORTED
+  ════════════════════════════════════════════ */
+  async function loadWomen(pg) {
+    pg = pg != null ? pg : pages.women;
+    pages.women = pg;
+    var from = pg * PAGE;
+    var { data, count, error } = await SB
+      .from('women_supported').select('*', { count: 'exact' })
+      .order('created_at', { ascending: false }).range(from, from + PAGE - 1);
+
+    var tb = document.getElementById('women-tbody');
+    if (error || !data || !data.length) {
+      tb.innerHTML = '<tr><td colspan="7" class="tbl-empty">No records yet. Use the form above to log the first one.</td></tr>';
+      document.getElementById('women-pages').innerHTML = '';
+      return;
+    }
+    tb.innerHTML = '';
+    data.forEach(function (r) {
+      var tr = document.createElement('tr');
+      var outcome = r.outcome || '';
+      var outcomeHtml = outcome.length > 60
+        ? '<span>' + trunc(outcome, 60) + '</span><button class="exp-btn" data-full="' + encodeURIComponent(outcome) + '">Read more</button>'
+        : (outcome || '—');
+      tr.innerHTML =
+        '<td>' + (r.full_name || '—') + '</td>' +
+        '<td>' + (r.age || '—') + '</td>' +
+        '<td>' + (r.country || '—') + '</td>' +
+        '<td>' + (r.support_type || '—') + '</td>' +
+        '<td>' + fmt(r.date_supported || r.created_at) + '</td>' +
+        '<td>' + outcomeHtml + '</td>';
+      tr.appendChild(delBtn(r.id, async function () {
+        await SB.from('women_supported').delete().eq('id', r.id);
+        loadWomen(pg); loadOverview();
+      }));
+      tb.appendChild(tr);
+    });
+    tb.querySelectorAll('.exp-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        btn.previousElementSibling.textContent = decodeURIComponent(btn.dataset.full);
+        btn.remove();
+      });
+    });
+    pages_render('women-pages', pg, count, loadWomen);
+  }
+
+  document.getElementById('women-form').addEventListener('submit', async function (e) {
+    e.preventDefault(); clearErrs(e.target);
+    if (!validate(e.target, ['full_name', 'country', 'support_type', 'date_supported'])) return;
+    var btn = e.target.querySelector('button[type="submit"]');
+    btn.disabled = true; btn.textContent = 'Saving…';
+    var fd = new FormData(e.target);
+    var payload = {
+      full_name:      fd.get('full_name').trim(),
+      age:            fd.get('age') ? parseInt(fd.get('age'), 10) : null,
+      country:        fd.get('country'),
+      contact_email:  fd.get('contact_email').trim() || null,
+      contact_phone:  fd.get('contact_phone').trim() || null,
+      support_type:   fd.get('support_type'),
+      support_detail: fd.get('support_detail').trim() || null,
+      referred_by:    fd.get('referred_by').trim() || null,
+      outcome:        fd.get('outcome').trim() || null,
+      date_supported: fd.get('date_supported'),
+    };
+    var { error } = await SB.from('women_supported').insert([payload]);
+    btn.disabled = false; btn.textContent = 'Log this record';
+    if (error) { alert('Error: ' + error.message); return; }
+    flashSuccess('women-ok');
+    e.target.reset();
+    e.target.querySelector('[name="date_supported"]').value = today();
+    loaded.women = true; loadWomen(0); loadOverview();
+  });
+
+  /* ════════════════════════════════════════════
+     VOLUNTEERS & COUNSELLORS
+  ════════════════════════════════════════════ */
+  async function loadVol(pg) {
+    pg = pg != null ? pg : pages.vol;
+    pages.vol = pg;
+    var from = pg * PAGE;
+    var { data, count, error } = await SB
+      .from('volunteers_counsellors').select('*', { count: 'exact' })
+      .order('created_at', { ascending: false }).range(from, from + PAGE - 1);
+
+    var tb = document.getElementById('vol-tbody');
+    if (error || !data || !data.length) {
+      tb.innerHTML = '<tr><td colspan="6" class="tbl-empty">No volunteers on the active roster yet.</td></tr>';
+      document.getElementById('vol-pages').innerHTML = '';
+      return;
+    }
+    tb.innerHTML = '';
+    data.forEach(function (r) {
+      var tr = document.createElement('tr');
+      tr.innerHTML =
+        '<td>' + (r.full_name || '—') + '</td>' +
+        '<td>' + (r.role || '—') + '</td>' +
+        '<td>' + (r.location || '—') + '</td>' +
+        '<td>' + (r.availability || '—') + '</td>' +
+        '<td>' + fmt(r.onboarded_date || r.created_at) + '</td>';
+      tr.appendChild(delBtn(r.id, async function () {
+        await SB.from('volunteers_counsellors').delete().eq('id', r.id);
+        loadVol(pg); loadOverview();
+      }));
+      tb.appendChild(tr);
+    });
+    pages_render('vol-pages', pg, count, loadVol);
+  }
+
+  document.getElementById('vol-form').addEventListener('submit', async function (e) {
+    e.preventDefault(); clearErrs(e.target);
+    if (!validate(e.target, ['full_name', 'role', 'onboarded_date'])) return;
+    var btn = e.target.querySelector('button[type="submit"]');
+    btn.disabled = true; btn.textContent = 'Saving…';
+    var fd = new FormData(e.target);
+    var payload = {
+      full_name:      fd.get('full_name').trim(),
+      email:          fd.get('email').trim() || null,
+      phone:          fd.get('phone').trim() || null,
+      role:           fd.get('role'),
+      specialisation: fd.get('specialisation').trim() || null,
+      location:       fd.get('location').trim() || null,
+      availability:   fd.get('availability').trim() || null,
+      onboarded_date: fd.get('onboarded_date'),
+    };
+    var { error } = await SB.from('volunteers_counsellors').insert([payload]);
+    btn.disabled = false; btn.textContent = 'Add to active roster';
+    if (error) { alert('Error: ' + error.message); return; }
+    flashSuccess('vol-ok');
+    e.target.reset();
+    e.target.querySelector('[name="onboarded_date"]').value = today();
+    loaded.volunteers = true; loadVol(0); loadOverview();
+  });
+
+  /* ════════════════════════════════════════════
+     PARTNER ORGANISATIONS
+  ════════════════════════════════════════════ */
+  async function loadPartners(pg) {
+    pg = pg != null ? pg : pages.partner;
+    pages.partner = pg;
+    var from = pg * PAGE;
+    var { data, count, error } = await SB
+      .from('partner_organisations').select('*', { count: 'exact' })
+      .order('created_at', { ascending: false }).range(from, from + PAGE - 1);
+
+    var tb = document.getElementById('partner-tbody');
+    if (error || !data || !data.length) {
+      tb.innerHTML = '<tr><td colspan="6" class="tbl-empty">No partner organisations logged yet.</td></tr>';
+      document.getElementById('partner-pages').innerHTML = '';
+      return;
+    }
+    tb.innerHTML = '';
+    data.forEach(function (r) {
+      var tr = document.createElement('tr');
+      tr.innerHTML =
+        '<td>' + (r.org_name || '—') + '</td>' +
+        '<td>' + (r.country || '—') + '</td>' +
+        '<td>' + (r.focus_area || '—') + '</td>' +
+        '<td>' + (r.partnership_type || '—') + '</td>' +
+        '<td>' + fmt(r.start_date || r.created_at) + '</td>';
+      tr.appendChild(delBtn(r.id, async function () {
+        await SB.from('partner_organisations').delete().eq('id', r.id);
+        loadPartners(pg); loadOverview();
+      }));
+      tb.appendChild(tr);
+    });
+    pages_render('partner-pages', pg, count, loadPartners);
+  }
+
+  document.getElementById('partner-form').addEventListener('submit', async function (e) {
+    e.preventDefault(); clearErrs(e.target);
+    if (!validate(e.target, ['org_name', 'country', 'focus_area', 'start_date'])) return;
+    var btn = e.target.querySelector('button[type="submit"]');
+    btn.disabled = true; btn.textContent = 'Saving…';
+    var fd = new FormData(e.target);
+    var payload = {
+      org_name:         fd.get('org_name').trim(),
+      country:          fd.get('country').trim(),
+      focus_area:       fd.get('focus_area').trim(),
+      contact_name:     fd.get('contact_name').trim() || null,
+      contact_email:    fd.get('contact_email').trim() || null,
+      partnership_type: fd.get('partnership_type') || null,
+      start_date:       fd.get('start_date'),
+    };
+    var { error } = await SB.from('partner_organisations').insert([payload]);
+    btn.disabled = false; btn.textContent = 'Log this partner';
+    if (error) { alert('Error: ' + error.message); return; }
+    flashSuccess('partner-ok');
+    e.target.reset();
+    e.target.querySelector('[name="start_date"]').value = today();
+    loaded.partners = true; loadPartners(0); loadOverview();
+  });
+
+  /* ════════════════════════════════════════════
+     VOLUNTEER APPLICATIONS
+  ════════════════════════════════════════════ */
+  async function loadApps(pg) {
+    pg = pg != null ? pg : pages.app;
+    pages.app = pg;
+    var from = pg * PAGE;
+    var { data, count, error } = await SB
+      .from('nithya_volunteers').select('*', { count: 'exact' })
+      .order('created_at', { ascending: false }).range(from, from + PAGE - 1);
+
+    var tb = document.getElementById('app-tbody');
+    if (error || !data || !data.length) {
+      tb.innerHTML = '<tr><td colspan="5" class="tbl-empty">No volunteer applications yet.</td></tr>';
+      document.getElementById('app-pages').innerHTML = '';
+      return;
+    }
+    tb.innerHTML = '';
+    data.forEach(function (r) {
+      var tr   = document.createElement('tr');
+      var cell = document.createElement('td');
+      cell.style.textAlign = 'right';
+      var btn = document.createElement('button');
+      btn.className = 'btn-roster'; btn.textContent = 'Add to roster →';
+      btn.addEventListener('click', function () { prefillRoster(r); });
+      cell.appendChild(btn);
+      tr.innerHTML =
+        '<td>' + (r.name || '—') + '</td>' +
+        '<td>' + (r.email || '—') + '</td>' +
+        '<td>' + (r.role || '—') + '</td>' +
+        '<td>' + fmt(r.created_at) + '</td>';
+      tr.appendChild(cell);
+      tb.appendChild(tr);
+    });
+    pages_render('app-pages', pg, count, loadApps);
+  }
+
+  function prefillRoster(row) {
+    switchSection('volunteers');
+    if (!loaded.volunteers) { loaded.volunteers = true; loadVol(); }
+    document.getElementById('vf-name').value  = row.name  || '';
+    document.getElementById('vf-email').value = row.email || '';
+    // try to match role option
+    var sel  = document.getElementById('vf-role');
+    var role = (row.role || '').toLowerCase();
+    var match = Array.from(sel.options).find(function (o) {
+      return o.value.toLowerCase().includes(role) || role.includes(o.value.toLowerCase());
+    });
+    if (match) sel.value = match.value;
+    document.getElementById('vol-form-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  /* ════════════════════════════════════════════
+     MESSAGES & REACH-OUT
+  ════════════════════════════════════════════ */
+  async function loadMsgs() {
+    renderMsgs();
+  }
+
+  async function renderMsgs() {
+    var list = document.getElementById('msg-list');
+    list.innerHTML = '<div style="font-size:13px;color:var(--faint);padding:12px 0">Loading…</div>';
+
+    var q = SB.from('nithya_help_requests').select('*').order('created_at', { ascending: false });
+    // filter by status — graceful if column doesn't exist yet
+    if (msgTab === 'pending') {
+      q = q.or('status.eq.pending,status.is.null');
+    } else {
+      q = q.eq('status', 'resolved');
+    }
+    var { data, error } = await q;
+
+    if (error || !data || !data.length) {
+      list.innerHTML = '<div style="font-size:13px;color:var(--faint);font-style:italic;padding:20px 0">No ' + msgTab + ' messages.</div>';
+      return;
+    }
+
+    list.innerHTML = '';
+    data.forEach(function (r) {
+      var card = document.createElement('div');
+      card.className = 'msg-card' + (r.status === 'resolved' ? ' resolved' : '');
+
+      var contacts = [r.email, r.phone, r.preferred_contact].filter(Boolean).join(' · ');
+      var isResolved = r.status === 'resolved';
+      var actionsHtml = isResolved
+        ? '<span class="responded-badge">✓ Responded' + (r.responded_at ? ' ' + fmt(r.responded_at) : '') + '</span>'
+        : '<button class="btn-responded" data-id="' + r.id + '">Mark as responded</button>';
+      if (r.email) {
+        actionsHtml += ' <a class="btn-reply" href="mailto:' + r.email +
+          '?subject=Re%3A%20Your%20message%20to%20Project%20Nithya">Reply via email</a>';
+      }
+
+      card.innerHTML =
+        '<div class="msg-hdr"><div class="msg-sender">' + (r.name || 'Anonymous') + '</div>' +
+        '<div class="msg-dt">' + fmt(r.created_at) + '</div></div>' +
+        (r.urgency && r.urgency !== 'normal' ? '<span class="msg-topic">' + r.urgency + ' urgency</span>' : '') +
+        '<div class="msg-body">' + (r.situation || '').replace(/\n/g, '<br>') + '</div>' +
+        (contacts ? '<div class="msg-contact">Contact: ' + contacts + '</div>' : '') +
+        '<div class="msg-actions">' + actionsHtml + '</div>';
+
+      var markBtn = card.querySelector('.btn-responded');
+      if (markBtn) {
+        markBtn.addEventListener('click', async function () {
+          markBtn.disabled = true; markBtn.textContent = 'Saving…';
+          var { error: ue } = await SB.from('nithya_help_requests')
+            .update({ status: 'resolved', responded_at: new Date().toISOString() })
+            .eq('id', r.id);
+          if (!ue) {
+            card.classList.add('resolved');
+            var badge = document.createElement('span');
+            badge.className = 'responded-badge'; badge.textContent = '✓ Responded just now';
+            markBtn.replaceWith(badge);
+            loadOverview();
+          } else {
+            markBtn.disabled = false; markBtn.textContent = 'Mark as responded';
+          }
+        });
+      }
+      list.appendChild(card);
+    });
+  }
+
+  document.querySelectorAll('.msg-tab').forEach(function (tab) {
+    tab.addEventListener('click', function () {
+      msgTab = tab.dataset.tab;
+      document.querySelectorAll('.msg-tab').forEach(function (t) {
+        t.classList.toggle('active', t.dataset.tab === msgTab);
+      });
+      renderMsgs();
+    });
+  });
+
+  /* ════════════════════════════════════════════
+     DONATIONS
+  ════════════════════════════════════════════ */
+  async function loadDonations(pg) {
+    pg = pg != null ? pg : pages.don;
+    pages.don = pg;
+
+    // Fetch all amounts for totals (client-side sum)
+    var { data: allRows } = await SB
+      .from('nithya_donations').select('amount,created_at')
+      .order('created_at', { ascending: false });
+
+    if (allRows && allRows.length) {
+      var now   = new Date();
+      var total = allRows.reduce(function (s, r) { return s + (parseFloat(r.amount) || 0); }, 0);
+      var month = allRows.filter(function (r) {
+        var d = new Date(r.created_at);
+        return d.getFullYear() === now.getFullYear() && d.getMonth() === now.getMonth();
+      }).reduce(function (s, r) { return s + (parseFloat(r.amount) || 0); }, 0);
+      document.getElementById('don-total').textContent = '₹' + total.toLocaleString('en-IN');
+      document.getElementById('don-month').textContent = '₹' + month.toLocaleString('en-IN');
+    }
+
+    var from = pg * PAGE;
+    var { data, count, error } = await SB
+      .from('nithya_donations').select('*', { count: 'exact' })
+      .order('created_at', { ascending: false }).range(from, from + PAGE - 1);
+
+    var tb = document.getElementById('don-tbody');
+    if (error || !data || !data.length) {
+      tb.innerHTML = '<tr><td colspan="4" class="tbl-empty">No donations recorded yet.</td></tr>';
+      document.getElementById('don-pages').innerHTML = '';
+      return;
+    }
+    tb.innerHTML = '';
+    data.forEach(function (r) {
+      var tr = document.createElement('tr');
+      tr.innerHTML =
+        '<td>' + (r.name || 'Anonymous') + '</td>' +
+        '<td>' + (r.email || '—') + '</td>' +
+        '<td>₹' + (parseFloat(r.amount || 0)).toLocaleString('en-IN') + '</td>' +
+        '<td>' + fmt(r.created_at) + '</td>';
+      tb.appendChild(tr);
+    });
+    pages_render('don-pages', pg, count, loadDonations);
+  }
+
+})();
+</script>
+</body>
+</html>
