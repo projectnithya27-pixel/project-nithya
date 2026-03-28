@@ -867,6 +867,7 @@
       <div class="msg-tabs">
         <button class="msg-tab active" data-tab="pending">Pending</button>
         <button class="msg-tab" data-tab="resolved">Responded</button>
+        <button class="msg-tab" data-tab="volunteers">Volunteer Submissions</button>
       </div>
       <div class="msg-list" id="msg-list"></div>
     </section>
@@ -1447,6 +1448,38 @@
   async function renderMsgs() {
     var list = document.getElementById('msg-list');
     list.innerHTML = '<div style="font-size:13px;color:var(--faint);padding:12px 0">Loading…</div>';
+
+    if (msgTab === 'volunteers') {
+      var { data, error } = await SB
+        .from('nithya_volunteers').select('*').order('created_at', { ascending: false });
+
+      if (error || !data || !data.length) {
+        list.innerHTML = '<div style="font-size:13px;color:var(--faint);font-style:italic;padding:20px 0">No volunteer submissions yet.</div>';
+        return;
+      }
+      list.innerHTML = '';
+      data.forEach(function (r) {
+        var card = document.createElement('div');
+        card.className = 'msg-card';
+        var actionsHtml = '<button class="btn-roster" data-id="' + r.id + '">Add to roster →</button>';
+        if (r.email) {
+          actionsHtml += ' <a class="btn-reply" href="mailto:' + r.email +
+            '?subject=Re%3A%20Your%20volunteer%20application%20to%20Project%20Nithya">Reply via email</a>';
+        }
+        card.innerHTML =
+          '<div class="msg-hdr"><div class="msg-sender">' + (r.name || 'Anonymous') + '</div>' +
+          '<div class="msg-dt">' + fmt(r.created_at) + '</div></div>' +
+          (r.role ? '<span class="msg-topic">' + r.role + '</span>' : '') +
+          (r.email ? '<div class="msg-contact">Contact: ' + r.email + '</div>' : '') +
+          '<div class="msg-actions">' + actionsHtml + '</div>';
+        var rosterBtn = card.querySelector('.btn-roster');
+        if (rosterBtn) {
+          rosterBtn.addEventListener('click', function () { prefillRoster(r); });
+        }
+        list.appendChild(card);
+      });
+      return;
+    }
 
     var q = SB.from('nithya_help_requests').select('*').order('created_at', { ascending: false });
     // filter by status — graceful if column doesn't exist yet
