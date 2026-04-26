@@ -588,32 +588,114 @@
     .casen-inner {
       max-width: 1100px;
       margin: 0 auto;
-      display: grid;
-      grid-template-columns: 1fr 360px;
-      gap: 64px;
-      align-items: start;
     }
 
-    .casen-photos { display: flex; flex-direction: column; gap: 12px; }
+    .casen-inner::after {
+      content: "";
+      display: block;
+      clear: both;
+    }
 
     .casen-photo-main {
-      width: 100%;
+      width: 340px;
       display: block;
       border-radius: 16px;
       object-fit: cover;
       aspect-ratio: 3 / 4;
       box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+      transition: transform 0.45s ease, box-shadow 0.45s ease, filter 0.45s ease;
+      cursor: pointer;
     }
 
-    .casen-photo-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .casen-photo-main:hover {
+      transform: translateY(-4px) scale(1.015);
+      box-shadow: 0 16px 44px rgba(0,0,0,0.18);
+      filter: brightness(1.04);
+    }
 
     .casen-photo-sm {
-      width: 100%;
+      width: 250px;
       display: block;
-      border-radius: 12px;
+      border-radius: 14px;
       object-fit: cover;
-      aspect-ratio: 1 / 1;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+      aspect-ratio: 4 / 5;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.10);
+      transition: transform 0.45s ease, box-shadow 0.45s ease, filter 0.45s ease;
+      cursor: pointer;
+      background: linear-gradient(135deg, #f6e6ea 0%, #f9d7df 60%, #efc7d2 100%);
+    }
+
+    .casen-photo-sm:hover {
+      transform: translateY(-4px) scale(1.03);
+      box-shadow: 0 14px 32px rgba(232,137,158,0.28);
+      filter: brightness(1.05);
+    }
+
+    .casen-photo-lg {
+      width: 320px;
+      display: block;
+      border-radius: 16px;
+      object-fit: cover;
+      aspect-ratio: 4 / 5;
+      box-shadow: 0 8px 28px rgba(0,0,0,0.12);
+      transition: transform 0.45s ease, box-shadow 0.45s ease, filter 0.45s ease;
+      cursor: pointer;
+      background: linear-gradient(135deg, #f6e6ea 0%, #f9d7df 60%, #efc7d2 100%);
+    }
+
+    .casen-photo-lg:hover {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 16px 40px rgba(232,137,158,0.30);
+      filter: brightness(1.05);
+    }
+
+    .casen-fr { float: right; margin: 4px 0 22px 38px; shape-margin: 16px; }
+    .casen-fl { float: left;  margin: 4px 38px 22px 0; shape-margin: 16px; }
+
+    .casen-fw {
+      float: none;
+      clear: both;
+      width: 100%;
+      margin: 32px 0;
+      aspect-ratio: 16 / 7;
+    }
+
+    .casen-body::after {
+      content: "";
+      display: block;
+      clear: both;
+    }
+
+    .casen-placeholder {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--pink-deep);
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 18px;
+      letter-spacing: 0.04em;
+      overflow: hidden;
+    }
+
+    .casen-placeholder::before {
+      content: "";
+      position: absolute;
+      inset: 10px;
+      border: 1px dashed rgba(176, 90, 110, 0.45);
+      border-radius: 10px;
+      pointer-events: none;
+    }
+
+    .casen-placeholder span {
+      position: relative;
+      z-index: 1;
+      opacity: 0.75;
+    }
+
+    .casen-placeholder:hover span {
+      opacity: 1;
     }
 
     .casen-head {
@@ -652,7 +734,6 @@
       font-weight: 300;
       line-height: 1.8;
       color: #484E72;
-      max-width: 640px;
     }
 
     .casen-line + .casen-line { margin-top: 14px; }
@@ -662,10 +743,41 @@
       font-family: 'Cormorant Garamond', serif;
       font-style: italic;
       font-weight: 500;
-      font-size: 22px;
+      font-size: 26px;
       color: var(--pink-deep);
       letter-spacing: 0.01em;
     }
+
+    .casen-footer {
+      max-width: 820px;
+      margin: 72px auto 0;
+      padding: 48px 32px 8px;
+      text-align: center;
+      position: relative;
+    }
+
+    .casen-footer::before {
+      content: "";
+      display: block;
+      width: 64px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(232,137,158,0.6), transparent);
+      margin: 0 auto 32px;
+    }
+
+    .casen-footer .casen-line {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-weight: 400;
+      font-size: 22px;
+      line-height: 1.55;
+      color: #5a4a55;
+      max-width: 720px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .casen-footer .casen-line + .casen-line { margin-top: 22px; }
 
     .casen-motif {
       position: relative;
@@ -1365,9 +1477,12 @@
 
       #main-card { padding: 0 16px 60px; margin-top: 40px; }
       .casen-story { padding: 52px 24px 40px; }
-      .casen-inner { grid-template-columns: 1fr; gap: 32px; }
-      .casen-photos { order: -1; }
+      .casen-fr, .casen-fl { float: none; margin: 18px auto; }
+      .casen-photo-main, .casen-photo-sm, .casen-photo-lg { width: 100%; max-width: 360px; margin-left: auto; margin-right: auto; }
       .casen-head { font-size: 32px; }
+      .casen-footer { margin-top: 48px; padding: 36px 8px 0; }
+      .casen-footer .casen-line { font-size: 19px; }
+      .casen-closer { font-size: 22px; }
       .botanical-divider { padding: 4px 0 16px; }
       .about { padding: 56px 24px; }
       .about { grid-template-columns: 1fr; padding: 48px 32px; gap: 38px; }
@@ -1530,24 +1645,28 @@
     <!-- ── CASE N STORY ── -->
     <section class="casen-story" id="about">
       <div class="casen-inner">
-        <div class="casen-text">
-          <h2 class="casen-head">She Was Case N.</h2>
-          <p class="casen-body">
-            <span class="casen-line">Nithya was, in the most literal sense, one of a kind. Her condition was so rare that the UK medical system had no name for it — she was documented simply as Case N, a single letter standing in for a life that defied every prognosis written about it.</span>
-            <span class="casen-line">From childhood, doctors mapped her journey through hospitals and tests, through organ failures and close calls, and at some point declared a deadline for her life — a ceiling she was never told she couldn't break.</span>
-            <span class="casen-line">But Nithya didn't read those notes. She read her own body instead. Through pain and uncertainty, she became her own most devoted student — learning what nourished her, what harmed her, what her body was asking for when medicine had no answer.</span>
-            <span class="casen-line">She pushed back against treatments she knew were wrong for her, and to the quiet astonishment of those who had written her timeline, she survived it. She grew. She married. She became the radiant young woman her family always knew she would be.</span>
-            <span class="casen-line">And before she left this world, she made a wish — that every other girl facing an impossible fight would have someone in their corner.</span>
-            <span class="casen-line casen-closer">Project Nithya is that someone.</span>
-          </p>
+        <h2 class="casen-head">Nithya's Story</h2>
+        <div class="casen-body">
+          <span class="casen-line">Nithya was, in the most literal sense, one of a kind. She came into the world a healthy baby — full of life, full of promise, and surrounded by love. For ten years, she grew like any other child: laughing, playing, and discovering. She loved to dance. She loved to sing. Her voice could fill a room with joy long before anyone knew how much her body was quietly carrying.</span>
+          <img class="casen-photo-main casen-fr" src="https://hdmnkxwpsxlxtrlseaqj.supabase.co/storage/v1/object/public/assets/nithya.jpg" alt="Nithya">
+          <span class="casen-line">Then, at age ten in India, everything changed. She was diagnosed with a complex autoimmune disease, but because the diagnosis came late, the condition had already begun to affect some of her organs — especially her lungs. What followed were years of hospitals, tests, and uncertainty. Yet even then, Nithya refused to be defined by a name on a medical chart.</span>
+          <span class="casen-line">When she later moved to the UK, the medical system had no name for her condition either. She was documented simply as Case N — a single letter standing in for a life that would defy every prognosis written about it.</span>
+          <img class="casen-photo-sm casen-fl" src="https://hdmnkxwpsxlxtrlseaqj.supabase.co/storage/v1/object/public/assets/nithya-2.jpg" alt="Nithya">
+          <span class="casen-line">Doctors mapped her journey, and at some point they declared a deadline — a ceiling she was told she couldn't break. But Nithya didn't read those notes. She read her own body instead.</span>
+          <span class="casen-line">Through pain and uncertainty, she became her own most devoted student — learning what nourished her, what harmed her, what her body was asking for when medicine had no answer. And she was never alone in that work. Her mother stood beside her every single day, becoming her greatest ally, helping her find the right diet, the right nutrition, the right balance to keep her strong. Together, they learned how food could become medicine. Together, they built a rhythm of care that touched every part of Nithya's life — her body, her mind, her spirit.</span>
+          <img class="casen-photo-sm casen-fr" src="https://hdmnkxwpsxlxtrlseaqj.supabase.co/storage/v1/object/public/assets/nithya-3.jpg" alt="Nithya">
+          <span class="casen-line">Nithya worked out. A lot. She pushed herself not out of fear, but out of a quiet, fierce determination to live fully in the body she had. Her mother was there for that too — physically and mentally, lifting her up on hard days and celebrating with her on strong ones. What others saw as limitation, she saw as a daily practice of showing up.</span>
+          <div class="casen-photo-lg casen-placeholder casen-fl" role="img" aria-label="Photo placeholder"><span>Add photo</span></div>
+          <span class="casen-line">And she did more than show up. She flourished. She discovered a deep love for interior design — the art of turning empty spaces into homes, into sanctuaries. It was a perfect reflection of who she was. Nithya had spent her whole life taking what she was given and shaping it into something beautiful, functional, and full of warmth. She became an interior designer, helping others find peace and beauty in their own spaces, even as she quietly built the same for herself.</span>
+          <span class="casen-line">She pushed back against treatments she knew were wrong for her. She listened to her own instincts. And to the quiet astonishment of those who had written her timeline, she survived. She grew. She fell in love. She married. She became the radiant woman her family always knew she would be.</span>
+          <span class="casen-line">She lived to be thirty-two years old. Thirty-two years of singing, dancing, designing, loving, and fighting. Not every day was easy, but every day was hers.</span>
+          <div class="casen-photo-lg casen-placeholder casen-fw" role="img" aria-label="Photo placeholder"><span>Add photo</span></div>
         </div>
-        <div class="casen-photos">
-          <img class="casen-photo-main" src="https://hdmnkxwpsxlxtrlseaqj.supabase.co/storage/v1/object/public/assets/nithya.jpg" alt="Nithya">
-          <div class="casen-photo-row">
-            <img class="casen-photo-sm" src="https://hdmnkxwpsxlxtrlseaqj.supabase.co/storage/v1/object/public/assets/nithya-2.jpg" alt="Nithya">
-            <img class="casen-photo-sm" src="https://hdmnkxwpsxlxtrlseaqj.supabase.co/storage/v1/object/public/assets/nithya-3.jpg" alt="Nithya">
-          </div>
-        </div>
+      </div>
+      <div class="casen-footer">
+        <span class="casen-line">Before she left this world, Nithya made a wish — a quiet but unshakeable one: that every other girl facing an impossible fight would have someone in her corner.</span>
+        <span class="casen-line">That is why this charity exists. That is why her story continues — not as Case N, but as Nithya. A daughter, a wife, a fighter. One of a kind. And unforgettable.</span>
+        <span class="casen-line casen-closer">Project Nithya is that someone.</span>
       </div>
     </section>
 
