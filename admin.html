@@ -912,50 +912,104 @@
   /* ── Access controlled via admin_users table in Supabase ── */
 
   const PAGE  = 20;
-  const SB    = window.supabase.createClient(SB_URL, SB_ANON);
+  const SB    = window.supabase.createClient(SB_URL, SB_ANON, {
+    auth: {
+      persistSession:     true,
+      detectSessionInUrl: true,
+      autoRefreshToken:   true,
+    }
+  });
 
   /* ── State ───────────────────────────────── */
-  let currentUser = null;
-  let msgTab      = 'pending';
-  const pages     = { women: 0, vol: 0, partner: 0, app: 0, don: 0 };
-  const loaded    = {};   // lazy-load flags per section
+  let currentUser          = null;
+  let msgTab               = 'pending';
+  let dashboardInitialized = false;
+  const pages              = { women: 0, vol: 0, partner: 0, app: 0, don: 0 };
+  const loaded             = {};   // lazy-load flags per section
 
-  /* ── Boot ────────────────────────────────── */
+  /* ── Boot ──────────────────────────────────
+     Data fetching MUST NOT begin until a real
+     Supabase session is established AND the
+     signed-in email is on the admin allow-list.
+     Both the returning-user path (getSession)
+     and the post-OAuth redirect path
+     (onAuthStateChange → SIGNED_IN) funnel
+     through gateAndStart(), which is guarded by
+     the dashboardInitialized flag.
+  ────────────────────────────────────────── */
   document.addEventListener('DOMContentLoaded', async function () {
     setDefaultDates();
 
-    try {
-      const { data: { session } } = await SB.auth.getSession();
-      if (session) {
-        await handleSession(session);
-      } else {
-        showLogin();
-      }
-    } catch (_) {
-      showLogin();
-    }
-
     SB.auth.onAuthStateChange(async function (event, session) {
-      if (event === 'SIGNED_IN' && session) {
-        await handleSession(session);
+      if ((event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED' || event === 'INITIAL_SESSION')
+          && session && session.user) {
+        await gateAndStart(session);
       } else if (event === 'SIGNED_OUT') {
+        dashboardInitialized = false;
         currentUser = null;
         showLogin();
       }
     });
+
+    try {
+      var { data: { session } } = await SB.auth.getSession();
+      if (session && session.user) {
+        await gateAndStart(session);
+      } else if (!dashboardInitialized) {
+        showLogin();
+      }
+    } catch (_) {
+      if (!dashboardInitialized) showLogin();
+    }
   });
 
-  async function handleSession(session) {
-    if (await isEmailAllowed(session.user.email)) {
-      currentUser = session.user;
-      showDashboard();
-    } else {
-      await SB.auth.signOut();
-      showLogin('This Google account does not have access. Please contact the Project Nithya team.');
+  async function gateAndStart(session) {
+    if (dashboardInitialized) return;
+    var allowed = false;
+    try {
+      allowed = await isEmailAllowed(session.user.email);
+    } catch (_) {
+      allowed = false;
     }
+    if (!allowed) {
+      try { await SB.auth.signOut(); } catch (_) { /* no-op */ }
+      dashboardInitialized = false;
+      currentUser = null;
+      showLogin('This Google account does not have access. Please contact the Project Nithya team.');
+      return;
+    }
+    initializeDashboard(session);
+  }
+
+  function initializeDashboard(session) {
+    if (dashboardInitialized) return;
+    dashboardInitialized = true;
+    currentUser = session.user;
+    cleanAuthUrl();
+    showDashboard();
+  }
+
+  function cleanAuthUrl() {
+    try {
+      var url = new URL(window.location.href);
+      var dirty = false;
+      if (url.hash && /access_token=|refresh_token=|provider_token=|expires_in=|token_type=|type=|error=|code=/.test(url.hash)) {
+        dirty = true;
+      }
+      ['code','access_token','refresh_token','expires_in','expires_at','token_type',
+       'type','provider_token','provider_refresh_token','error','error_description','error_code']
+      .forEach(function (k) {
+        if (url.searchParams.has(k)) { dirty = true; url.searchParams.delete(k); }
+      });
+      if (dirty) {
+        url.hash = '';
+        history.replaceState({}, document.title, url.pathname + (url.search ? url.search : ''));
+      }
+    } catch (_) { /* no-op */ }
   }
 
   async function isEmailAllowed(email) {
+    if (!email) return false;
     var { data, error } = await SB
       .from('admin_users')
       .select('email')
@@ -1135,6 +1189,26 @@
     return td;
   }
 
+  function tbodyLoading(tbody, colspan) {
+    if (!tbody) return;
+    tbody.innerHTML = '<tr><td colspan="' + colspan + '" class="tbl-empty">Loading…</td></tr>';
+  }
+
+  function tbodyEmpty(tbody, colspan, msg) {
+    if (!tbody) return;
+    tbody.innerHTML = '<tr><td colspan="' + colspan + '" class="tbl-empty">' + msg + '</td></tr>';
+  }
+
+  function tbodyError(tbody, colspan, retryFn) {
+    if (!tbody) return;
+    tbody.innerHTML =
+      '<tr><td colspan="' + colspan + '" class="tbl-empty" style="color:var(--coral);font-style:normal">' +
+      'Couldn\'t load this section. ' +
+      '<button type="button" class="exp-btn" data-retry>Retry</button></td></tr>';
+    var rb = tbody.querySelector('[data-retry]');
+    if (rb) rb.addEventListener('click', retryFn);
+  }
+
   function pages_render(pid, page, total, cb) {
     var el    = document.getElementById(pid);
     if (!el) return;
@@ -1152,34 +1226,53 @@
      OVERVIEW
   ════════════════════════════════════════════ */
   async function loadOverview() {
-    var [w, v, p, m] = await Promise.all([
-      SB.from('women_supported').select('id', { count: 'exact', head: true }),
-      SB.from('volunteers_counsellors').select('id', { count: 'exact', head: true }),
-      SB.from('partner_organisations').select('id', { count: 'exact', head: true }),
-      SB.from('nithya_help_requests').select('id', { count: 'exact', head: true }).eq('status', 'pending'),
-    ]);
-    document.getElementById('ov-women').textContent   = w.count ?? '—';
-    document.getElementById('ov-vol').textContent     = v.count ?? '—';
-    document.getElementById('ov-partners').textContent = p.count ?? '—';
-    document.getElementById('ov-msgs').textContent    = m.error ? '—' : (m.count ?? '—');
-
-    var [rw, rv, rp, rm] = await Promise.all([
-      SB.from('women_supported').select('full_name,created_at').order('created_at', { ascending: false }).limit(5),
-      SB.from('volunteers_counsellors').select('full_name,created_at').order('created_at', { ascending: false }).limit(5),
-      SB.from('partner_organisations').select('org_name,created_at').order('created_at', { ascending: false }).limit(5),
-      SB.from('nithya_help_requests').select('name,created_at').order('created_at', { ascending: false }).limit(5),
-    ]);
-
     var grid = document.getElementById('ov-recent');
-    grid.innerHTML =
-      rcCard('Recent: Women Supported', rw.data, 'full_name', 'women') +
-      rcCard('Recent: Volunteers',      rv.data, 'full_name', 'volunteers') +
-      rcCard('Recent: Partners',        rp.data, 'org_name',  'partners') +
-      rcCard('Recent: Messages',        rm.data, 'name',      'messages');
+    grid.innerHTML = '<div class="rc-card" style="font-size:13px;color:var(--faint);font-style:italic">Loading…</div>';
+    try {
+      var [w, v, p, m] = await Promise.all([
+        SB.from('women_supported').select('id', { count: 'exact', head: true }),
+        SB.from('volunteers_counsellors').select('id', { count: 'exact', head: true }),
+        SB.from('partner_organisations').select('id', { count: 'exact', head: true }),
+        SB.from('nithya_help_requests').select('id', { count: 'exact', head: true }).eq('status', 'pending'),
+      ]);
+      if (w.error) throw w.error;
+      if (v.error) throw v.error;
+      if (p.error) throw p.error;
+      document.getElementById('ov-women').textContent    = w.count ?? '—';
+      document.getElementById('ov-vol').textContent      = v.count ?? '—';
+      document.getElementById('ov-partners').textContent = p.count ?? '—';
+      document.getElementById('ov-msgs').textContent     = m.error ? '—' : (m.count ?? '—');
 
-    grid.querySelectorAll('[data-goto]').forEach(function (a) {
-      a.addEventListener('click', function (e) { e.preventDefault(); switchSection(a.dataset.goto); });
-    });
+      var [rw, rv, rp, rm] = await Promise.all([
+        SB.from('women_supported').select('full_name,created_at').order('created_at', { ascending: false }).limit(5),
+        SB.from('volunteers_counsellors').select('full_name,created_at').order('created_at', { ascending: false }).limit(5),
+        SB.from('partner_organisations').select('org_name,created_at').order('created_at', { ascending: false }).limit(5),
+        SB.from('nithya_help_requests').select('name,created_at').order('created_at', { ascending: false }).limit(5),
+      ]);
+      if (rw.error) throw rw.error;
+      if (rv.error) throw rv.error;
+      if (rp.error) throw rp.error;
+
+      grid.innerHTML =
+        rcCard('Recent: Women Supported', rw.data, 'full_name', 'women') +
+        rcCard('Recent: Volunteers',      rv.data, 'full_name', 'volunteers') +
+        rcCard('Recent: Partners',        rp.data, 'org_name',  'partners') +
+        rcCard('Recent: Messages',        rm.data, 'name',      'messages');
+
+      grid.querySelectorAll('[data-goto]').forEach(function (a) {
+        a.addEventListener('click', function (e) { e.preventDefault(); switchSection(a.dataset.goto); });
+      });
+    } catch (err) {
+      console.error('loadOverview failed', err);
+      grid.innerHTML =
+        '<div class="rc-card" style="font-size:13px;color:var(--coral)">' +
+        'Couldn\'t load the overview. ' +
+        '<button type="button" class="exp-btn" data-retry>Retry</button></div>';
+      var rb = grid.querySelector('[data-retry]');
+      if (rb) rb.addEventListener('click', loadOverview);
+    } finally {
+      /* Loading state above is always replaced by success / empty / error branch. */
+    }
   }
 
   function rcCard(title, rows, key, sec) {
@@ -1200,44 +1293,55 @@
   async function loadWomen(pg) {
     pg = pg != null ? pg : pages.women;
     pages.women = pg;
-    var from = pg * PAGE;
-    var { data, count, error } = await SB
-      .from('women_supported').select('*', { count: 'exact' })
-      .order('created_at', { ascending: false }).range(from, from + PAGE - 1);
-
-    var tb = document.getElementById('women-tbody');
-    if (error || !data || !data.length) {
-      tb.innerHTML = '<tr><td colspan="7" class="tbl-empty">No records yet. Use the form above to log the first one.</td></tr>';
-      document.getElementById('women-pages').innerHTML = '';
-      return;
-    }
-    tb.innerHTML = '';
-    data.forEach(function (r) {
-      var tr = document.createElement('tr');
-      var outcome = r.outcome || '';
-      var outcomeHtml = outcome.length > 60
-        ? '<span>' + trunc(outcome, 60) + '</span><button class="exp-btn" data-full="' + encodeURIComponent(outcome) + '">Read more</button>'
-        : (outcome || '—');
-      tr.innerHTML =
-        '<td>' + (r.full_name || '—') + '</td>' +
-        '<td>' + (r.age || '—') + '</td>' +
-        '<td>' + (r.country || '—') + '</td>' +
-        '<td>' + (r.support_type || '—') + '</td>' +
-        '<td>' + fmt(r.date_supported || r.created_at) + '</td>' +
-        '<td>' + outcomeHtml + '</td>';
-      tr.appendChild(delBtn(r.id, async function () {
-        await SB.from('women_supported').delete().eq('id', r.id);
-        loadWomen(pg); loadOverview();
-      }));
-      tb.appendChild(tr);
-    });
-    tb.querySelectorAll('.exp-btn').forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        btn.previousElementSibling.textContent = decodeURIComponent(btn.dataset.full);
-        btn.remove();
+    var tb    = document.getElementById('women-tbody');
+    var pgEl  = document.getElementById('women-pages');
+    tbodyLoading(tb, 7);
+    pgEl.innerHTML = '';
+    try {
+      var from = pg * PAGE;
+      var { data, count, error } = await SB
+        .from('women_supported').select('*', { count: 'exact' })
+        .order('created_at', { ascending: false }).range(from, from + PAGE - 1);
+      if (error) throw error;
+      if (!data || !data.length) {
+        tbodyEmpty(tb, 7, 'No records yet.');
+        return;
+      }
+      tb.innerHTML = '';
+      data.forEach(function (r) {
+        var tr = document.createElement('tr');
+        var outcome = r.outcome || '';
+        var outcomeHtml = outcome.length > 60
+          ? '<span>' + trunc(outcome, 60) + '</span><button class="exp-btn" data-full="' + encodeURIComponent(outcome) + '">Read more</button>'
+          : (outcome || '—');
+        tr.innerHTML =
+          '<td>' + (r.full_name || '—') + '</td>' +
+          '<td>' + (r.age || '—') + '</td>' +
+          '<td>' + (r.country || '—') + '</td>' +
+          '<td>' + (r.support_type || '—') + '</td>' +
+          '<td>' + fmt(r.date_supported || r.created_at) + '</td>' +
+          '<td>' + outcomeHtml + '</td>';
+        tr.appendChild(delBtn(r.id, async function () {
+          await SB.from('women_supported').delete().eq('id', r.id);
+          loadWomen(pg); loadOverview();
+        }));
+        tb.appendChild(tr);
       });
-    });
-    pages_render('women-pages', pg, count, loadWomen);
+      tb.querySelectorAll('.exp-btn').forEach(function (btn) {
+        if (!btn.dataset.full) return;
+        btn.addEventListener('click', function () {
+          btn.previousElementSibling.textContent = decodeURIComponent(btn.dataset.full);
+          btn.remove();
+        });
+      });
+      pages_render('women-pages', pg, count, loadWomen);
+    } catch (err) {
+      console.error('loadWomen failed', err);
+      tbodyError(tb, 7, function () { loadWomen(pg); });
+      pgEl.innerHTML = '';
+    } finally {
+      /* Loading row is always replaced above; nothing else to clear. */
+    }
   }
 
   document.getElementById('women-form').addEventListener('submit', async function (e) {
@@ -1273,33 +1377,43 @@
   async function loadVol(pg) {
     pg = pg != null ? pg : pages.vol;
     pages.vol = pg;
-    var from = pg * PAGE;
-    var { data, count, error } = await SB
-      .from('volunteers_counsellors').select('*', { count: 'exact' })
-      .order('created_at', { ascending: false }).range(from, from + PAGE - 1);
-
-    var tb = document.getElementById('vol-tbody');
-    if (error || !data || !data.length) {
-      tb.innerHTML = '<tr><td colspan="6" class="tbl-empty">No volunteers on the active roster yet.</td></tr>';
-      document.getElementById('vol-pages').innerHTML = '';
-      return;
+    var tb    = document.getElementById('vol-tbody');
+    var pgEl  = document.getElementById('vol-pages');
+    tbodyLoading(tb, 6);
+    pgEl.innerHTML = '';
+    try {
+      var from = pg * PAGE;
+      var { data, count, error } = await SB
+        .from('volunteers_counsellors').select('*', { count: 'exact' })
+        .order('created_at', { ascending: false }).range(from, from + PAGE - 1);
+      if (error) throw error;
+      if (!data || !data.length) {
+        tbodyEmpty(tb, 6, 'No records yet.');
+        return;
+      }
+      tb.innerHTML = '';
+      data.forEach(function (r) {
+        var tr = document.createElement('tr');
+        tr.innerHTML =
+          '<td>' + (r.full_name || '—') + '</td>' +
+          '<td>' + (r.role || '—') + '</td>' +
+          '<td>' + (r.location || '—') + '</td>' +
+          '<td>' + (r.availability || '—') + '</td>' +
+          '<td>' + fmt(r.onboarded_date || r.created_at) + '</td>';
+        tr.appendChild(delBtn(r.id, async function () {
+          await SB.from('volunteers_counsellors').delete().eq('id', r.id);
+          loadVol(pg); loadOverview();
+        }));
+        tb.appendChild(tr);
+      });
+      pages_render('vol-pages', pg, count, loadVol);
+    } catch (err) {
+      console.error('loadVol failed', err);
+      tbodyError(tb, 6, function () { loadVol(pg); });
+      pgEl.innerHTML = '';
+    } finally {
+      /* Loading row is always replaced above; nothing else to clear. */
     }
-    tb.innerHTML = '';
-    data.forEach(function (r) {
-      var tr = document.createElement('tr');
-      tr.innerHTML =
-        '<td>' + (r.full_name || '—') + '</td>' +
-        '<td>' + (r.role || '—') + '</td>' +
-        '<td>' + (r.location || '—') + '</td>' +
-        '<td>' + (r.availability || '—') + '</td>' +
-        '<td>' + fmt(r.onboarded_date || r.created_at) + '</td>';
-      tr.appendChild(delBtn(r.id, async function () {
-        await SB.from('volunteers_counsellors').delete().eq('id', r.id);
-        loadVol(pg); loadOverview();
-      }));
-      tb.appendChild(tr);
-    });
-    pages_render('vol-pages', pg, count, loadVol);
   }
 
   document.getElementById('vol-form').addEventListener('submit', async function (e) {
@@ -1333,33 +1447,43 @@
   async function loadPartners(pg) {
     pg = pg != null ? pg : pages.partner;
     pages.partner = pg;
-    var from = pg * PAGE;
-    var { data, count, error } = await SB
-      .from('partner_organisations').select('*', { count: 'exact' })
-      .order('created_at', { ascending: false }).range(from, from + PAGE - 1);
-
-    var tb = document.getElementById('partner-tbody');
-    if (error || !data || !data.length) {
-      tb.innerHTML = '<tr><td colspan="6" class="tbl-empty">No partner organisations logged yet.</td></tr>';
-      document.getElementById('partner-pages').innerHTML = '';
-      return;
+    var tb    = document.getElementById('partner-tbody');
+    var pgEl  = document.getElementById('partner-pages');
+    tbodyLoading(tb, 6);
+    pgEl.innerHTML = '';
+    try {
+      var from = pg * PAGE;
+      var { data, count, error } = await SB
+        .from('partner_organisations').select('*', { count: 'exact' })
+        .order('created_at', { ascending: false }).range(from, from + PAGE - 1);
+      if (error) throw error;
+      if (!data || !data.length) {
+        tbodyEmpty(tb, 6, 'No records yet.');
+        return;
+      }
+      tb.innerHTML = '';
+      data.forEach(function (r) {
+        var tr = document.createElement('tr');
+        tr.innerHTML =
+          '<td>' + (r.org_name || '—') + '</td>' +
+          '<td>' + (r.country || '—') + '</td>' +
+          '<td>' + (r.focus_area || '—') + '</td>' +
+          '<td>' + (r.partnership_type || '—') + '</td>' +
+          '<td>' + fmt(r.start_date || r.created_at) + '</td>';
+        tr.appendChild(delBtn(r.id, async function () {
+          await SB.from('partner_organisations').delete().eq('id', r.id);
+          loadPartners(pg); loadOverview();
+        }));
+        tb.appendChild(tr);
+      });
+      pages_render('partner-pages', pg, count, loadPartners);
+    } catch (err) {
+      console.error('loadPartners failed', err);
+      tbodyError(tb, 6, function () { loadPartners(pg); });
+      pgEl.innerHTML = '';
+    } finally {
+      /* Loading row is always replaced above; nothing else to clear. */
     }
-    tb.innerHTML = '';
-    data.forEach(function (r) {
-      var tr = document.createElement('tr');
-      tr.innerHTML =
-        '<td>' + (r.org_name || '—') + '</td>' +
-        '<td>' + (r.country || '—') + '</td>' +
-        '<td>' + (r.focus_area || '—') + '</td>' +
-        '<td>' + (r.partnership_type || '—') + '</td>' +
-        '<td>' + fmt(r.start_date || r.created_at) + '</td>';
-      tr.appendChild(delBtn(r.id, async function () {
-        await SB.from('partner_organisations').delete().eq('id', r.id);
-        loadPartners(pg); loadOverview();
-      }));
-      tb.appendChild(tr);
-    });
-    pages_render('partner-pages', pg, count, loadPartners);
   }
 
   document.getElementById('partner-form').addEventListener('submit', async function (e) {
@@ -1392,35 +1516,45 @@
   async function loadApps(pg) {
     pg = pg != null ? pg : pages.app;
     pages.app = pg;
-    var from = pg * PAGE;
-    var { data, count, error } = await SB
-      .from('nithya_volunteers').select('*', { count: 'exact' })
-      .order('created_at', { ascending: false }).range(from, from + PAGE - 1);
-
-    var tb = document.getElementById('app-tbody');
-    if (error || !data || !data.length) {
-      tb.innerHTML = '<tr><td colspan="5" class="tbl-empty">No volunteer applications yet.</td></tr>';
-      document.getElementById('app-pages').innerHTML = '';
-      return;
+    var tb    = document.getElementById('app-tbody');
+    var pgEl  = document.getElementById('app-pages');
+    tbodyLoading(tb, 5);
+    pgEl.innerHTML = '';
+    try {
+      var from = pg * PAGE;
+      var { data, count, error } = await SB
+        .from('nithya_volunteers').select('*', { count: 'exact' })
+        .order('created_at', { ascending: false }).range(from, from + PAGE - 1);
+      if (error) throw error;
+      if (!data || !data.length) {
+        tbodyEmpty(tb, 5, 'No records yet.');
+        return;
+      }
+      tb.innerHTML = '';
+      data.forEach(function (r) {
+        var tr   = document.createElement('tr');
+        var cell = document.createElement('td');
+        cell.style.textAlign = 'right';
+        var btn = document.createElement('button');
+        btn.className = 'btn-roster'; btn.textContent = 'Add to roster →';
+        btn.addEventListener('click', function () { prefillRoster(r); });
+        cell.appendChild(btn);
+        tr.innerHTML =
+          '<td>' + (r.name || '—') + '</td>' +
+          '<td>' + (r.email || '—') + '</td>' +
+          '<td>' + (r.role || '—') + '</td>' +
+          '<td>' + fmt(r.created_at) + '</td>';
+        tr.appendChild(cell);
+        tb.appendChild(tr);
+      });
+      pages_render('app-pages', pg, count, loadApps);
+    } catch (err) {
+      console.error('loadApps failed', err);
+      tbodyError(tb, 5, function () { loadApps(pg); });
+      pgEl.innerHTML = '';
+    } finally {
+      /* Loading row is always replaced above; nothing else to clear. */
     }
-    tb.innerHTML = '';
-    data.forEach(function (r) {
-      var tr   = document.createElement('tr');
-      var cell = document.createElement('td');
-      cell.style.textAlign = 'right';
-      var btn = document.createElement('button');
-      btn.className = 'btn-roster'; btn.textContent = 'Add to roster →';
-      btn.addEventListener('click', function () { prefillRoster(r); });
-      cell.appendChild(btn);
-      tr.innerHTML =
-        '<td>' + (r.name || '—') + '</td>' +
-        '<td>' + (r.email || '—') + '</td>' +
-        '<td>' + (r.role || '—') + '</td>' +
-        '<td>' + fmt(r.created_at) + '</td>';
-      tr.appendChild(cell);
-      tb.appendChild(tr);
-    });
-    pages_render('app-pages', pg, count, loadApps);
   }
 
   function prefillRoster(row) {
@@ -1445,99 +1579,122 @@
     renderMsgs();
   }
 
+  function renderMsgError(list, retryFn) {
+    list.innerHTML =
+      '<div style="font-size:13px;color:var(--coral);padding:12px 0">' +
+      'Couldn\'t load messages. ' +
+      '<button type="button" class="exp-btn" data-retry>Retry</button></div>';
+    var rb = list.querySelector('[data-retry]');
+    if (rb) rb.addEventListener('click', retryFn);
+  }
+
   async function renderMsgs() {
     var list = document.getElementById('msg-list');
     list.innerHTML = '<div style="font-size:13px;color:var(--faint);padding:12px 0">Loading…</div>';
 
     if (msgTab === 'volunteers') {
-      var { data, error } = await SB
-        .from('nithya_volunteers').select('*').order('created_at', { ascending: false });
+      try {
+        var { data, error } = await SB
+          .from('nithya_volunteers').select('*').order('created_at', { ascending: false });
+        if (error) throw error;
+        if (!data || !data.length) {
+          list.innerHTML = '<div style="font-size:13px;color:var(--faint);font-style:italic;padding:20px 0">No records yet.</div>';
+          return;
+        }
+        list.innerHTML = '';
+        data.forEach(function (r) {
+          var card = document.createElement('div');
+          card.className = 'msg-card';
+          var actionsHtml = '<button class="btn-roster" data-id="' + r.id + '">Add to roster →</button>';
+          if (r.email) {
+            actionsHtml += ' <a class="btn-reply" href="mailto:' + r.email +
+              '?subject=Re%3A%20Your%20volunteer%20application%20to%20Project%20Nithya">Reply via email</a>';
+          }
+          card.innerHTML =
+            '<div class="msg-hdr"><div class="msg-sender">' + (r.name || 'Anonymous') + '</div>' +
+            '<div class="msg-dt">' + fmt(r.created_at) + '</div></div>' +
+            (r.role ? '<span class="msg-topic">' + r.role + '</span>' : '') +
+            (r.email ? '<div class="msg-contact">Contact: ' + r.email + '</div>' : '') +
+            '<div class="msg-actions">' + actionsHtml + '</div>';
+          var rosterBtn = card.querySelector('.btn-roster');
+          if (rosterBtn) {
+            rosterBtn.addEventListener('click', function () { prefillRoster(r); });
+          }
+          list.appendChild(card);
+        });
+      } catch (err) {
+        console.error('renderMsgs (volunteers) failed', err);
+        renderMsgError(list, renderMsgs);
+      } finally {
+        /* Loading state is always replaced by success / empty / error branch. */
+      }
+      return;
+    }
 
-      if (error || !data || !data.length) {
-        list.innerHTML = '<div style="font-size:13px;color:var(--faint);font-style:italic;padding:20px 0">No volunteer submissions yet.</div>';
+    try {
+      var q = SB.from('nithya_help_requests').select('*').order('created_at', { ascending: false });
+      // filter by status — graceful if column doesn't exist yet
+      if (msgTab === 'pending') {
+        q = q.or('status.eq.pending,status.is.null');
+      } else {
+        q = q.eq('status', 'resolved');
+      }
+      var { data, error } = await q;
+      if (error) throw error;
+      if (!data || !data.length) {
+        list.innerHTML = '<div style="font-size:13px;color:var(--faint);font-style:italic;padding:20px 0">No records yet.</div>';
         return;
       }
+
       list.innerHTML = '';
       data.forEach(function (r) {
         var card = document.createElement('div');
-        card.className = 'msg-card';
-        var actionsHtml = '<button class="btn-roster" data-id="' + r.id + '">Add to roster →</button>';
+        card.className = 'msg-card' + (r.status === 'resolved' ? ' resolved' : '');
+
+        var contacts = [r.email, r.phone, r.preferred_contact].filter(Boolean).join(' · ');
+        var isResolved = r.status === 'resolved';
+        var actionsHtml = isResolved
+          ? '<span class="responded-badge">✓ Responded' + (r.responded_at ? ' ' + fmt(r.responded_at) : '') + '</span>'
+          : '<button class="btn-responded" data-id="' + r.id + '">Mark as responded</button>';
         if (r.email) {
           actionsHtml += ' <a class="btn-reply" href="mailto:' + r.email +
-            '?subject=Re%3A%20Your%20volunteer%20application%20to%20Project%20Nithya">Reply via email</a>';
+            '?subject=Re%3A%20Your%20message%20to%20Project%20Nithya">Reply via email</a>';
         }
+
         card.innerHTML =
           '<div class="msg-hdr"><div class="msg-sender">' + (r.name || 'Anonymous') + '</div>' +
           '<div class="msg-dt">' + fmt(r.created_at) + '</div></div>' +
-          (r.role ? '<span class="msg-topic">' + r.role + '</span>' : '') +
-          (r.email ? '<div class="msg-contact">Contact: ' + r.email + '</div>' : '') +
+          (r.urgency && r.urgency !== 'normal' ? '<span class="msg-topic">' + r.urgency + ' urgency</span>' : '') +
+          '<div class="msg-body">' + (r.situation || '').replace(/\n/g, '<br>') + '</div>' +
+          (contacts ? '<div class="msg-contact">Contact: ' + contacts + '</div>' : '') +
           '<div class="msg-actions">' + actionsHtml + '</div>';
-        var rosterBtn = card.querySelector('.btn-roster');
-        if (rosterBtn) {
-          rosterBtn.addEventListener('click', function () { prefillRoster(r); });
+
+        var markBtn = card.querySelector('.btn-responded');
+        if (markBtn) {
+          markBtn.addEventListener('click', async function () {
+            markBtn.disabled = true; markBtn.textContent = 'Saving…';
+            var { error: ue } = await SB.from('nithya_help_requests')
+              .update({ status: 'resolved', responded_at: new Date().toISOString() })
+              .eq('id', r.id);
+            if (!ue) {
+              card.classList.add('resolved');
+              var badge = document.createElement('span');
+              badge.className = 'responded-badge'; badge.textContent = '✓ Responded just now';
+              markBtn.replaceWith(badge);
+              loadOverview();
+            } else {
+              markBtn.disabled = false; markBtn.textContent = 'Mark as responded';
+            }
+          });
         }
         list.appendChild(card);
       });
-      return;
+    } catch (err) {
+      console.error('renderMsgs failed', err);
+      renderMsgError(list, renderMsgs);
+    } finally {
+      /* Loading state is always replaced by success / empty / error branch. */
     }
-
-    var q = SB.from('nithya_help_requests').select('*').order('created_at', { ascending: false });
-    // filter by status — graceful if column doesn't exist yet
-    if (msgTab === 'pending') {
-      q = q.or('status.eq.pending,status.is.null');
-    } else {
-      q = q.eq('status', 'resolved');
-    }
-    var { data, error } = await q;
-
-    if (error || !data || !data.length) {
-      list.innerHTML = '<div style="font-size:13px;color:var(--faint);font-style:italic;padding:20px 0">No ' + msgTab + ' messages.</div>';
-      return;
-    }
-
-    list.innerHTML = '';
-    data.forEach(function (r) {
-      var card = document.createElement('div');
-      card.className = 'msg-card' + (r.status === 'resolved' ? ' resolved' : '');
-
-      var contacts = [r.email, r.phone, r.preferred_contact].filter(Boolean).join(' · ');
-      var isResolved = r.status === 'resolved';
-      var actionsHtml = isResolved
-        ? '<span class="responded-badge">✓ Responded' + (r.responded_at ? ' ' + fmt(r.responded_at) : '') + '</span>'
-        : '<button class="btn-responded" data-id="' + r.id + '">Mark as responded</button>';
-      if (r.email) {
-        actionsHtml += ' <a class="btn-reply" href="mailto:' + r.email +
-          '?subject=Re%3A%20Your%20message%20to%20Project%20Nithya">Reply via email</a>';
-      }
-
-      card.innerHTML =
-        '<div class="msg-hdr"><div class="msg-sender">' + (r.name || 'Anonymous') + '</div>' +
-        '<div class="msg-dt">' + fmt(r.created_at) + '</div></div>' +
-        (r.urgency && r.urgency !== 'normal' ? '<span class="msg-topic">' + r.urgency + ' urgency</span>' : '') +
-        '<div class="msg-body">' + (r.situation || '').replace(/\n/g, '<br>') + '</div>' +
-        (contacts ? '<div class="msg-contact">Contact: ' + contacts + '</div>' : '') +
-        '<div class="msg-actions">' + actionsHtml + '</div>';
-
-      var markBtn = card.querySelector('.btn-responded');
-      if (markBtn) {
-        markBtn.addEventListener('click', async function () {
-          markBtn.disabled = true; markBtn.textContent = 'Saving…';
-          var { error: ue } = await SB.from('nithya_help_requests')
-            .update({ status: 'resolved', responded_at: new Date().toISOString() })
-            .eq('id', r.id);
-          if (!ue) {
-            card.classList.add('resolved');
-            var badge = document.createElement('span');
-            badge.className = 'responded-badge'; badge.textContent = '✓ Responded just now';
-            markBtn.replaceWith(badge);
-            loadOverview();
-          } else {
-            markBtn.disabled = false; markBtn.textContent = 'Mark as responded';
-          }
-        });
-      }
-      list.appendChild(card);
-    });
   }
 
   document.querySelectorAll('.msg-tab').forEach(function (tab) {
@@ -1556,45 +1713,59 @@
   async function loadDonations(pg) {
     pg = pg != null ? pg : pages.don;
     pages.don = pg;
+    var tb    = document.getElementById('don-tbody');
+    var pgEl  = document.getElementById('don-pages');
+    tbodyLoading(tb, 4);
+    pgEl.innerHTML = '';
+    try {
+      // Fetch all amounts for totals (client-side sum)
+      var allRes = await SB
+        .from('nithya_donations').select('amount,created_at')
+        .order('created_at', { ascending: false });
+      if (allRes.error) throw allRes.error;
+      var allRows = allRes.data || [];
 
-    // Fetch all amounts for totals (client-side sum)
-    var { data: allRows } = await SB
-      .from('nithya_donations').select('amount,created_at')
-      .order('created_at', { ascending: false });
+      if (allRows.length) {
+        var now   = new Date();
+        var total = allRows.reduce(function (s, r) { return s + (parseFloat(r.amount) || 0); }, 0);
+        var month = allRows.filter(function (r) {
+          var d = new Date(r.created_at);
+          return d.getFullYear() === now.getFullYear() && d.getMonth() === now.getMonth();
+        }).reduce(function (s, r) { return s + (parseFloat(r.amount) || 0); }, 0);
+        document.getElementById('don-total').textContent = '₹' + total.toLocaleString('en-IN');
+        document.getElementById('don-month').textContent = '₹' + month.toLocaleString('en-IN');
+      } else {
+        document.getElementById('don-total').textContent = '₹0';
+        document.getElementById('don-month').textContent = '₹0';
+      }
 
-    if (allRows && allRows.length) {
-      var now   = new Date();
-      var total = allRows.reduce(function (s, r) { return s + (parseFloat(r.amount) || 0); }, 0);
-      var month = allRows.filter(function (r) {
-        var d = new Date(r.created_at);
-        return d.getFullYear() === now.getFullYear() && d.getMonth() === now.getMonth();
-      }).reduce(function (s, r) { return s + (parseFloat(r.amount) || 0); }, 0);
-      document.getElementById('don-total').textContent = '₹' + total.toLocaleString('en-IN');
-      document.getElementById('don-month').textContent = '₹' + month.toLocaleString('en-IN');
+      var from = pg * PAGE;
+      var { data, count, error } = await SB
+        .from('nithya_donations').select('*', { count: 'exact' })
+        .order('created_at', { ascending: false }).range(from, from + PAGE - 1);
+      if (error) throw error;
+      if (!data || !data.length) {
+        tbodyEmpty(tb, 4, 'No records yet.');
+        return;
+      }
+      tb.innerHTML = '';
+      data.forEach(function (r) {
+        var tr = document.createElement('tr');
+        tr.innerHTML =
+          '<td>' + (r.name || 'Anonymous') + '</td>' +
+          '<td>' + (r.email || '—') + '</td>' +
+          '<td>₹' + (parseFloat(r.amount || 0)).toLocaleString('en-IN') + '</td>' +
+          '<td>' + fmt(r.created_at) + '</td>';
+        tb.appendChild(tr);
+      });
+      pages_render('don-pages', pg, count, loadDonations);
+    } catch (err) {
+      console.error('loadDonations failed', err);
+      tbodyError(tb, 4, function () { loadDonations(pg); });
+      pgEl.innerHTML = '';
+    } finally {
+      /* Loading row is always replaced above; nothing else to clear. */
     }
-
-    var from = pg * PAGE;
-    var { data, count, error } = await SB
-      .from('nithya_donations').select('*', { count: 'exact' })
-      .order('created_at', { ascending: false }).range(from, from + PAGE - 1);
-
-    var tb = document.getElementById('don-tbody');
-    if (error || !data || !data.length) {
-      tb.innerHTML = '<tr><td colspan="4" class="tbl-empty">No donations recorded yet.</td></tr>';
-      document.getElementById('don-pages').innerHTML = '';
-      return;
-    }
-    tb.innerHTML = '';
-    data.forEach(function (r) {
-      var tr = document.createElement('tr');
-      tr.innerHTML =
-        '<td>' + (r.name || 'Anonymous') + '</td>' +
-        '<td>' + (r.email || '—') + '</td>' +
-        '<td>₹' + (parseFloat(r.amount || 0)).toLocaleString('en-IN') + '</td>' +
-        '<td>' + fmt(r.created_at) + '</td>';
-      tb.appendChild(tr);
-    });
-    pages_render('don-pages', pg, count, loadDonations);
   }
 
 })();
