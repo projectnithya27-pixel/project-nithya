@@ -431,7 +431,7 @@
       font-family: 'Cormorant Garamond', serif;
       font-style: italic;
       font-weight: 300;
-      font-size: clamp(17px, 2.4vw, 24px);
+      font-size: clamp(18px, 2.5vw, 26px);
       color: rgba(245, 240, 232, 0.58);
       letter-spacing: 0.06em;
     }
@@ -490,6 +490,24 @@
       padding: 0 44px;
     }
 
+    /* Phthalo green ambient — earth/ground glow beneath the hero sun */
+    #services-wrap::before {
+      content: '';
+      position: absolute;
+      left: -8%;
+      right: -8%;
+      top: -56px;
+      height: 360px;
+      background:
+        radial-gradient(ellipse 58% 52% at center 60%,
+          rgba(27, 67, 50, 0.22) 0%,
+          rgba(45, 106, 79, 0.10) 42%,
+          transparent 72%);
+      filter: blur(48px);
+      pointer-events: none;
+      z-index: -1;
+    }
+
     .services-panel {
       backdrop-filter: blur(36px) saturate(1.6) brightness(1.08);
       -webkit-backdrop-filter: blur(36px) saturate(1.6) brightness(1.08);
@@ -497,7 +515,7 @@
       border: 1px solid rgba(255, 255, 255, 0.70);
       border-radius: 22px;
       display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-columns: 1fr 1fr;
       overflow: hidden;
       box-shadow:
         0 24px 64px rgba(6, 40, 120, 0.18),
@@ -534,13 +552,13 @@
     .svc-head {
       font-family: 'Cormorant Garamond', serif;
       font-weight: 500;
-      font-size: 21px;
+      font-size: 23px;
       color: var(--navy);
       margin-bottom: 7px;
     }
 
     .svc-desc {
-      font-size: 13px;
+      font-size: 14.5px;
       font-weight: 300;
       color: var(--muted);
       line-height: 1.65;
@@ -564,6 +582,7 @@
     }
 
     .card {
+      position: relative;
       background: rgba(255, 255, 255, 0.76);
       backdrop-filter: blur(24px) saturate(1.35) brightness(1.02);
       -webkit-backdrop-filter: blur(24px) saturate(1.35) brightness(1.02);
@@ -576,6 +595,40 @@
         inset 0 1px 0 rgba(255, 255, 255, 0.95),
         inset 0 -1px 0 rgba(14, 80, 185, 0.04);
     }
+
+    /* Phthalo ambient — soft earth-tone orbs anchored to the card edges, behind content */
+    .card::before,
+    .card::after {
+      content: '';
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+      filter: blur(110px);
+      z-index: 0;
+    }
+    .card::before {
+      width: 620px;
+      height: 620px;
+      top: 6%;
+      right: -240px;
+      background: radial-gradient(circle,
+        rgba(27, 67, 50, 0.18) 0%,
+        rgba(45, 106, 79, 0.08) 42%,
+        transparent 72%);
+    }
+    .card::after {
+      width: 680px;
+      height: 680px;
+      bottom: 6%;
+      left: -260px;
+      background: radial-gradient(circle,
+        rgba(27, 67, 50, 0.14) 0%,
+        rgba(45, 106, 79, 0.06) 44%,
+        transparent 74%);
+    }
+
+    /* Keep content above the ambient backdrop */
+    .card > * { position: relative; z-index: 1; }
 
     /* ── CASE N STORY ── */
     .casen-story {
@@ -730,9 +783,9 @@
 
     .casen-body {
       font-family: 'DM Sans', sans-serif;
-      font-size: 17px;
+      font-size: 18.5px;
       font-weight: 300;
-      line-height: 1.8;
+      line-height: 1.78;
       color: #484E72;
     }
 
@@ -861,9 +914,9 @@
     }
 
     .body-p {
-      font-size: 14.5px;
+      font-size: 16px;
       font-weight: 300;
-      line-height: 1.82;
+      line-height: 1.78;
       color: #484E72;
       margin-bottom: 18px;
     }
@@ -886,8 +939,8 @@
       font-family: 'Cormorant Garamond', serif;
       font-style: italic;
       font-weight: 400;
-      font-size: 17.5px;
-      line-height: 1.62;
+      font-size: 19px;
+      line-height: 1.6;
       color: var(--navy);
     }
 
@@ -972,6 +1025,145 @@
         rgba(14, 80, 185, 0.1) 75%,
         transparent);
       margin: 0 68px;
+    }
+
+    /* ── FOUNDER SECTION ── */
+    .founder-section {
+      max-width: 940px;
+      margin: 0 auto;
+      padding: 80px 68px 60px;
+    }
+    .founder-section .sec-tag { text-align: center; }
+    .founder-head {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+    .founder-head em {
+      display: block;
+      font-style: italic;
+      color: var(--muted);
+      font-size: 0.52em;
+      letter-spacing: 0.04em;
+      margin-top: 8px;
+    }
+
+    .founder-top {
+      display: grid;
+      grid-template-columns: 0.85fr 1.15fr;
+      gap: 44px;
+      align-items: flex-start;
+      margin-bottom: 36px;
+    }
+
+    .founder-photo {
+      position: relative;
+      aspect-ratio: 4 / 5;
+      border-radius: 18px;
+      overflow: hidden;
+      background: linear-gradient(135deg, #0A4499 0%, #1464b4 100%);
+      box-shadow: 0 20px 48px rgba(6, 40, 120, 0.18),
+                  0 6px 16px rgba(6, 40, 120, 0.08),
+                  inset 0 1px 0 rgba(255,255,255,0.18);
+    }
+    .founder-photo img {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: center top;
+    }
+    .founder-photo-caption {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 26px 24px 22px;
+      background: linear-gradient(to top, rgba(6,35,100,0.78), transparent);
+      color: #f5f0e8;
+      font-family: 'Cormorant Garamond', serif;
+      z-index: 2;
+    }
+    .founder-photo-caption .fcap-name {
+      font-style: italic;
+      font-size: 20px;
+      line-height: 1.2;
+      margin-bottom: 6px;
+    }
+    .founder-photo-caption .fcap-title {
+      font-size: 11px;
+      font-family: 'DM Sans', sans-serif;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      opacity: 0.78;
+    }
+
+    .founder-intro p,
+    .founder-body p {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 400;
+      font-size: 18px;
+      line-height: 1.76;
+      color: #484E72;
+      margin-bottom: 16px;
+    }
+    .founder-intro p:first-child {
+      font-size: 20.5px;
+      font-style: italic;
+      color: var(--navy);
+      margin-bottom: 18px;
+    }
+
+    .founder-subhead {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 500;
+      font-style: italic;
+      font-size: 30px;
+      color: var(--pink-deep);
+      margin-top: 42px;
+      margin-bottom: 18px;
+      line-height: 1.2;
+    }
+
+    .founder-signoff {
+      text-align: center;
+      margin-top: 52px;
+      padding-top: 36px;
+      position: relative;
+    }
+    .founder-signoff::before {
+      content: "";
+      display: block;
+      width: 64px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(232,137,158,0.6), transparent);
+      margin: 0 auto 28px;
+    }
+    .signoff-greeting {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 18px;
+      color: #5a4a55;
+      margin-bottom: 14px;
+    }
+    .signoff-name {
+      font-family: 'Great Vibes', cursive;
+      font-size: 42px;
+      color: var(--pink-deep);
+      line-height: 1.1;
+      margin-bottom: 10px;
+    }
+    .signoff-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 14px;
+      color: #5a4a55;
+      letter-spacing: 0.04em;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 768px) {
+      .founder-section { padding: 56px 28px 40px; }
+      .founder-top { grid-template-columns: 1fr; gap: 28px; }
+      .founder-photo { max-width: 320px; margin: 0 auto; }
+      .founder-subhead { font-size: 23px; }
+      .signoff-name { font-size: 34px; }
     }
 
     /* ── 3B IMPACT ── */
@@ -1510,14 +1702,12 @@
 
   <ul class="nav-links">
     <li><a href="#about">About</a></li>
-    <li><a href="mental-health.html">Mental Health</a></li>
     <li><a href="safety.html">Safety</a></li>
     <li><a href="health-guidance.html">Health</a></li>
     <li><a href="#volunteer">Volunteer</a></li>
   </ul>
 
   <div class="nav-actions">
-    <a href="mental-health.html#reach-out" class="nav-cta nav-cta--pink">Reach Out</a>
     <a href="#donate" class="nav-cta">Donate</a>
     <button class="nav-burger" id="navBurger" onclick="toggleMobileMenu()" aria-label="Open menu" aria-expanded="false">
       <svg width="20" height="14" viewBox="0 0 20 14" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1531,17 +1721,14 @@
 
 <!-- Mobile menu -->
 <div class="mobile-menu" id="mobileMenu">
-  <a href="mental-health.html"   class="mob-link">Mental Health</a>
   <a href="safety.html"          class="mob-link">Safety &amp; Refuge</a>
   <a href="health-guidance.html" class="mob-link">Health Guidance</a>
   <a href="#volunteer"           class="mob-link">Volunteer</a>
-  <a href="mental-health.html#reach-out" class="mob-link">Reach Out</a>
   <a href="admin.html"           class="mob-link">Admin Login</a>
 </div>
 
 <!-- Floating CTA bubble — mobile only -->
 <div class="fab-cta">
-  <a href="mental-health.html#reach-out" class="fab-btn fab-btn--pink">Reach Out</a>
   <a href="#donate"                      class="fab-btn fab-btn--gold">Donate</a>
 </div>
 
@@ -1592,21 +1779,6 @@
 <div id="services-wrap">
   <div class="services-panel" id="causes">
 
-    <a href="mental-health.html" class="svc">
-      <!-- Mind/mental health icon -->
-      <svg class="svc-icon" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="17" cy="17" r="16" stroke="#8BAFD4" stroke-width="1.4" opacity="0.6"/>
-        <path d="M11 20 C11 14.5 13.5 10.5 17 10.5 C20.5 10.5 23 14.5 23 20" stroke="#2C3E6B" stroke-width="1.5" stroke-linecap="round" fill="none"/>
-        <path d="M13 22 C13 21 13.5 20 14.5 20 L19.5 20 C20.5 20 21 21 21 22 L21 23 C21 23.6 20.6 24 20 24 L14 24 C13.4 24 13 23.6 13 23 Z" stroke="#2C3E6B" stroke-width="1.3" fill="rgba(139,175,212,0.14)"/>
-        <line x1="15" y1="20" x2="15" y2="16" stroke="#2C3E6B" stroke-width="1.2" stroke-linecap="round"/>
-        <line x1="17" y1="20" x2="17" y2="14" stroke="#2C3E6B" stroke-width="1.2" stroke-linecap="round"/>
-        <line x1="19" y1="20" x2="19" y2="16.5" stroke="#2C3E6B" stroke-width="1.2" stroke-linecap="round"/>
-      </svg>
-      <h3 class="svc-head">Mental Health</h3>
-      <p class="svc-desc">Grief, anxiety, trauma, burnout — we provide a safe space where a woman's inner world is heard without judgement.</p>
-      <span class="svc-more">Learn more ↓</span>
-    </a>
-
     <a href="safety.html" class="svc" id="guidance">
       <!-- Shield / safety icon -->
       <svg class="svc-icon" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1615,7 +1787,7 @@
         <path d="M14.5 17.5 L16 19 L19.5 15" stroke="#2C3E6B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
       <h3 class="svc-head">Safety &amp; Refuge</h3>
-      <p class="svc-desc">From domestic violence to workplace harassment — we help women find protection, legal recourse, and a path forward.</p>
+      <p class="svc-desc">From domestic violence to workplace harassment — we help women find safe shelter, a confidential plan, and a path forward.</p>
       <span class="svc-more">Learn more ↓</span>
     </a>
 
@@ -1629,7 +1801,7 @@
         <circle cx="17" cy="11" r="1.5" fill="#F2CE3A"/>
       </svg>
       <h3 class="svc-head">Health Guidance</h3>
-      <p class="svc-desc">Reproductive wellness, preventive care, and navigating healthcare systems across India, Sri Lanka, and Southeast Asia — with clarity and compassion beside you.</p>
+      <p class="svc-desc">Haematology, reproductive wellness, and preventive care — helping women across India and Sri Lanka read their reports, find specialists, and ask the right questions.</p>
       <span class="svc-more">Learn more ↓</span>
     </a>
 
@@ -1692,18 +1864,59 @@
       <p class="sec-tag">Who we are</p>
       <h2 class="sec-head">Every woman deserves to<br><em>be seen, heard, held.</em></h2>
       <p class="body-p">
-        Project Nithya was born from a simple, urgent truth: too many women across India, Sri Lanka, and Southeast Asia suffer in silence. Whether navigating the aftermath of abuse, wrestling with their mental health, or searching for trustworthy healthcare — they do so without a hand to hold. We exist to change that.
+        Project Nithya exists because too many women across India and Sri Lanka face illness, abuse, and medical uncertainty without a hand to hold. We are a women's welfare organisation specialising in haematology and women's health — working at the intersection of blood-disorder care, safety, and holistic wellbeing.
       </p>
       <p class="body-p">
-        Our name, Nithya, means <em style="font-style:italic;">eternal</em> in Sanskrit — the eternal strength that lives within every woman, waiting to be recognised. We are a women's welfare organisation working at the intersection of mental health, safety, and holistic wellbeing. Our work is not charity; it is solidarity.
-      </p>
-      <p class="body-p">
-        We walk beside women from all walks of life — the homemaker who has lost herself, the survivor rebuilding after violence, the young professional silently drowning, the mother who forgets she too deserves care. No story is too small. No struggle is invisible here.
+        Our name, Nithya, means <em style="font-style:italic;">eternal</em> in Sanskrit — the strength that lives within every woman, waiting to be recognised. Our work is not charity; it is solidarity.
       </p>
       <blockquote class="blockquote">
         <p>"A woman's wellbeing is not a privilege to be earned — it is a right to be fiercely protected. We stand at that boundary, and we do not move."</p>
       </blockquote>
 
+    </section>
+
+    <div class="c-divider"></div>
+
+    <!-- ── 3A.5 FOUNDER ── -->
+    <section class="founder-section" id="founder">
+      <p class="sec-tag">Founder's letter</p>
+      <h2 class="sec-head founder-head">Shani Thomas<em>Founder &amp; CEO, Project Nithya Ltd</em></h2>
+
+      <div class="founder-top">
+        <div class="founder-photo">
+          <img src="" alt="Shani Thomas — Founder and CEO of Project Nithya">
+          <div class="founder-photo-caption">
+            <p class="fcap-name">Shani Thomas</p>
+            <p class="fcap-title">Founder &amp; CEO</p>
+          </div>
+        </div>
+        <div class="founder-intro">
+          <p>I am Shani Thomas, Founder and CEO of Project Nithya Ltd.</p>
+          <p>My life journey began in a modest middle-class family, where I was raised by my grandmother and faced many hardships from an early age. Despite these challenges, they shaped my determination, resilience, and commitment to helping others.</p>
+          <p>At the age of 19, I got married, and at 21, I was blessed with a daughter, Nithya. After completing my graduation, I moved from Kerala to Hyderabad in search of better opportunities. In 2000, I travelled to the United Kingdom to locate an individual who had deceived me with false promises. After considerable effort and perseverance, I successfully found him and recovered part of the money that had been lost.</p>
+        </div>
+      </div>
+
+      <div class="founder-body">
+        <p>Driven by a desire to create opportunities for others, I established my own Health Care Consulting company in the UK and later founded a private college. However, changes in immigration regulations in 2012 led to the closure of the college. Rather than giving up, I adapted and entered the vocational training sector, providing educational and career opportunities for university dropouts with support from local council funding.</p>
+        <p>During this period, we transformed the lives of many disadvantaged young people. As part of our initiatives, we established a music studio in Canary Wharf, where underprivileged and vulnerable children received music education and training. Many successfully completed their courses, earned recognised certifications, regained confidence, and secured admission to universities — opening doors to brighter futures.</p>
+
+        <h3 class="founder-subhead">My Daughter, Nithya</h3>
+        <p>My daughter, Nithya, was born as a healthy and beautiful child. She grew up surrounded by love and received the best education available. She completed her schooling at Kodaikanal International School (KIS), pursued her undergraduate studies at Preston University, and later completed an Interior Design course at KLC School of Design in London. During her short but meaningful life, she travelled extensively around the world and embraced every opportunity to learn, grow, and experience different cultures.</p>
+        <p>In 2014, Nithya was diagnosed with an autoimmune condition and came under the care of the Royal Free London NHS Foundation Trust. Despite years of treatment and her courageous fight against the illness, she sadly passed away on 26 April 2025.</p>
+        <p>Her loss was devastating. We believe that earlier diagnosis and intervention could have significantly improved treatment outcomes. This experience highlighted the critical importance of awareness, early detection, and access to specialised healthcare — particularly for haematological and autoimmune conditions.</p>
+
+        <h3 class="founder-subhead">The Vision of Project Nithya Ltd</h3>
+        <p>Nithya's dream was to help others avoid the challenges she faced. Inspired by her vision, Project Nithya Ltd is dedicated to educating people about haematology-related disorders and other serious health conditions, promoting awareness, encouraging early diagnosis, and supporting patients and families throughout their healthcare journeys.</p>
+        <p>Our mission is to ensure that more people receive timely medical attention, better treatment opportunities, and the knowledge needed to protect their health. Through education, advocacy, research support, and community outreach, we aim to create lasting positive change and honour Nithya's legacy.</p>
+        <p>Nithya's life continues to inspire our work every day. Through this project, her compassion, courage, and dream of helping others live on.</p>
+      </div>
+
+      <div class="founder-signoff">
+        <p class="signoff-greeting">With love and care,</p>
+        <p class="signoff-name">Shani Thomas</p>
+        <p class="signoff-title">Founder &amp; CEO<br>Project Nithya Ltd</p>
+      </div>
     </section>
 
     <div class="c-divider"></div>
@@ -1761,10 +1974,9 @@
             <label for="vr">How would you like to help?</label>
             <select id="vr" name="role" class="fi">
               <option value="" disabled selected>Select a role</option>
-              <option>Mental Health Companion</option>
               <option>Safety &amp; Crisis Support</option>
               <option>Community Health Worker</option>
-              <option>Legal Aid &amp; Advocacy</option>
+              <option>Haematology &amp; Blood Health</option>
               <option>Outreach &amp; Awareness</option>
               <option>Fundraising &amp; Events</option>
               <option>Other</option>
@@ -1781,7 +1993,7 @@
         <div class="don-card">
           <p class="don-tag">Make a difference</p>
           <h3 class="don-head">Back a woman's<br>journey to safety.</h3>
-          <p class="don-sub">Your generosity funds counselling sessions, crisis interventions, health guidance, and community support for women across India, Sri Lanka, and Southeast Asia.</p>
+          <p class="don-sub">Your generosity funds haematology consultations, crisis interventions, health guidance, and community support for women across India and Sri Lanka.</p>
           <form onsubmit="showDonationComingSoon(); return false;" class="don-wrap">
             <div class="don-fg">
               <label>Name</label>
@@ -1825,7 +2037,7 @@
         <span class="ft-name">Project Nithya</span>
       </div>
 
-      <p class="ft-desc">A women's welfare organisation dedicated to mental health, safety from abuse, and holistic health guidance — standing beside women across India, Sri Lanka, and Southeast Asia.</p>
+      <p class="ft-desc">A women's welfare organisation specialising in haematology, safety from abuse, and holistic health guidance — standing beside women across India and Sri Lanka.</p>
 
       <p class="ft-tagline">Strength in every woman. Dignity in every life.</p>
 
@@ -1852,7 +2064,6 @@
           <label>How can we support you?</label>
           <select name="situation" class="ft-fi ft-select">
             <option value="">Choose a type of support…</option>
-            <option value="Mental health support">Mental health support</option>
             <option value="Safety &amp; legal guidance">Safety &amp; legal guidance</option>
             <option value="Health guidance">Health guidance</option>
             <option value="I'd like to volunteer">I'd like to volunteer</option>
