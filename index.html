@@ -1253,10 +1253,12 @@
     /* ── 3C GET INVOLVED ── */
     .involve {
       padding: 76px 68px 80px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 44px;
       background: rgba(245, 240, 232, 0.32);
+    }
+
+    .involve > #volunteer {
+      max-width: 520px;
+      margin: 0 auto;
     }
 
     .vol-head {
@@ -1681,7 +1683,7 @@
       .about { grid-template-columns: 1fr; padding: 48px 32px; gap: 38px; }
       .impact { padding: 48px 32px; }
       .stats { grid-template-columns: 1fr; }
-      .involve { grid-template-columns: 1fr; padding: 48px 32px 52px; }
+      .involve { padding: 48px 32px 52px; }
       .c-divider { margin: 0 32px; }
 
       .ft-inner { grid-template-columns: 1fr; gap: 48px; padding: 0 24px 52px; }
@@ -1708,7 +1710,7 @@
   </ul>
 
   <div class="nav-actions">
-    <a href="#donate" class="nav-cta">Donate</a>
+    <a href="#volunteer" class="nav-cta">Volunteer</a>
     <button class="nav-burger" id="navBurger" onclick="toggleMobileMenu()" aria-label="Open menu" aria-expanded="false">
       <svg width="20" height="14" viewBox="0 0 20 14" fill="none" xmlns="http://www.w3.org/2000/svg">
         <line class="bar1" x1="0" y1="1"  x2="20" y2="1"  stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
@@ -1726,12 +1728,6 @@
   <a href="#volunteer"           class="mob-link">Volunteer</a>
   <a href="admin.html"           class="mob-link">Admin Login</a>
 </div>
-
-<!-- Floating CTA bubble — mobile only -->
-<div class="fab-cta">
-  <a href="#donate"                      class="fab-btn fab-btn--gold">Donate</a>
-</div>
-
 
 <!-- ═══════════════════════════════════════════
      HERO
@@ -1988,30 +1984,6 @@
         </form>
       </div>
 
-      <!-- Right: donation card -->
-      <div id="donate">
-        <div class="don-card">
-          <p class="don-tag">Make a difference</p>
-          <h3 class="don-head">Back a woman's<br>journey to safety.</h3>
-          <p class="don-sub">Your generosity funds haematology consultations, crisis interventions, health guidance, and community support for women across India and Sri Lanka.</p>
-          <form onsubmit="showDonationComingSoon(); return false;" class="don-wrap">
-            <div class="don-fg">
-              <label>Name</label>
-              <input type="text" name="name" class="don-input" placeholder="Your name">
-            </div>
-            <div class="don-fg">
-              <label>Email</label>
-              <input type="email" name="email" class="don-input" placeholder="you@example.com">
-            </div>
-            <div class="don-fg">
-              <label>Amount (₹)</label>
-              <input type="text" name="amount" class="don-input" placeholder="500">
-            </div>
-            <button type="submit" class="btn-gold">Donate Now</button>
-          </form>
-        </div>
-      </div>
-
     </section>
   </div>
 </div>
@@ -2067,7 +2039,6 @@
             <option value="Safety &amp; legal guidance">Safety &amp; legal guidance</option>
             <option value="Health guidance">Health guidance</option>
             <option value="I'd like to volunteer">I'd like to volunteer</option>
-            <option value="I'd like to donate">I'd like to donate</option>
             <option value="General enquiry">General enquiry</option>
           </select>
         </div>
