@@ -246,3 +246,22 @@ nav.nav--float .nav-links a {
   .ft-row2 { grid-template-columns: 1fr; }
   .ft-bar { padding: 18px 24px; flex-direction: column; gap: 8px; text-align: center; }
 }
+
+/* ── Admin-editable text (data-edit) ──
+   Lets edited copy reflow gracefully: long words wrap instead of spilling
+   out of their box, headings balance their lines, paragraphs avoid orphans. */
+[data-edit] { overflow-wrap: break-word; }
+h1[data-edit], h2[data-edit], h3[data-edit], h4[data-edit] { text-wrap: balance; }
+p[data-edit], blockquote[data-edit], span[data-edit] { text-wrap: pretty; }
+
+/* ── Admin-uploaded photos in empty image cards (data-edit-img) ──
+   The photo fills the card at its designed size and crops to fit
+   (focal point set in the admin portal), so layout never shifts. */
+[data-edit-img].has-img > img.slot-img {
+  position: absolute; inset: 0; z-index: 2;
+  width: 100%; height: 100%;
+  object-fit: cover; border-radius: inherit;
+  display: block;
+}
+[data-edit-img].has-img::before,
+[data-edit-img].has-img > span { display: none; }

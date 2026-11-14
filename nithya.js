@@ -212,6 +212,214 @@ function showToast(msg, level = 'info') {
   setTimeout(() => { t.classList.remove('toast--show'); setTimeout(() => t.remove(), 400); }, 4000);
 }
 
+/* ── Editable site text ──
+   Elements marked data-edit="page.section.tagN" can be changed from the
+   admin portal (Website Text). Saved text lives in nithya_site_content;
+   anything never edited keeps the default written in the HTML.
+   ?nithya-edit=1 is the admin preview: it skips loading and lets the
+   admin editor drive the page instead. */
+const NithyaContent = (function () {
+  const ALLOWED = { EM: 1, STRONG: 1, B: 1, I: 1, BR: 1 };
+  const DROP    = { SCRIPT: 1, STYLE: 1, TEMPLATE: 1, IFRAME: 1, OBJECT: 1, EMBED: 1 };
+  const originals = {};
+  // The admin preview frame is named "nithya-edit" (survives URL redirects).
+  const editMode  = window.name === 'nithya-edit' || /[?&]nithya-edit=1(&|$)/.test(location.search);
+  let page = null;
+
+  /* Only plain text plus italic / bold / line breaks survive. Used both when
+     the admin saves and when visitors load, so stored text can never inject
+     markup into the site. */
+  function sanitize(html) {
+    const tpl = document.createElement('template');
+    tpl.innerHTML = String(html == null ? '' : html);
+    (function clean(node) {
+      Array.from(node.childNodes).forEach(function (ch) {
+        if (ch.nodeType === 3) return;
+        if (ch.nodeType !== 1 || DROP[ch.tagName]) { ch.remove(); return; }
+        clean(ch);
+        if (ALLOWED[ch.tagName]) {
+          while (ch.attributes.length) ch.removeAttribute(ch.attributes[0].name);
+        } else {
+          ch.replaceWith.apply(ch, Array.from(ch.childNodes));
+        }
+      });
+    })(tpl.content);
+    const box = document.createElement('div');
+    box.appendChild(tpl.content);
+    return box.innerHTML.replace(/\s+/g, ' ').trim();
+  }
+
+  function elements(key) {
+    return key
+      ? document.querySelectorAll('[data-edit="' + CSS.escape(key) + '"]')
+      : document.querySelectorAll('[data-edit]');
+  }
+
+  function captureOriginals() {
+    elements().forEach(function (el) {
+      const k = el.dataset.edit;
+      if (!(k in originals)) originals[k] = el.innerHTML;
+    });
+  }
+
+  /* map: { key: html }. Keys missing from the map go back to the HTML default. */
+  function apply(map) {
+    map = map || {};
+    elements().forEach(function (el) {
+      const k = el.dataset.edit;
+      const next = (k in map) ? sanitize(map[k]) : originals[k];
+      if (next != null && el.innerHTML !== next) el.innerHTML = next;
+    });
+  }
+
+  /* ── Photos for empty image cards (data-edit-img="page.section.photoN") ──
+     A slot is either an <img> (src is set) or a placeholder box (a cover
+     <img class="slot-img"> is placed inside it). */
+  const IMG_BASE   = SUPABASE_URL + '/storage/v1/object/public/assets/site/';
+  const imgOriginals = {};
+
+  function imageSlots(key) {
+    return key
+      ? document.querySelectorAll('[data-edit-img="' + CSS.escape(key) + '"]')
+      : document.querySelectorAll('[data-edit-img]');
+  }
+
+  // Only photos uploaded through the admin portal (or, in the admin preview,
+  // a local not-yet-uploaded file) can ever be shown.
+  function imageUrlOk(u) {
+    u = String(u || '');
+    return u.indexOf(IMG_BASE) === 0 || (editMode && u.indexOf('blob:') === 0);
+  }
+  function posOk(p) { return /^\d{1,3}% \d{1,3}%$/.test(String(p || '')); }
+
+  function captureImageOriginals() {
+    imageSlots().forEach(function (el) {
+      const k = el.dataset.editImg;
+      if (k in imgOriginals) return;
+      imgOriginals[k] = el.tagName === 'IMG'
+        ? { src: el.getAttribute('src') || '', alt: el.getAttribute('alt') || '' }
+        : { html: el.innerHTML, role: el.getAttribute('role'), label: el.getAttribute('aria-label') };
+    });
+  }
+
+  function setSlot(el, img) {
+    const k = el.dataset.editImg, o = imgOriginals[k];
+    const ok = img && imageUrlOk(img.url);
+    const pos = ok && posOk(img.pos) ? img.pos : '50% 50%';
+    if (el.tagName === 'IMG') {
+      if (ok) {
+        if (el.getAttribute('src') !== img.url) el.setAttribute('src', img.url);
+        el.setAttribute('alt', img.alt || o.alt);
+        el.style.objectPosition = pos;
+      } else {
+        el.setAttribute('src', o.src);
+        el.setAttribute('alt', o.alt);
+        el.style.objectPosition = '';
+      }
+      el.classList.toggle('has-img', !!ok);
+      return;
+    }
+    if (ok) {
+      let pic = el.querySelector(':scope > img.slot-img');
+      if (!pic) {
+        pic = document.createElement('img');
+        pic.className = 'slot-img';
+        pic.loading = 'lazy';
+        pic.decoding = 'async';
+        el.appendChild(pic);
+      }
+      if (pic.getAttribute('src') !== img.url) pic.setAttribute('src', img.url);
+      pic.alt = img.alt || '';
+      pic.style.objectPosition = pos;
+      el.removeAttribute('role');
+      el.removeAttribute('aria-label');
+      el.classList.add('has-img');
+    } else if (el.classList.contains('has-img')) {
+      el.innerHTML = o.html;
+      if (o.role) el.setAttribute('role', o.role);
+      if (o.label) el.setAttribute('aria-label', o.label);
+      el.classList.remove('has-img');
+    }
+  }
+
+  /* map: { key: {url, alt, pos} }. Keys missing from the map go back to empty. */
+  function applyImages(map) {
+    map = map || {};
+    imageSlots().forEach(function (el) { setSlot(el, map[el.dataset.editImg] || null); });
+  }
+
+  function cacheKey() { return 'nithya.content.' + page; }
+
+  function readCache() {
+    try { return JSON.parse(localStorage.getItem(cacheKey()) || 'null'); } catch (_) { return null; }
+  }
+  function writeCache(data) {
+    try { localStorage.setItem(cacheKey(), JSON.stringify(data)); } catch (_) { /* private mode */ }
+  }
+
+  function getRows(table, cols) {
+    return fetch(
+      SUPABASE_URL + '/rest/v1/' + table + '?select=' + cols + '&page=eq.' + encodeURIComponent(page),
+      { headers: { apikey: SUPABASE_ANON, Authorization: 'Bearer ' + SUPABASE_ANON } }
+    ).then(function (res) { return res.ok ? res.json() : null; })   // not set up yet → null
+     .catch(function () { return null; });                           // offline → null
+  }
+
+  async function load() {
+    // Last-seen content first (no flash for returning visitors), then refresh.
+    const cached = readCache();
+    if (cached && cached.text)   apply(cached.text);
+    if (cached && cached.images) applyImages(cached.images);
+    const [textRows, imgRows] = await Promise.all([
+      getRows('nithya_site_content', 'key,html'),
+      imageSlots().length ? getRows('nithya_site_images', 'key,url,alt,pos') : Promise.resolve(null),
+    ]);
+    const next = { text: cached && cached.text, images: cached && cached.images };
+    if (textRows) {
+      next.text = {};
+      textRows.forEach(function (r) { next.text[r.key] = r.html; });
+      apply(next.text);
+    }
+    if (imgRows) {
+      next.images = {};
+      imgRows.forEach(function (r) { next.images[r.key] = { url: r.url, alt: r.alt, pos: r.pos }; });
+      applyImages(next.images);
+    }
+    if (textRows || imgRows) writeCache(next);
+  }
+
+  function init() {
+    page = document.body && document.body.dataset.contentPage;
+    if (!page) return;
+    captureOriginals();
+    captureImageOriginals();
+    if (editMode) {
+      if (window.parent !== window) {
+        window.parent.postMessage({ type: 'nithya-edit-ready', page: page }, location.origin);
+      }
+      return;
+    }
+    load();
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+
+  return {
+    get page() { return page; },
+    editMode: editMode,
+    originals: originals,
+    sanitize: sanitize,
+    apply: apply,
+    elements: elements,
+    imgOriginals: imgOriginals,
+    imageSlots: imageSlots,
+    applyImages: applyImages,
+    imageUrlOk: imageUrlOk,
+  };
+})();
+window.NithyaContent = NithyaContent;
+
 /* ── Intersection reveal ── */
 function initReveal() {
   const obs = new IntersectionObserver(entries => {

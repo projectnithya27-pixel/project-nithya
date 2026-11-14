@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="css/subpage.css">
   <link rel="stylesheet" href="css/safety.css">
 </head>
-<body>
+<body data-content-page="safety">
 
 <!-- NAV — ticker lives inside nav so pill clips it -->
 <nav>
@@ -20,13 +20,13 @@
     <span class="nav-wordmark">Project <span class="wordmark-accent">Nithya</span></span>
   </a>
   <ul class="nav-links">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="safety.html">Safety</a></li>
-    <li><a href="health-guidance.html">Health</a></li>
-    <li><a href="index.html#volunteer">Volunteer</a></li>
+    <li><a data-edit="safety.nav.a1" href="index.html">Home</a></li>
+    <li><a data-edit="safety.nav.a2" href="safety.html">Safety</a></li>
+    <li><a data-edit="safety.nav.a3" href="health-guidance.html">Health</a></li>
+    <li><a data-edit="safety.nav.a4" href="index.html#volunteer">Volunteer</a></li>
   </ul>
   <div class="nav-actions">
-    <a href="#reach-out" class="nav-cta nav-cta--pink">I Need Help</a>
+    <a data-edit="safety.nav.a5" href="#reach-out" class="nav-cta nav-cta--pink">I Need Help</a>
     <button class="nav-burger" id="navBurger" onclick="toggleMobileMenu()" aria-label="Open menu">
       <svg width="20" height="14" viewBox="0 0 20 14" fill="none">
         <line class="bar1" x1="0" y1="1"  x2="20" y2="1"  stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
@@ -39,34 +39,34 @@
   <div class="eb-ticker">
     <div class="eb-track">
       <div class="eb-set">
-        <div class="eb-item"><span class="eb-label">India · Women's Helpline</span><a href="tel:181" class="eb-number">181</a></div>
+        <div class="eb-item"><span data-edit="safety.nav.span1" class="eb-label">India · Women's Helpline</span><a href="tel:181" class="eb-number">181</a></div>
         <div class="eb-sep"></div>
-        <div class="eb-item"><span class="eb-label">India · Police</span><a href="tel:100" class="eb-number">100</a></div>
+        <div class="eb-item"><span data-edit="safety.nav.span2" class="eb-label">India · Police</span><a href="tel:100" class="eb-number">100</a></div>
         <div class="eb-sep"></div>
-        <div class="eb-item"><span class="eb-label">India · NCW</span><a href="tel:7827170170" class="eb-number">7827-170-170</a></div>
+        <div class="eb-item"><span data-edit="safety.nav.span3" class="eb-label">India · NCW</span><a href="tel:7827170170" class="eb-number">7827-170-170</a></div>
         <div class="eb-sep"></div>
-        <div class="eb-item"><span class="eb-label">India · Crisis Line</span><a href="tel:18602662345" class="eb-number">1860-2662-345</a></div>
+        <div class="eb-item"><span data-edit="safety.nav.span4" class="eb-label">India · Crisis Line</span><a href="tel:18602662345" class="eb-number">1860-2662-345</a></div>
         <div class="eb-sep"></div>
-        <div class="eb-item"><span class="eb-label">Sri Lanka · Women In Need</span><a href="tel:+94112676761" class="eb-number">+94-11-2676761</a></div>
+        <div class="eb-item"><span data-edit="safety.nav.span5" class="eb-label">Sri Lanka · Women In Need</span><a href="tel:+94112676761" class="eb-number">+94-11-2676761</a></div>
         <div class="eb-sep"></div>
-        <div class="eb-item"><span class="eb-label">Sri Lanka · Police</span><a href="tel:119" class="eb-number">119</a></div>
+        <div class="eb-item"><span data-edit="safety.nav.span6" class="eb-label">Sri Lanka · Police</span><a href="tel:119" class="eb-number">119</a></div>
         <div class="eb-sep"></div>
-        <div class="eb-item"><span class="eb-label">Sri Lanka · Sumithrayo</span><a href="tel:+94112692909" class="eb-number">+94-11-2692909</a></div>
+        <div class="eb-item"><span data-edit="safety.nav.span7" class="eb-label">Sri Lanka · Sumithrayo</span><a href="tel:+94112692909" class="eb-number">+94-11-2692909</a></div>
       </div>
       <div class="eb-set" aria-hidden="true">
-        <div class="eb-item"><span class="eb-label">India · Women's Helpline</span><a href="tel:181" class="eb-number">181</a></div>
+        <div class="eb-item"><span data-edit="safety.nav.span1" class="eb-label">India · Women's Helpline</span><a href="tel:181" class="eb-number">181</a></div>
         <div class="eb-sep"></div>
-        <div class="eb-item"><span class="eb-label">India · Police</span><a href="tel:100" class="eb-number">100</a></div>
+        <div class="eb-item"><span data-edit="safety.nav.span2" class="eb-label">India · Police</span><a href="tel:100" class="eb-number">100</a></div>
         <div class="eb-sep"></div>
-        <div class="eb-item"><span class="eb-label">India · NCW</span><a href="tel:7827170170" class="eb-number">7827-170-170</a></div>
+        <div class="eb-item"><span data-edit="safety.nav.span3" class="eb-label">India · NCW</span><a href="tel:7827170170" class="eb-number">7827-170-170</a></div>
         <div class="eb-sep"></div>
-        <div class="eb-item"><span class="eb-label">India · Crisis Line</span><a href="tel:18602662345" class="eb-number">1860-2662-345</a></div>
+        <div class="eb-item"><span data-edit="safety.nav.span4" class="eb-label">India · Crisis Line</span><a href="tel:18602662345" class="eb-number">1860-2662-345</a></div>
         <div class="eb-sep"></div>
-        <div class="eb-item"><span class="eb-label">Sri Lanka · Women In Need</span><a href="tel:+94112676761" class="eb-number">+94-11-2676761</a></div>
+        <div class="eb-item"><span data-edit="safety.nav.span5" class="eb-label">Sri Lanka · Women In Need</span><a href="tel:+94112676761" class="eb-number">+94-11-2676761</a></div>
         <div class="eb-sep"></div>
-        <div class="eb-item"><span class="eb-label">Sri Lanka · Police</span><a href="tel:119" class="eb-number">119</a></div>
+        <div class="eb-item"><span data-edit="safety.nav.span6" class="eb-label">Sri Lanka · Police</span><a href="tel:119" class="eb-number">119</a></div>
         <div class="eb-sep"></div>
-        <div class="eb-item"><span class="eb-label">Sri Lanka · Sumithrayo</span><a href="tel:+94112692909" class="eb-number">+94-11-2692909</a></div>
+        <div class="eb-item"><span data-edit="safety.nav.span7" class="eb-label">Sri Lanka · Sumithrayo</span><a href="tel:+94112692909" class="eb-number">+94-11-2692909</a></div>
       </div>
     </div>
   </div>
@@ -74,15 +74,15 @@
 
 <!-- Mobile menu -->
 <div class="mobile-menu" id="mobileMenu">
-  <a href="index.html"           class="mob-link">Home</a>
-  <a href="safety.html"          class="mob-link">Safety &amp; Refuge</a>
-  <a href="health-guidance.html" class="mob-link">Health Guidance</a>
-  <a href="index.html#volunteer" class="mob-link">Volunteer</a>
+  <a data-edit="safety.mobilemenu.a1" href="index.html"           class="mob-link">Home</a>
+  <a data-edit="safety.mobilemenu.a2" href="safety.html"          class="mob-link">Safety &amp; Refuge</a>
+  <a data-edit="safety.mobilemenu.a3" href="health-guidance.html" class="mob-link">Health Guidance</a>
+  <a data-edit="safety.mobilemenu.a4" href="index.html#volunteer" class="mob-link">Volunteer</a>
 </div>
 
 <!-- Floating CTA bubble — mobile only -->
 <div class="fab-cta">
-  <a href="#reach-out" class="fab-btn fab-btn--pink">I Need Help</a>
+  <a data-edit="safety.page.a1" href="#reach-out" class="fab-btn fab-btn--pink">I Need Help</a>
 </div>
 
 
@@ -91,13 +91,13 @@
   <div class="hero-orb ho1"></div>
   <div class="hero-orb ho2"></div>
   <div class="hero-orb ho3"></div>
-  <p class="hero-eyebrow">Safety &amp; Refuge</p>
-  <h1 class="hero-title">
+  <p data-edit="safety.page-hero.p1" class="hero-eyebrow">Safety &amp; Refuge</p>
+  <h1 data-edit="safety.page-hero.h11" class="hero-title">
     You deserve
     <em>to feel safe.</em>
   </h1>
-  <p class="hero-sub">Whatever you are living through — you are not at fault, you are not alone, and there are people who will stand with you.</p>
-  <a href="#reach-out" class="hero-anchor">Reach out to us &darr;</a>
+  <p data-edit="safety.page-hero.p2" class="hero-sub">Whatever you are living through — you are not at fault, you are not alone, and there are people who will stand with you.</p>
+  <a data-edit="safety.page-hero.a1" href="#reach-out" class="hero-anchor">Reach out to us &darr;</a>
   <div class="hero-fade"></div>
 </section>
 
@@ -111,34 +111,34 @@
       <img src="saftey.png" alt="Project Nithya safety & refuge support">
     </div>
     <div class="feature-text">
-      <p class="sec-tag gold">What refuge looks like</p>
-      <h2 class="sec-head">A door always<br><em>open to you.</em></h2>
-      <blockquote>"Safety is not just the absence of danger. It is the presence of someone who will not let you face it alone."</blockquote>
-      <p class="body-p">When a woman reaches out to Project Nithya for safety support, the first thing she receives is not a checklist — it is a human voice that says: we believe you, and we are here.</p>
-      <p class="body-p">Whether you are planning to leave, weighing your options, or already in crisis — we match you with the support that fits your situation, quickly and confidentially.</p>
+      <p data-edit="safety.page.p1" class="sec-tag gold">What refuge looks like</p>
+      <h2 data-edit="safety.page.h21" class="sec-head">A door always<br><em>open to you.</em></h2>
+      <blockquote data-edit="safety.page.blockquote1">"Safety is not just the absence of danger. It is the presence of someone who will not let you face it alone."</blockquote>
+      <p data-edit="safety.page.p2" class="body-p">When a woman reaches out to Project Nithya for safety support, the first thing she receives is not a checklist — it is a human voice that says: we believe you, and we are here.</p>
+      <p data-edit="safety.page.p3" class="body-p">Whether you are planning to leave, weighing your options, or already in crisis — we match you with the support that fits your situation, quickly and confidentially.</p>
     </div>
   </div>
 
   <div class="pillars" style="margin-top:60px">
-    <p class="sec-tag gold">How we can help</p>
-    <h2 class="sec-head">Practical support,<br><em>without judgement.</em></h2>
-    <p class="body-p">Safety crises are not moments to navigate alone. Whether you are in immediate danger or building the courage to leave — we meet you exactly where you are, at whatever pace you need.</p>
+    <p data-edit="safety.page.p4" class="sec-tag gold">How we can help</p>
+    <h2 data-edit="safety.page.h22" class="sec-head">Practical support,<br><em>without judgement.</em></h2>
+    <p data-edit="safety.page.p5" class="body-p">Safety crises are not moments to navigate alone. Whether you are in immediate danger or building the courage to leave — we meet you exactly where you are, at whatever pace you need.</p>
 
     <div class="pillars-grid">
       <div class="pillar" data-reveal>
         <div class="pillar-stripe"></div>
-        <h3>Safety Planning</h3>
-        <p>If you are in an unsafe home or relationship, we'll work with you on a confidential, practical plan — what to pack, where to go, who to call, and how to stay safe in the meantime.</p>
+        <h3 data-edit="safety.page.h31">Safety Planning</h3>
+        <p data-edit="safety.page.p6">If you are in an unsafe home or relationship, we'll work with you on a confidential, practical plan — what to pack, where to go, who to call, and how to stay safe in the meantime.</p>
       </div>
       <div class="pillar" data-reveal>
         <div class="pillar-stripe"></div>
-        <h3>Safe Shelter Referrals</h3>
-        <p>We maintain verified connections to safe houses, refuge shelters, and transition homes across India and Sri Lanka — so you always have somewhere to go.</p>
+        <h3 data-edit="safety.page.h32">Safe Shelter Referrals</h3>
+        <p data-edit="safety.page.p7">We maintain verified connections to safe houses, refuge shelters, and transition homes across India and Sri Lanka — so you always have somewhere to go.</p>
       </div>
       <div class="pillar" data-reveal>
         <div class="pillar-stripe"></div>
-        <h3>Recovery &amp; Rebuilding</h3>
-        <p>After the immediate crisis — rebuilding financial independence, confidence, and a life you feel safe in. We walk with you through every stage of that journey.</p>
+        <h3 data-edit="safety.page.h33">Recovery &amp; Rebuilding</h3>
+        <p data-edit="safety.page.p8">After the immediate crisis — rebuilding financial independence, confidence, and a life you feel safe in. We walk with you through every stage of that journey.</p>
       </div>
     </div>
   </div>
@@ -154,21 +154,21 @@
   <div class="reach-bg-orb rbo2"></div>
 
   <div class="reach-inner">
-    <div class="reach-badge">Confidential &nbsp;·&nbsp; Safe &nbsp;·&nbsp; No judgement</div>
-    <h2 class="reach-title">You are safe<br><em>to talk to us.</em></h2>
-    <p class="reach-sub">You do not have to have it figured out. You do not need to have already left. Wherever you are in this — we want to hear from you.</p>
-    <p class="reach-reassure">We will never share your details with anyone, including family members or authorities, without your explicit consent. Your message is read only by trained members of our team.</p>
+    <div data-edit="safety.reach-out.div1" class="reach-badge">Confidential &nbsp;·&nbsp; Safe &nbsp;·&nbsp; No judgement</div>
+    <h2 data-edit="safety.reach-out.h21" class="reach-title">You are safe<br><em>to talk to us.</em></h2>
+    <p data-edit="safety.reach-out.p1" class="reach-sub">You do not have to have it figured out. You do not need to have already left. Wherever you are in this — we want to hear from you.</p>
+    <p data-edit="safety.reach-out.p2" class="reach-reassure">We will never share your details with anyone, including family members or authorities, without your explicit consent. Your message is read only by trained members of our team.</p>
 
     <div class="reach-card" id="reach-form-wrap">
-      <p class="anonymous-note">You can use any name you choose. Contact details are optional — though if you share them, we can reach back to you.</p>
+      <p data-edit="safety.reach-form-wrap.p1" class="anonymous-note">You can use any name you choose. Contact details are optional — though if you share them, we can reach back to you.</p>
       <form class="reach-form" id="helpForm" onsubmit="return false">
         <div class="row2">
           <div class="fg">
-            <label>Name (any name is fine)</label>
+            <label data-edit="safety.helpform.label1">Name (any name is fine)</label>
             <input class="fi" name="name" type="text" placeholder="Name or nickname">
           </div>
           <div class="fg">
-            <label>How you'd like us to reach you</label>
+            <label data-edit="safety.helpform.label2">How you'd like us to reach you</label>
             <select class="fi" name="pref">
               <option value="any">Any way works</option>
               <option value="email">Email only</option>
@@ -180,16 +180,16 @@
         </div>
         <div class="row2">
           <div class="fg">
-            <label>Email (optional)</label>
+            <label data-edit="safety.helpform.label3">Email (optional)</label>
             <input class="fi" name="email" type="email" placeholder="you@example.com">
           </div>
           <div class="fg">
-            <label>Phone / WhatsApp (optional)</label>
+            <label data-edit="safety.helpform.label4">Phone / WhatsApp (optional)</label>
             <input class="fi" name="phone" type="tel" placeholder="+91 / +94 or your country code">
           </div>
         </div>
         <div class="fg">
-          <label>How urgent is your situation?</label>
+          <label data-edit="safety.helpform.label5">How urgent is your situation?</label>
           <select class="fi" name="urgency">
             <option value="normal">I'm safe right now — looking for guidance and support</option>
             <option value="soon">I'm not in immediate danger but I need help soon</option>
@@ -197,11 +197,11 @@
           </select>
         </div>
         <div class="fg">
-          <label>What is happening? *</label>
+          <label data-edit="safety.helpform.label6">What is happening? *</label>
           <textarea class="fi" name="situation" rows="5" placeholder="Write as much or as little as you'd like. There's no wrong way to do this."></textarea>
         </div>
-        <button type="submit" class="btn-reach">Send — your message is safe with us</button>
-        <p class="reach-note">Confidential. Never shared. Read by a trained human within 24 hours.</p>
+        <button data-edit="safety.helpform.button1" type="submit" class="btn-reach">Send — your message is safe with us</button>
+        <p data-edit="safety.helpform.p1" class="reach-note">Confidential. Never shared. Read by a trained human within 24 hours.</p>
       </form>
     </div>
   </div>
@@ -211,23 +211,23 @@
 <!-- WHAT HAPPENS NEXT -->
 <div class="main-wrap">
   <div style="margin-top:80px">
-    <p class="sec-tag">What happens next</p>
-    <h2 class="sec-head">A steady hand,<br><em>every step.</em></h2>
+    <p data-edit="safety.page.p9" class="sec-tag">What happens next</p>
+    <h2 data-edit="safety.page.h23" class="sec-head">A steady hand,<br><em>every step.</em></h2>
     <div class="steps">
       <div class="step" data-reveal>
-        <div class="step-num">01</div>
-        <h4>A person reads your message</h4>
-        <p>Not a bot, not an auto-reply. A trained member of our team reads every message personally, within 24 hours.</p>
+        <div data-edit="safety.page.div1" class="step-num">01</div>
+        <h4 data-edit="safety.page.h41">A person reads your message</h4>
+        <p data-edit="safety.page.p10">Not a bot, not an auto-reply. A trained member of our team reads every message personally, within 24 hours.</p>
       </div>
       <div class="step" data-reveal>
-        <div class="step-num">02</div>
-        <h4>We reach out gently</h4>
-        <p>Through your preferred channel — or not at all, if you asked for that. You stay in control of every interaction.</p>
+        <div data-edit="safety.page.div2" class="step-num">02</div>
+        <h4 data-edit="safety.page.h42">We reach out gently</h4>
+        <p data-edit="safety.page.p11">Through your preferred channel — or not at all, if you asked for that. You stay in control of every interaction.</p>
       </div>
       <div class="step" data-reveal>
-        <div class="step-num">03</div>
-        <h4>We build a path forward</h4>
-        <p>Safety plan, shelter, counselling — whatever the right next step is for you, we figure it out together.</p>
+        <div data-edit="safety.page.div3" class="step-num">03</div>
+        <h4 data-edit="safety.page.h43">We build a path forward</h4>
+        <p data-edit="safety.page.p12">Safety plan, shelter, counselling — whatever the right next step is for you, we figure it out together.</p>
       </div>
     </div>
   </div>
@@ -235,54 +235,54 @@
   <!-- CRISIS NUMBERS -->
   <div class="crisis-strip" data-reveal>
     <div class="crisis-top">
-      <p class="sec-tag gold">If you are in immediate danger</p>
-      <p>Call one of these numbers right now. They are free, confidential, and available 24/7.</p>
+      <p data-edit="safety.page.p13" class="sec-tag gold">If you are in immediate danger</p>
+      <p data-edit="safety.page.p14">Call one of these numbers right now. They are free, confidential, and available 24/7.</p>
     </div>
     <div class="crisis-grid">
       <div class="crisis-item">
-        <h4>Women's Helpline</h4>
+        <h4 data-edit="safety.page.h44">Women's Helpline</h4>
         <a href="tel:181">181</a>
-        <p>India · National, free, 24/7</p>
+        <p data-edit="safety.page.p15">India · National, free, 24/7</p>
       </div>
       <div class="crisis-item">
-        <h4>Police Emergency</h4>
+        <h4 data-edit="safety.page.h45">Police Emergency</h4>
         <a href="tel:100">100</a>
-        <p>India · All India emergency</p>
+        <p data-edit="safety.page.p16">India · All India emergency</p>
       </div>
       <div class="crisis-item">
-        <h4>NCW Helpline</h4>
+        <h4 data-edit="safety.page.h46">NCW Helpline</h4>
         <a href="tel:7827170170">7827-170-170</a>
-        <p>India · National Commission for Women</p>
+        <p data-edit="safety.page.p17">India · National Commission for Women</p>
       </div>
       <div class="crisis-item">
-        <h4>Vandrevala Foundation</h4>
+        <h4 data-edit="safety.page.h47">Vandrevala Foundation</h4>
         <a href="tel:18602662345">1860-2662-345</a>
-        <p>India · 24/7 mental health crisis</p>
+        <p data-edit="safety.page.p18">India · 24/7 mental health crisis</p>
       </div>
       <div class="crisis-item">
-        <h4>Shakti Shalini</h4>
+        <h4 data-edit="safety.page.h48">Shakti Shalini</h4>
         <a href="tel:01124373736">011-24373736</a>
-        <p>India · Domestic violence support</p>
+        <p data-edit="safety.page.p19">India · Domestic violence support</p>
       </div>
       <div class="crisis-item">
-        <h4>iCall (TISS)</h4>
+        <h4 data-edit="safety.page.h49">iCall (TISS)</h4>
         <a href="tel:9152987821">9152987821</a>
-        <p>India · Psychosocial helpline</p>
+        <p data-edit="safety.page.p20">India · Psychosocial helpline</p>
       </div>
       <div class="crisis-item">
-        <h4>Women In Need</h4>
+        <h4 data-edit="safety.page.h410">Women In Need</h4>
         <a href="tel:+94112676761">+94-11-2676761</a>
-        <p>Sri Lanka · Domestic violence &amp; crisis</p>
+        <p data-edit="safety.page.p21">Sri Lanka · Domestic violence &amp; crisis</p>
       </div>
       <div class="crisis-item">
-        <h4>Sumithrayo</h4>
+        <h4 data-edit="safety.page.h411">Sumithrayo</h4>
         <a href="tel:+94112692909">+94-11-2692909</a>
-        <p>Sri Lanka · Emotional support helpline</p>
+        <p data-edit="safety.page.p22">Sri Lanka · Emotional support helpline</p>
       </div>
       <div class="crisis-item">
-        <h4>Sri Lanka Police</h4>
+        <h4 data-edit="safety.page.h412">Sri Lanka Police</h4>
         <a href="tel:119">119</a>
-        <p>Sri Lanka · Police emergency</p>
+        <p data-edit="safety.page.p23">Sri Lanka · Police emergency</p>
       </div>
     </div>
   </div>
@@ -298,19 +298,19 @@
     <div class="ft-brand" style="text-align:center; align-items:center;">
       <div class="ft-logo">
         <img src="https://hdmnkxwpsxlxtrlseaqj.supabase.co/storage/v1/object/public/assets/logo.png" alt="Project Nithya" height="120">
-        <span class="ft-name">Project Nithya</span>
+        <span data-edit="safety.footer.span1" class="ft-name">Project Nithya</span>
       </div>
-      <p class="ft-desc">A women's welfare organisation specialising in haematology and women's health — standing beside women across India and Sri Lanka.</p>
-      <p class="ft-tagline">Strength in every woman. Dignity in every life.</p>
+      <p data-edit="safety.footer.p1" class="ft-desc">A women's welfare organisation specialising in haematology and women's health — standing beside women across India and Sri Lanka.</p>
+      <p data-edit="safety.footer.p2" class="ft-tagline">Strength in every woman. Dignity in every life.</p>
       <div class="ft-contact">
         <p>Email: <a href="mailto:projectnithya27@gmail.com">projectnithya27@gmail.com</a></p>
-        <p style="font-size:12px;color:rgba(245,240,232,0.32);margin-top:10px;letter-spacing:0.02em;">PROJECT NITHYA LTD &nbsp;·&nbsp; Company number 16778538</p>
+        <p data-edit="safety.footer.p3" style="font-size:12px;color:rgba(245,240,232,0.32);margin-top:10px;letter-spacing:0.02em;">PROJECT NITHYA LTD &nbsp;·&nbsp; Company number 16778538</p>
       </div>
     </div>
   </div>
   <div class="ft-bar">
-    <p>© 2026 Project Nithya Ltd. All rights reserved. &nbsp;·&nbsp; Company number 16778538 &nbsp;·&nbsp; England &amp; Wales</p>
-    <p><a href="index.html">Home</a> &nbsp;·&nbsp; <a href="health-guidance.html">Health Guidance</a></p>
+    <p data-edit="safety.footer.p4">© 2026 Project Nithya Ltd. All rights reserved. &nbsp;·&nbsp; Company number 16778538 &nbsp;·&nbsp; England &amp; Wales</p>
+    <p><a data-edit="safety.footer.a1" href="index.html">Home</a> &nbsp;·&nbsp; <a data-edit="safety.footer.a2" href="health-guidance.html">Health Guidance</a></p>
   </div>
 </footer>
 

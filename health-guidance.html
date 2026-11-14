@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="css/subpage.css">
   <link rel="stylesheet" href="css/health-guidance.css">
 </head>
-<body>
+<body data-content-page="health-guidance">
 
 <!-- NAV -->
 <nav>
@@ -20,13 +20,13 @@
     <span class="nav-wordmark">Project <span class="wordmark-accent">Nithya</span></span>
   </a>
   <ul class="nav-links">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="safety.html">Safety</a></li>
-    <li><a href="health-guidance.html">Health</a></li>
-    <li><a href="index.html#volunteer">Volunteer</a></li>
+    <li><a data-edit="health-guidance.nav.a1" href="index.html">Home</a></li>
+    <li><a data-edit="health-guidance.nav.a2" href="safety.html">Safety</a></li>
+    <li><a data-edit="health-guidance.nav.a3" href="health-guidance.html">Health</a></li>
+    <li><a data-edit="health-guidance.nav.a4" href="index.html#volunteer">Volunteer</a></li>
   </ul>
   <div class="nav-actions">
-    <a href="#reach-out" class="nav-cta nav-cta--pink">Ask Us</a>
+    <a data-edit="health-guidance.nav.a5" href="#reach-out" class="nav-cta nav-cta--pink">Ask Us</a>
     <button class="nav-burger" id="navBurger" onclick="toggleMobileMenu()" aria-label="Open menu">
       <svg width="20" height="14" viewBox="0 0 20 14" fill="none">
         <line class="bar1" x1="0" y1="1"  x2="20" y2="1"  stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
@@ -39,15 +39,15 @@
 
 <!-- Mobile menu -->
 <div class="mobile-menu" id="mobileMenu">
-  <a href="index.html"           class="mob-link">Home</a>
-  <a href="safety.html"          class="mob-link">Safety &amp; Refuge</a>
-  <a href="health-guidance.html" class="mob-link">Health Guidance</a>
-  <a href="index.html#volunteer" class="mob-link">Volunteer</a>
+  <a data-edit="health-guidance.mobilemenu.a1" href="index.html"           class="mob-link">Home</a>
+  <a data-edit="health-guidance.mobilemenu.a2" href="safety.html"          class="mob-link">Safety &amp; Refuge</a>
+  <a data-edit="health-guidance.mobilemenu.a3" href="health-guidance.html" class="mob-link">Health Guidance</a>
+  <a data-edit="health-guidance.mobilemenu.a4" href="index.html#volunteer" class="mob-link">Volunteer</a>
 </div>
 
 <!-- Floating CTA bubble — mobile only -->
 <div class="fab-cta">
-  <a href="#reach-out" class="fab-btn fab-btn--pink">Ask Us</a>
+  <a data-edit="health-guidance.page.a1" href="#reach-out" class="fab-btn fab-btn--pink">Ask Us</a>
 </div>
 
 
@@ -56,13 +56,13 @@
   <div class="hero-orb ho1"></div>
   <div class="hero-orb ho2"></div>
   <div class="hero-orb ho3"></div>
-  <p class="hero-eyebrow">Health Guidance</p>
-  <h1 class="hero-title">
+  <p data-edit="health-guidance.page-hero.p1" class="hero-eyebrow">Health Guidance</p>
+  <h1 data-edit="health-guidance.page-hero.h11" class="hero-title">
     Navigate your health
     <em>with confidence.</em>
   </h1>
-  <p class="hero-sub">The healthcare system can feel opaque and overwhelming. We make it clear, accessible, and less lonely.</p>
-  <a href="#reach-out" class="hero-anchor">Ask us anything &darr;</a>
+  <p data-edit="health-guidance.page-hero.p2" class="hero-sub">The healthcare system can feel opaque and overwhelming. We make it clear, accessible, and less lonely.</p>
+  <a data-edit="health-guidance.page-hero.a1" href="#reach-out" class="hero-anchor">Ask us anything &darr;</a>
   <div class="hero-fade"></div>
 </section>
 
@@ -73,11 +73,11 @@
   <!-- FEATURE BLOCK: image + text -->
   <div class="feature-block">
     <div class="feature-text">
-      <p class="sec-tag blue">How we guide you</p>
-      <h2 class="sec-head">Your health.<br><em>Your questions.</em></h2>
-      <blockquote>"No question is too small. No concern is too vague. If your body is worrying you, that already matters."</blockquote>
-      <p class="body-p">Women's health questions are too often dismissed with a wave or a hurried explanation. Project Nithya exists to close that gap — offering thoughtful, plain-language guidance for women across India and Sri Lanka, from people who take your concerns seriously.</p>
-      <p class="body-p">Our specialty is haematology — the study of blood and blood disorders — but we also help women navigate reproductive health, hospital systems, and the preventive screenings that too often go unmentioned. We are not a replacement for medical care. We are the bridge that helps you access it.</p>
+      <p data-edit="health-guidance.page.p1" class="sec-tag blue">How we guide you</p>
+      <h2 data-edit="health-guidance.page.h21" class="sec-head">Your health.<br><em>Your questions.</em></h2>
+      <blockquote data-edit="health-guidance.page.blockquote1">"No question is too small. No concern is too vague. If your body is worrying you, that already matters."</blockquote>
+      <p data-edit="health-guidance.page.p2" class="body-p">Women's health questions are too often dismissed with a wave or a hurried explanation. Project Nithya exists to close that gap — offering thoughtful, plain-language guidance for women across India and Sri Lanka, from people who take your concerns seriously.</p>
+      <p data-edit="health-guidance.page.p3" class="body-p">Our specialty is haematology — the study of blood and blood disorders — but we also help women navigate reproductive health, hospital systems, and the preventive screenings that too often go unmentioned. We are not a replacement for medical care. We are the bridge that helps you access it.</p>
     </div>
     <div class="feature-img-wrap">
       <img src="health.png" alt="Project Nithya health guidance">
@@ -92,52 +92,52 @@
   <div class="haem-orb ho1"></div>
   <div class="haem-orb ho2"></div>
   <div class="haem-inner">
-    <p class="haem-eyebrow">Our specialty</p>
-    <h2 class="haem-head">When the issue<br><em>is in the blood.</em></h2>
-    <p class="haem-lede">Haematology — the study of blood and blood disorders — sits at the heart of women's health across our region. Anaemia affects more than half of women in India. Thalassemia carriers number in the millions across Sri Lanka. Iron deficiency, clotting disorders, postpartum haemorrhage — these are not rare conditions. They are everyday realities, and too often invisible until they become dangerous.</p>
-    <p class="haem-lede">Project Nithya focuses here. We help women read their blood reports, navigate haematology consultations, understand carrier screening, and find the right specialists across India and Sri Lanka.</p>
+    <p data-edit="health-guidance.haematology.p1" class="haem-eyebrow">Our specialty</p>
+    <h2 data-edit="health-guidance.haematology.h21" class="haem-head">When the issue<br><em>is in the blood.</em></h2>
+    <p data-edit="health-guidance.haematology.p2" class="haem-lede">Haematology — the study of blood and blood disorders — sits at the heart of women's health across our region. Anaemia affects more than half of women in India. Thalassemia carriers number in the millions across Sri Lanka. Iron deficiency, clotting disorders, postpartum haemorrhage — these are not rare conditions. They are everyday realities, and too often invisible until they become dangerous.</p>
+    <p data-edit="health-guidance.haematology.p3" class="haem-lede">Project Nithya focuses here. We help women read their blood reports, navigate haematology consultations, understand carrier screening, and find the right specialists across India and Sri Lanka.</p>
 
     <div class="haem-facts">
       <div class="haem-fact" data-reveal>
-        <span class="haem-fact-stat">57%</span>
-        <p>of women in India live with anaemia, per NFHS-5 — the highest rate recorded in two decades.</p>
+        <span data-edit="health-guidance.haematology.span1" class="haem-fact-stat">57%</span>
+        <p data-edit="health-guidance.haematology.p4">of women in India live with anaemia, per NFHS-5 — the highest rate recorded in two decades.</p>
       </div>
       <div class="haem-fact" data-reveal>
-        <span class="haem-fact-stat">1 in 22</span>
-        <p>people in Sri Lanka carry a thalassemia gene. Pre-conception screening changes outcomes.</p>
+        <span data-edit="health-guidance.haematology.span2" class="haem-fact-stat">1 in 22</span>
+        <p data-edit="health-guidance.haematology.p5">people in Sri Lanka carry a thalassemia gene. Pre-conception screening changes outcomes.</p>
       </div>
       <div class="haem-fact" data-reveal>
-        <span class="haem-fact-stat">Free</span>
-        <p>Help reading your CBC, ferritin, or haemoglobin reports — and a referral path if you need one.</p>
+        <span data-edit="health-guidance.haematology.span3" class="haem-fact-stat">Free</span>
+        <p data-edit="health-guidance.haematology.p6">Help reading your CBC, ferritin, or haemoglobin reports — and a referral path if you need one.</p>
       </div>
     </div>
 
-    <a href="#reach-out" class="haem-cta">Ask us about a blood report &nbsp;&rarr;</a>
+    <a data-edit="health-guidance.haematology.a1" href="#reach-out" class="haem-cta">Ask us about a blood report &nbsp;&rarr;</a>
   </div>
 </section>
 
 <!-- AREAS PILLARS -->
 <section class="pillars-section" id="areas">
   <div class="pillars">
-    <p class="sec-tag blue">Beyond haematology</p>
-    <h2 class="sec-head">Other areas<br><em>we guide you through.</em></h2>
-    <p class="body-p" style="color:#484E72;max-width:640px;margin:0 auto;">From a confusing diagnosis to a screening you've been putting off — we listen, we explain, we point you to the right next step.</p>
+    <p data-edit="health-guidance.areas.p1" class="sec-tag blue">Beyond haematology</p>
+    <h2 data-edit="health-guidance.areas.h21" class="sec-head">Other areas<br><em>we guide you through.</em></h2>
+    <p data-edit="health-guidance.areas.p2" class="body-p" style="color:#484E72;max-width:640px;margin:0 auto;">From a confusing diagnosis to a screening you've been putting off — we listen, we explain, we point you to the right next step.</p>
 
     <div class="pillars-grid">
       <div class="pillar" data-reveal>
         <div class="pillar-stripe"></div>
-        <h3>Reproductive &amp; Menstrual Health</h3>
-        <p>PCOS, endometriosis, fibroids — too many women endure these without a real diagnosis. We help you decode what your body is signalling and find a specialist who will take you seriously.</p>
+        <h3 data-edit="health-guidance.areas.h31">Reproductive &amp; Menstrual Health</h3>
+        <p data-edit="health-guidance.areas.p3">PCOS, endometriosis, fibroids — too many women endure these without a real diagnosis. We help you decode what your body is signalling and find a specialist who will take you seriously.</p>
       </div>
       <div class="pillar" data-reveal>
         <div class="pillar-stripe"></div>
-        <h3>Navigating Doctors &amp; Hospitals</h3>
-        <p>Which specialist to see, what tests to ask for, how to read a report no one explained. We make sure you don't have to figure that out alone.</p>
+        <h3 data-edit="health-guidance.areas.h32">Navigating Doctors &amp; Hospitals</h3>
+        <p data-edit="health-guidance.areas.p4">Which specialist to see, what tests to ask for, how to read a report no one explained. We make sure you don't have to figure that out alone.</p>
       </div>
       <div class="pillar" data-reveal>
         <div class="pillar-stripe"></div>
-        <h3>Preventive &amp; Screening Care</h3>
-        <p>Breast self-examination, cervical screening, thyroid panels, iron and ferritin checks. We tell you what to seek, when, and where it's available at little or no cost.</p>
+        <h3 data-edit="health-guidance.areas.h33">Preventive &amp; Screening Care</h3>
+        <p data-edit="health-guidance.areas.p5">Breast self-examination, cervical screening, thyroid panels, iron and ferritin checks. We tell you what to seek, when, and where it's available at little or no cost.</p>
       </div>
     </div>
   </div>
@@ -150,19 +150,19 @@
   <div class="reach-bg-orb rbo2"></div>
 
   <div class="reach-inner">
-    <div class="reach-badge">Free &nbsp;·&nbsp; Confidential &nbsp;·&nbsp; Plain language</div>
-    <h2 class="reach-title">Ask us<br><em>anything.</em></h2>
-    <p class="reach-sub">No question is too small. No concern is too vague. If something about your health is worrying you and you don't know where to start — this is where you start.</p>
+    <div data-edit="health-guidance.reach-out.div1" class="reach-badge">Free &nbsp;·&nbsp; Confidential &nbsp;·&nbsp; Plain language</div>
+    <h2 data-edit="health-guidance.reach-out.h21" class="reach-title">Ask us<br><em>anything.</em></h2>
+    <p data-edit="health-guidance.reach-out.p1" class="reach-sub">No question is too small. No concern is too vague. If something about your health is worrying you and you don't know where to start — this is where you start.</p>
 
     <div class="reach-card" id="reach-form-wrap">
       <form class="reach-form" id="helpForm" onsubmit="return false">
         <div class="row2">
           <div class="fg">
-            <label>Your name</label>
+            <label data-edit="health-guidance.helpform.label1">Your name</label>
             <input class="fi" name="name" type="text" placeholder="Name (optional)">
           </div>
           <div class="fg">
-            <label>How would you like us to respond?</label>
+            <label data-edit="health-guidance.helpform.label2">How would you like us to respond?</label>
             <select class="fi" name="pref">
               <option value="email">Email</option>
               <option value="whatsapp">WhatsApp</option>
@@ -173,16 +173,16 @@
         </div>
         <div class="row2">
           <div class="fg">
-            <label>Email (optional)</label>
+            <label data-edit="health-guidance.helpform.label3">Email (optional)</label>
             <input class="fi" name="email" type="email" placeholder="you@example.com">
           </div>
           <div class="fg">
-            <label>Phone / WhatsApp (optional)</label>
+            <label data-edit="health-guidance.helpform.label4">Phone / WhatsApp (optional)</label>
             <input class="fi" name="phone" type="tel" placeholder="+91 / +94 or your country code">
           </div>
         </div>
         <div class="fg">
-          <label>Which area does your question relate to?</label>
+          <label data-edit="health-guidance.helpform.label5">Which area does your question relate to?</label>
           <select class="fi" name="urgency">
             <option value="normal">Haematology / blood reports</option>
             <option value="normal">Reproductive / menstrual health</option>
@@ -192,11 +192,11 @@
           </select>
         </div>
         <div class="fg">
-          <label>What's your question or concern? *</label>
+          <label data-edit="health-guidance.helpform.label6">What's your question or concern? *</label>
           <textarea class="fi" name="situation" rows="5" placeholder="Describe what's happening — test results, symptoms, a confusing diagnosis, a question you were too embarrassed to ask your doctor. Nothing is too small."></textarea>
         </div>
-        <button type="submit" class="btn-reach">Send my question</button>
-        <p class="reach-note">Responded to within 24–48 hours. All information is kept strictly confidential.</p>
+        <button data-edit="health-guidance.helpform.button1" type="submit" class="btn-reach">Send my question</button>
+        <p data-edit="health-guidance.helpform.p1" class="reach-note">Responded to within 24–48 hours. All information is kept strictly confidential.</p>
       </form>
     </div>
   </div>
@@ -206,57 +206,57 @@
 <!-- WHAT HAPPENS NEXT -->
 <div class="main-wrap">
   <div style="margin-top:80px">
-    <p class="sec-tag">What to expect</p>
-    <h2 class="sec-head">Clarity, not jargon.<br><em>Always.</em></h2>
+    <p data-edit="health-guidance.page.p4" class="sec-tag">What to expect</p>
+    <h2 data-edit="health-guidance.page.h22" class="sec-head">Clarity, not jargon.<br><em>Always.</em></h2>
     <div class="steps">
       <div class="step" data-reveal>
-        <div class="step-num">01</div>
-        <h4>We read your question</h4>
-        <p>A team member with relevant health knowledge reviews your message personally within 24–48 hours.</p>
+        <div data-edit="health-guidance.page.div1" class="step-num">01</div>
+        <h4 data-edit="health-guidance.page.h41">We read your question</h4>
+        <p data-edit="health-guidance.page.p5">A team member with relevant health knowledge reviews your message personally within 24–48 hours.</p>
       </div>
       <div class="step" data-reveal>
-        <div class="step-num">02</div>
-        <h4>We respond in plain language</h4>
-        <p>No jargon, no condescension. We explain what we know, what we don't, and what a good next step looks like for you.</p>
+        <div data-edit="health-guidance.page.div2" class="step-num">02</div>
+        <h4 data-edit="health-guidance.page.h42">We respond in plain language</h4>
+        <p data-edit="health-guidance.page.p6">No jargon, no condescension. We explain what we know, what we don't, and what a good next step looks like for you.</p>
       </div>
       <div class="step" data-reveal>
-        <div class="step-num">03</div>
-        <h4>We connect you further</h4>
-        <p>Where needed, we refer you to vetted haematologists, diagnostic labs, and specialists across India and Sri Lanka you may not have known existed.</p>
+        <div data-edit="health-guidance.page.div3" class="step-num">03</div>
+        <h4 data-edit="health-guidance.page.h43">We connect you further</h4>
+        <p data-edit="health-guidance.page.p7">Where needed, we refer you to vetted haematologists, diagnostic labs, and specialists across India and Sri Lanka you may not have known existed.</p>
       </div>
     </div>
   </div>
 
   <!-- RIGHTS STRIP -->
   <div class="rights-strip" data-reveal>
-    <p class="sec-tag blue">Know your healthcare rights</p>
+    <p data-edit="health-guidance.page.p8" class="sec-tag blue">Know your healthcare rights</p>
     <div class="rights-grid">
       <div class="right-item">
         <div class="right-dot"></div>
         <div>
-          <h4>Right to informed consent</h4>
-          <p>No procedure should happen without your understanding and agreement. You may ask questions and refuse treatment.</p>
+          <h4 data-edit="health-guidance.page.h44">Right to informed consent</h4>
+          <p data-edit="health-guidance.page.p9">No procedure should happen without your understanding and agreement. You may ask questions and refuse treatment.</p>
         </div>
       </div>
       <div class="right-item">
         <div class="right-dot"></div>
         <div>
-          <h4>Right to a second opinion</h4>
-          <p>You are always entitled to seek another doctor's view — especially before major procedures or surgery.</p>
+          <h4 data-edit="health-guidance.page.h45">Right to a second opinion</h4>
+          <p data-edit="health-guidance.page.p10">You are always entitled to seek another doctor's view — especially before major procedures or surgery.</p>
         </div>
       </div>
       <div class="right-item">
         <div class="right-dot"></div>
         <div>
-          <h4>Right to your medical records</h4>
-          <p>Hospitals must provide you copies of your own records, test results, and discharge summaries on request.</p>
+          <h4 data-edit="health-guidance.page.h46">Right to your medical records</h4>
+          <p data-edit="health-guidance.page.p11">Hospitals must provide you copies of your own records, test results, and discharge summaries on request.</p>
         </div>
       </div>
       <div class="right-item">
         <div class="right-dot"></div>
         <div>
-          <h4>Right to free emergency care</h4>
-          <p>Across India and Sri Lanka, hospitals cannot deny emergency treatment due to inability to pay. Know your rights — and call us if you need help asserting them.</p>
+          <h4 data-edit="health-guidance.page.h47">Right to free emergency care</h4>
+          <p data-edit="health-guidance.page.p12">Across India and Sri Lanka, hospitals cannot deny emergency treatment due to inability to pay. Know your rights — and call us if you need help asserting them.</p>
         </div>
       </div>
     </div>
@@ -273,19 +273,19 @@
     <div class="ft-brand" style="text-align:center; align-items:center;">
       <div class="ft-logo">
         <img src="https://hdmnkxwpsxlxtrlseaqj.supabase.co/storage/v1/object/public/assets/logo.png" alt="Project Nithya" height="120">
-        <span class="ft-name">Project Nithya</span>
+        <span data-edit="health-guidance.footer.span1" class="ft-name">Project Nithya</span>
       </div>
-      <p class="ft-desc">A women's welfare organisation specialising in haematology and women's health — standing beside women across India and Sri Lanka.</p>
-      <p class="ft-tagline">Strength in every woman. Dignity in every life.</p>
+      <p data-edit="health-guidance.footer.p1" class="ft-desc">A women's welfare organisation specialising in haematology and women's health — standing beside women across India and Sri Lanka.</p>
+      <p data-edit="health-guidance.footer.p2" class="ft-tagline">Strength in every woman. Dignity in every life.</p>
       <div class="ft-contact">
         <p>Email: <a href="mailto:projectnithya27@gmail.com">projectnithya27@gmail.com</a></p>
-        <p style="font-size:12px;color:rgba(245,240,232,0.32);margin-top:10px;letter-spacing:0.02em;">PROJECT NITHYA LTD &nbsp;·&nbsp; Company number 16778538</p>
+        <p data-edit="health-guidance.footer.p3" style="font-size:12px;color:rgba(245,240,232,0.32);margin-top:10px;letter-spacing:0.02em;">PROJECT NITHYA LTD &nbsp;·&nbsp; Company number 16778538</p>
       </div>
     </div>
   </div>
   <div class="ft-bar">
-    <p>© 2026 Project Nithya Ltd. All rights reserved. &nbsp;·&nbsp; Company number 16778538 &nbsp;·&nbsp; England &amp; Wales</p>
-    <p><a href="index.html">Home</a> &nbsp;·&nbsp; <a href="safety.html">Safety &amp; Refuge</a></p>
+    <p data-edit="health-guidance.footer.p4">© 2026 Project Nithya Ltd. All rights reserved. &nbsp;·&nbsp; Company number 16778538 &nbsp;·&nbsp; England &amp; Wales</p>
+    <p><a data-edit="health-guidance.footer.a1" href="index.html">Home</a> &nbsp;·&nbsp; <a data-edit="health-guidance.footer.a2" href="safety.html">Safety &amp; Refuge</a></p>
   </div>
 </footer>
 

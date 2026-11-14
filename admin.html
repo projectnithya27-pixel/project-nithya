@@ -186,6 +186,7 @@
     #main {
       margin-left: var(--sidebar-w);
       flex: 1; display: flex; flex-direction: column; min-height: 100vh;
+      min-width: 0; /* let wide content (e.g. the Website Text preview) shrink to the screen */
     }
 
     /* ── Top bar ── */
@@ -489,6 +490,255 @@
     /* ════════════════════════════════════════
        RESPONSIVE
     ════════════════════════════════════════ */
+    /* ════════════════════════════════════════
+       WEBSITE TEXT EDITOR
+    ════════════════════════════════════════ */
+    .panel.panel--wide { max-width: none; }
+    .ce-dberr {
+      display: none; background: #fff4e5; border: 1px solid #f0c690; color: #7a4a0c;
+      border-radius: var(--radius-sm); padding: 11px 15px; font-size: 13px; line-height: 1.55;
+      margin-bottom: 16px;
+    }
+    .ce-dberr.vis { display: block; }
+    .ce-bar {
+      display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px;
+      margin-bottom: 14px;
+    }
+    .ce-seg {
+      display: inline-flex; background: #fff; border-radius: 100px; padding: 3px;
+      box-shadow: var(--shadow-sm); border: 1px solid var(--border-soft);
+    }
+    .ce-seg button {
+      border: none; background: none; cursor: pointer; border-radius: 100px;
+      padding: 7px 14px; font-family: 'DM Sans', sans-serif; font-size: 12.5px;
+      color: var(--muted); transition: background .15s, color .15s; white-space: nowrap;
+    }
+    .ce-seg button:hover { color: var(--dark); }
+    .ce-seg button.active { background: var(--dark); color: #fff; }
+    .ce-actions { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+    .ce-status { font-size: 12.5px; color: var(--faint); white-space: nowrap; }
+    .ce-status.dirty { color: #a0620f; font-weight: 500; }
+    .ce-status.dirty::before {
+      content: ''; display: inline-block; width: 7px; height: 7px; border-radius: 50%;
+      background: var(--gold); margin-right: 6px; vertical-align: 1px;
+    }
+    .ce-btn-ghost {
+      background: none; border: 1.5px solid rgba(13,43,94,.18); color: var(--text);
+      border-radius: 100px; padding: 9.5px 20px; cursor: pointer; text-decoration: none;
+      font-family: 'DM Sans', sans-serif; font-size: 13.5px; display: inline-block;
+      transition: border-color .15s, color .15s;
+    }
+    .ce-btn-ghost:hover { border-color: var(--coral); color: var(--coral); }
+    .ce-btn-ghost:disabled { opacity: .4; cursor: default; border-color: rgba(13,43,94,.18); color: var(--text); }
+
+    .ce-layout {
+      display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 18px;
+      align-items: start;
+    }
+    .ce-stage {
+      position: relative; background: #e9e3d8; border-radius: var(--radius-md);
+      height: calc(100vh - var(--topbar-h) - 210px); min-height: 520px;
+      display: flex; justify-content: center; align-items: flex-start;
+      padding: 12px; overflow: hidden; min-width: 0;
+      box-shadow: inset 0 0 0 1px var(--border);
+    }
+    .ce-frame-wrap {
+      position: relative; overflow: hidden; border-radius: 10px;
+      background: #fff; box-shadow: var(--shadow-md);
+      transition: width .25s ease;
+    }
+    #ce-frame {
+      border: 0; display: block; transform-origin: 0 0; background: #fff;
+    }
+    .ce-stage-loading {
+      position: absolute; inset: 0; display: none; align-items: center; justify-content: center;
+      font-size: 13px; color: var(--muted); background: rgba(233,227,216,.85);
+    }
+    .ce-stage.loading .ce-stage-loading { display: flex; }
+    .ce-scale {
+      position: absolute; right: 14px; bottom: 10px; font-size: 11px; color: var(--faint);
+      background: rgba(255,255,255,.85); padding: 3px 9px; border-radius: 100px; pointer-events: none;
+    }
+
+    .ce-side { display: flex; flex-direction: column; gap: 14px; position: sticky; top: calc(var(--topbar-h) + 16px); }
+    .ce-card {
+      background: #fff; border-radius: var(--radius-md); padding: 18px 18px;
+      box-shadow: var(--shadow-sm); border: 1px solid var(--border-soft);
+    }
+    .ce-empty { text-align: center; padding: 6px 2px; }
+    .ce-empty-icon {
+      width: 40px; height: 40px; margin: 0 auto 10px; border-radius: 50%;
+      background: var(--coral-dim); color: var(--coral); font-size: 18px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .ce-empty p { font-size: 13.5px; color: var(--text); margin-bottom: 12px; }
+    .ce-tips { list-style: none; text-align: left; font-size: 12px; color: var(--muted); line-height: 1.5; }
+    .ce-tips li { padding: 5px 0; border-top: 1px solid var(--border-soft); }
+    .ce-tips b { font-weight: 500; color: var(--text); }
+
+    .ce-field-head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; margin-bottom: 12px; }
+    .ce-kind { font-family: 'Cormorant Garamond', serif; font-size: 19px; font-weight: 500; color: var(--dark); }
+    .ce-sec  { font-size: 11px; letter-spacing: .05em; text-transform: uppercase; color: var(--faint); text-align: right; }
+    .ce-note { font-size: 12.5px; color: var(--muted); line-height: 1.55; margin-bottom: 10px; }
+    .ce-input {
+      width: 100%; border: 1.5px solid rgba(13,43,94,.14); border-radius: var(--radius-sm);
+      padding: 9px 12px; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 300;
+      color: var(--text); background: var(--cream); outline: none; margin-bottom: 12px;
+    }
+    .ce-input:focus { border-color: var(--coral); }
+
+    .ce-count { margin-bottom: 10px; }
+    .ce-count-bar { height: 5px; border-radius: 5px; background: var(--border); overflow: hidden; }
+    .ce-count-bar span { display: block; height: 100%; background: #5aa77a; border-radius: 5px; transition: width .15s, background .15s; }
+    .ce-count.near .ce-count-bar span { background: var(--gold); }
+    .ce-count.full .ce-count-bar span { background: var(--coral); }
+    .ce-count-txt { font-size: 11.5px; color: var(--faint); margin-top: 5px; }
+    .ce-count.full .ce-count-txt { color: #b03060; }
+    .ce-count.bump { animation: ceBump .35s; }
+    @keyframes ceBump { 0%,100% { transform: none; } 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
+
+    .ce-issues { list-style: none; display: flex; flex-direction: column; gap: 6px; margin-bottom: 10px; }
+    .ce-issues li, .ce-fits {
+      font-size: 12.5px; line-height: 1.5; border-radius: 8px; padding: 8px 10px;
+    }
+    .ce-issues li.bad  { background: #fdecef; color: #9a2443; }
+    .ce-issues li.warn { background: #fff4e5; color: #7a4a0c; }
+    .ce-issues li.info { background: #eef4fb; color: var(--muted); }
+    .ce-fits { background: #ecf7f0; color: #1f6b3f; margin-bottom: 10px; }
+
+    .ce-field-foot { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+    .ce-link {
+      background: none; border: none; padding: 0; cursor: pointer; color: var(--coral);
+      font-family: 'DM Sans', sans-serif; font-size: 12.5px;
+    }
+    .ce-link:disabled { color: var(--faint); opacity: .5; cursor: default; }
+    .ce-pubinfo { font-size: 11px; color: var(--faint); }
+    .ce-orig { margin-top: 12px; font-size: 12px; color: var(--muted); }
+    .ce-orig summary { cursor: pointer; color: var(--faint); }
+    .ce-orig p { margin-top: 6px; padding: 8px 10px; background: var(--cream); border-radius: 8px; line-height: 1.55; }
+
+    .ce-card--list { padding-bottom: 8px; }
+    .ce-list-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 10px; }
+    .ce-list-head h3 { font-size: 12px; font-weight: 500; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); }
+    .ce-viewlive { font-size: 12px; color: var(--coral); text-decoration: none; }
+    .ce-search {
+      width: 100%; border: 1.5px solid rgba(13,43,94,.12); border-radius: 100px;
+      padding: 7px 13px; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 300;
+      background: var(--cream); color: var(--text); outline: none; margin-bottom: 8px;
+    }
+    .ce-search:focus { border-color: var(--coral); }
+    .ce-list { list-style: none; max-height: calc(100vh - var(--topbar-h) - 480px); min-height: 180px; overflow-y: auto; margin: 0 -8px; }
+    .ce-list ul { list-style: none; }
+    .ce-grp-h {
+      font-size: 10.5px; letter-spacing: .06em; text-transform: uppercase; color: var(--faint);
+      padding: 10px 8px 4px; position: sticky; top: 0; background: #fff;
+    }
+    .ce-item {
+      display: flex; align-items: center; gap: 7px; width: 100%; text-align: left;
+      background: none; border: none; cursor: pointer; border-radius: 7px;
+      padding: 6px 8px; font-family: 'DM Sans', sans-serif; font-size: 12.5px; font-weight: 300;
+      color: var(--text); line-height: 1.4;
+    }
+    .ce-item span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .ce-item:hover { background: var(--cream); }
+    .ce-item.active { background: var(--coral-dim); }
+    .ce-dot { flex-shrink: 0; width: 7px; height: 7px; border-radius: 50%; }
+    .ce-dot.draft { background: var(--gold); }
+    .ce-dot.live  { background: #7fa6d0; }
+    .ce-list-empty { font-size: 12.5px; color: var(--faint); padding: 10px 8px; }
+
+    /* photo cards */
+    .ce-drop {
+      display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center;
+      border: 1.5px dashed rgba(232,137,158,.6); border-radius: var(--radius-md);
+      background: #fdf7f8; padding: 22px 14px; cursor: pointer; margin-bottom: 12px;
+      font-size: 13px; color: var(--text); transition: background .15s, border-color .15s;
+    }
+    .ce-drop:hover, .ce-drop.over { background: var(--coral-dim); border-color: var(--coral); }
+    .ce-drop u { color: var(--coral); text-underline-offset: 2px; }
+    .ce-drop small { font-size: 11.5px; color: var(--faint); }
+    .ce-drop.busy { cursor: default; color: var(--muted); }
+    .ce-drop.busy .ce-spin { margin: 0 0 4px; }
+    .ce-drop-icon {
+      width: 34px; height: 34px; border-radius: 50%; background: #fff; color: var(--coral);
+      display: flex; align-items: center; justify-content: center; font-size: 18px;
+      box-shadow: var(--shadow-sm);
+    }
+    .ce-imgbox {
+      border-radius: 10px; background: var(--cream); margin-bottom: 8px;
+      display: flex; justify-content: center; line-height: 0;
+    }
+    /* the frame hugs the picture exactly, so a click maps to a point on the photo */
+    .ce-imgframe { position: relative; display: inline-block; cursor: crosshair; max-width: 100%; }
+    .ce-imgframe img { display: block; max-width: 100%; max-height: 260px; width: auto; height: auto; border-radius: 6px; }
+    .ce-focal {
+      position: absolute; width: 22px; height: 22px; margin: -11px 0 0 -11px; border-radius: 50%;
+      border: 2.5px solid #fff; box-shadow: 0 0 0 1.5px var(--coral), 0 2px 8px rgba(0,0,0,.35);
+      background: rgba(232,137,158,.45); pointer-events: none; transition: left .15s, top .15s;
+    }
+    .ce-label { display: block; font-size: 11.5px; font-weight: 500; color: var(--muted); letter-spacing: .04em; text-transform: uppercase; margin-bottom: 5px; }
+    .ce-label span { text-transform: none; letter-spacing: 0; font-weight: 300; color: var(--faint); }
+    .ce-imgbtns { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 10px; }
+    .ce-btn-sm { padding: 7px 16px; font-size: 12.5px; }
+    .ce-item-ico { font-weight: 400; color: var(--coral); font-size: 12px; }
+
+    .ce-modal {
+      position: fixed; inset: 0; z-index: 7000; display: none;
+      align-items: center; justify-content: center; padding: 20px;
+      background: rgba(6,41,82,.35); backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px);
+    }
+    .ce-modal.vis { display: flex; }
+    .ce-modal-box {
+      background: #fff; border-radius: var(--radius-lg); padding: 28px 28px 24px;
+      width: min(520px, 100%); max-height: 85vh; overflow-y: auto; box-shadow: var(--shadow-lg);
+      text-align: center;
+    }
+    .ce-modal-box h3 { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 500; color: var(--dark); margin-bottom: 6px; }
+    .ce-modal-sub { font-size: 13.5px; color: var(--muted); line-height: 1.6; margin-bottom: 16px; }
+    .ce-modal-foot { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-top: 18px; }
+    .ce-problems { list-style: none; text-align: left; display: flex; flex-direction: column; gap: 8px; }
+    .ce-goto {
+      width: 100%; text-align: left; border: none; cursor: pointer; border-radius: 10px;
+      padding: 10px 12px; display: flex; flex-direction: column; gap: 3px;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .ce-problems .bad  .ce-goto { background: #fdecef; }
+    .ce-problems .warn .ce-goto { background: #fff4e5; }
+    .ce-goto:hover { filter: brightness(.97); }
+    .ce-prob-txt { font-size: 13px; color: var(--dark); }
+    .ce-prob-msg { font-size: 12px; color: var(--muted); }
+    .ce-spin {
+      width: 26px; height: 26px; margin: 14px auto 4px; border-radius: 50%;
+      border: 2.5px solid var(--coral-dim); border-top-color: var(--coral);
+      animation: ceSpin .8s linear infinite;
+    }
+    @keyframes ceSpin { to { transform: rotate(360deg); } }
+    .ce-done {
+      width: 46px; height: 46px; margin: 0 auto 10px; border-radius: 50%;
+      background: #ecf7f0; color: #1f6b3f; font-size: 22px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .ce-toast {
+      position: fixed; left: 50%; bottom: 24px; z-index: 7500;
+      transform: translate(-50%, 20px); opacity: 0; pointer-events: none;
+      background: var(--dark); color: #fff; font-size: 13px; padding: 10px 18px;
+      border-radius: 100px; box-shadow: var(--shadow-md); transition: opacity .2s, transform .2s;
+      max-width: calc(100vw - 32px); text-align: center;
+    }
+    .ce-toast.vis { opacity: 1; transform: translate(-50%, 0); }
+
+    @media (max-width: 1100px) {
+      .ce-layout { grid-template-columns: minmax(0, 1fr); }
+      .ce-side { position: static; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: start; }
+      .ce-list { max-height: 360px; }
+    }
+    @media (max-width: 780px) {
+      .ce-actions { margin-left: 0; width: 100%; }
+      .ce-actions .ce-status { margin-right: auto; }
+      .ce-stage { height: 70vh; min-height: 420px; padding: 8px; }
+      .ce-side { grid-template-columns: minmax(0, 1fr); }
+    }
+
     @media (max-width: 780px) {
       #sidebar { display: none; }
       #mob-nav { display: flex; }
@@ -559,6 +809,7 @@
       <li><a href="#" data-sec="applications"               ><span class="sb-icon">○</span> Volunteer Applications</a></li>
       <li><a href="#" data-sec="messages"                   ><span class="sb-icon">◉</span> Messages &amp; Reach-Out</a></li>
       <li><a href="#" data-sec="donations"                  ><span class="sb-icon">◈</span> Donations</a></li>
+      <li><a href="#" data-sec="content"                    ><span class="sb-icon">✎</span> Website Text</a></li>
     </ul>
   </aside>
 
@@ -586,6 +837,7 @@
       <button class="mn-btn" data-sec="applications">Applications</button>
       <button class="mn-btn" data-sec="messages">Messages</button>
       <button class="mn-btn" data-sec="donations">Donations</button>
+      <button class="mn-btn" data-sec="content">Website Text</button>
     </nav>
 
     <!-- ── OVERVIEW ── -->
@@ -892,10 +1144,61 @@
       <div class="pagination" id="don-pages"></div>
     </section>
 
+    <!-- ── WEBSITE TEXT ── -->
+    <section class="panel panel--wide" id="panel-content">
+      <h1 class="pnl-h1">Website Text</h1>
+      <p class="pnl-sub">Click any text in the preview to change it, or an empty photo card to add a photo. Nothing goes live until you press <strong>Publish</strong>.</p>
+
+      <div class="ce-dberr" id="ce-dberr">Saved text couldn’t be loaded, so publishing is turned off. If this is the first time, the <code>nithya_site_content</code> table may not have been created yet.</div>
+
+      <div class="ce-bar">
+        <div class="ce-seg" role="group" aria-label="Page">
+          <button class="ce-page active" data-page="index">Home</button>
+          <button class="ce-page" data-page="safety">Safety</button>
+          <button class="ce-page" data-page="health-guidance">Health Guidance</button>
+        </div>
+        <div class="ce-seg" role="group" aria-label="Screen size">
+          <button class="ce-device active" data-device="desktop">Desktop</button>
+          <button class="ce-device" data-device="tablet">Tablet</button>
+          <button class="ce-device" data-device="mobile">Mobile</button>
+        </div>
+        <div class="ce-actions">
+          <span class="ce-status" id="ce-status">All changes published</span>
+          <button class="ce-btn-ghost" id="ce-discard" disabled>Discard</button>
+          <button class="btn-primary" id="ce-publish" disabled>Publish</button>
+        </div>
+      </div>
+
+      <div class="ce-layout">
+        <div class="ce-stage loading" id="ce-stage">
+          <div class="ce-frame-wrap" id="ce-frame-wrap">
+            <iframe id="ce-frame" name="nithya-edit" title="Page preview"></iframe>
+          </div>
+          <div class="ce-stage-loading">Loading preview…</div>
+          <div class="ce-scale" id="ce-scale"></div>
+        </div>
+        <aside class="ce-side">
+          <div class="ce-card" id="ce-field"></div>
+          <div class="ce-card ce-card--list">
+            <div class="ce-list-head">
+              <h3>All text on this page</h3>
+              <a class="ce-viewlive" href="index.html" target="_blank" rel="noopener">View live ↗</a>
+            </div>
+            <input class="ce-search" id="ce-search" type="search" placeholder="Find text…">
+            <ul class="ce-list" id="ce-list"></ul>
+          </div>
+        </aside>
+      </div>
+
+      <div class="ce-modal" id="ce-modal"><div class="ce-modal-box" id="ce-modal-box" role="dialog" aria-modal="true"></div></div>
+      <div class="ce-toast" id="ce-toast" role="status"></div>
+    </section>
+
   </div><!-- /main -->
 </div><!-- /dashboard -->
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="admin-content.js"></script>
 <script>
 (function () {
   'use strict';
@@ -1122,6 +1425,9 @@
       else if (sec === 'applications') loadApps();
       else if (sec === 'messages')    loadMsgs();
       else if (sec === 'donations')   loadDonations();
+    }
+    if (sec === 'content') {
+      window.NithyaContentEditor.init({ sb: SB, getUser: function () { return currentUser; } });
     }
   }
 
