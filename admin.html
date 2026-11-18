@@ -139,6 +139,65 @@
     }
     .login-err.vis { display: block; }
 
+    .login-mode-sub { font-size: 13.5px; color: var(--muted); line-height: 1.6; margin: -4px 0 18px; }
+    .login-mode-sub:empty { display: none; }
+    .pw-field { position: relative; }
+    .pw-field .login-email-input { padding-right: 64px; }
+    .pw-toggle {
+      position: absolute; right: 8px; top: 7px; height: 30px; padding: 0 10px;
+      background: none; border: none; cursor: pointer; border-radius: 8px;
+      font-family: 'DM Sans', sans-serif; font-size: 12px; color: var(--muted);
+    }
+    .pw-toggle:hover { color: var(--coral); background: var(--coral-dim); }
+    .login-alt { display: flex; flex-direction: column; align-items: center; gap: 8px; margin-top: 18px; }
+    .login-link {
+      background: none; border: none; padding: 2px 4px; cursor: pointer;
+      font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--muted);
+      text-decoration: underline; text-underline-offset: 3px;
+    }
+    .login-link:hover { color: var(--coral); }
+    .login-link:disabled { opacity: .5; cursor: default; }
+    .login-sent .login-link { display: block; margin: 12px auto 0; color: #186638; }
+
+    /* first-login password nudge */
+    .pw-banner {
+      display: none; align-items: center; gap: 12px; flex-wrap: wrap;
+      margin: 18px 28px 0; padding: 12px 14px 12px 18px;
+      background: #fff8e1; border: 1px solid #f2dc8a; border-radius: var(--radius-md);
+      font-size: 13.5px; color: #6b5200; line-height: 1.5;
+    }
+    .pw-banner.vis { display: flex; }
+    .pw-banner.pw-banner--ok { background: #e6f7ed; border-color: #a3d9b5; color: #186638; }
+    .pw-banner span { flex: 1; min-width: 200px; }
+    .pw-banner-btn { padding: 8px 18px; font-size: 13px; }
+    .pw-banner-x { background: none; border: none; cursor: pointer; color: #9a7a10; font-size: 14px; padding: 4px 6px; }
+
+    /* password dialog */
+    .pw-modal {
+      position: fixed; inset: 0; z-index: 7100; display: none;
+      align-items: center; justify-content: center; padding: 20px;
+      background: rgba(6,41,82,.35); backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px);
+    }
+    .pw-modal.vis { display: flex; }
+    .pw-box {
+      background: #fff; border-radius: var(--radius-lg); padding: 30px 30px 24px;
+      width: min(420px, 100%); box-shadow: var(--shadow-lg);
+    }
+    .pw-box h3 { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 500; color: var(--dark); margin-bottom: 6px; }
+    .pw-sub { font-size: 13.5px; color: var(--muted); line-height: 1.6; margin-bottom: 18px; }
+    .pw-label { display: block; font-size: 11.5px; font-weight: 500; color: var(--muted); letter-spacing: .04em; text-transform: uppercase; margin-bottom: 5px; }
+    .pw-foot { display: flex; justify-content: flex-end; gap: 10px; margin-top: 16px; }
+
+    /* team */
+    .team-add { display: flex; align-items: flex-end; gap: 14px; flex-wrap: wrap; }
+    .team-add .ff { flex: 1; min-width: 220px; }
+    .team-note { font-size: 12.5px; color: var(--muted); line-height: 1.6; margin-top: 16px; }
+    .team-you {
+      display: inline-block; margin-left: 8px; padding: 1px 8px; border-radius: 100px;
+      background: var(--coral-dim); color: var(--coral); font-size: 11px; font-weight: 500;
+    }
+    .team-msg { font-size: 12.5px; color: #b03060; }
+
     /* ════════════════════════════════════════
        DASHBOARD SHELL
     ════════════════════════════════════════ */
@@ -737,6 +796,7 @@
       .ce-actions .ce-status { margin-right: auto; }
       .ce-stage { height: 70vh; min-height: 420px; padding: 8px; }
       .ce-side { grid-template-columns: minmax(0, 1fr); }
+      .pw-banner { margin: 14px 16px 0; }
     }
 
     @media (max-width: 780px) {
@@ -778,14 +838,24 @@
   <div class="login-card">
     <h1>Team Access</h1>
     <div id="login-form-wrap">
+      <p class="login-mode-sub" id="login-mode-sub"></p>
       <form id="login-form" novalidate>
         <input class="login-email-input" type="email" id="login-email"
-               placeholder="Your email address" autocomplete="email" required>
-        <button class="btn-magic" type="submit" id="btn-magic">Send me a login link</button>
+               placeholder="Your email address" autocomplete="username" required>
+        <div class="pw-field" id="login-pw-wrap">
+          <input class="login-email-input" type="password" id="login-password"
+                 placeholder="Password" autocomplete="current-password">
+          <button type="button" class="pw-toggle" data-for="login-password">Show</button>
+        </div>
+        <button class="btn-magic" type="submit" id="btn-magic">Sign in</button>
       </form>
+      <div class="login-alt" id="login-alt"></div>
       <div class="login-err" id="login-err"></div>
     </div>
-    <div class="login-sent" id="login-sent"></div>
+    <div class="login-sent" id="login-sent">
+      <span id="login-sent-msg"></span>
+      <button type="button" class="login-link" id="login-back">← Back to sign in</button>
+    </div>
   </div>
 </div>
 
@@ -810,6 +880,7 @@
       <li><a href="#" data-sec="messages"                   ><span class="sb-icon">◉</span> Messages &amp; Reach-Out</a></li>
       <li><a href="#" data-sec="donations"                  ><span class="sb-icon">◈</span> Donations</a></li>
       <li><a href="#" data-sec="content"                    ><span class="sb-icon">✎</span> Website Text</a></li>
+      <li><a href="#" data-sec="team"                       ><span class="sb-icon">⚇</span> Team</a></li>
     </ul>
   </aside>
 
@@ -824,6 +895,7 @@
           <img id="tb-avatar-img" src="" alt="">
         </div>
         <span class="tb-name" id="tb-name"></span>
+        <button class="tb-signout" id="btn-password">Change password</button>
         <button class="tb-signout" id="btn-signout">Sign out</button>
       </div>
     </header>
@@ -838,7 +910,15 @@
       <button class="mn-btn" data-sec="messages">Messages</button>
       <button class="mn-btn" data-sec="donations">Donations</button>
       <button class="mn-btn" data-sec="content">Website Text</button>
+      <button class="mn-btn" data-sec="team">Team</button>
     </nav>
+
+    <!-- First-login nudge to create a password -->
+    <div class="pw-banner" id="pw-banner">
+      <span>Create a password so you can sign in any time without waiting for an email.</span>
+      <button class="btn-primary pw-banner-btn" id="pw-banner-btn">Create password</button>
+      <button class="pw-banner-x" id="pw-banner-x" aria-label="Dismiss">✕</button>
+    </div>
 
     <!-- ── OVERVIEW ── -->
     <section class="panel active" id="panel-overview">
@@ -1194,6 +1274,56 @@
       <div class="ce-toast" id="ce-toast" role="status"></div>
     </section>
 
+    <!-- ── TEAM ── -->
+    <section class="panel" id="panel-team">
+      <h1 class="pnl-h1">Team</h1>
+      <p class="pnl-sub">Everyone listed here can sign in to this admin portal and change the website.</p>
+      <div class="form-card">
+        <h2>Add a team member.</h2>
+        <div class="success-banner" id="team-ok"></div>
+        <form id="team-form" novalidate>
+          <div class="team-add">
+            <div class="ff" id="team-ff">
+              <label for="team-email">Email address</label>
+              <input type="email" id="team-email" placeholder="name@example.com" autocomplete="off">
+              <span class="ferr" id="team-err">Please enter a valid email address.</span>
+            </div>
+            <button type="submit" class="btn-primary" id="team-add-btn">Add to team</button>
+          </div>
+        </form>
+        <p class="team-note">No invitation is sent automatically. Tell them to go to <strong>www.projectnithya.com/admin</strong>, choose <strong>“Email me a login link”</strong>, and create a password when asked.</p>
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Team member</th><th></th></tr></thead>
+          <tbody id="team-tbody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ── Password dialog (create / change / reset) ── -->
+    <div class="pw-modal" id="pw-modal">
+      <div class="pw-box" role="dialog" aria-modal="true" aria-labelledby="pw-title">
+        <h3 id="pw-title">Create a password</h3>
+        <p class="pw-sub" id="pw-sub"></p>
+        <form id="pw-form" novalidate>
+          <input type="email" id="pw-username" autocomplete="username" hidden>
+          <label class="pw-label" for="pw-new">New password</label>
+          <div class="pw-field">
+            <input class="login-email-input" type="password" id="pw-new" autocomplete="new-password" placeholder="At least 10 characters">
+            <button type="button" class="pw-toggle" data-for="pw-new">Show</button>
+          </div>
+          <label class="pw-label" for="pw-confirm">Type it again</label>
+          <input class="login-email-input" type="password" id="pw-confirm" autocomplete="new-password">
+          <div class="login-err" id="pw-err"></div>
+          <div class="pw-foot">
+            <button type="button" class="ce-btn-ghost" id="pw-later">Not now</button>
+            <button type="submit" class="btn-primary" id="pw-save">Save password</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
   </div><!-- /main -->
 </div><!-- /dashboard -->
 
@@ -1210,6 +1340,11 @@
   /* ── Access controlled via admin_users table in Supabase ── */
 
   const PAGE  = 20;
+  const ADMIN_URL = 'https://www.projectnithya.com/admin';
+  const MIN_PASSWORD = 10;
+  // Read before the Supabase client consumes the URL: did we arrive from a
+  // "reset your password" email?
+  const ARRIVED_FOR_RECOVERY = /type=recovery/.test(window.location.hash + window.location.search);
   const SB    = window.supabase.createClient(SB_URL, SB_ANON, {
     auth: {
       persistSession:     true,
@@ -1222,6 +1357,8 @@
   let currentUser          = null;
   let msgTab               = 'pending';
   let dashboardInitialized = false;
+  let loginMethod          = null;                  // 'password' when signed in with one this visit
+  let recoveryPending      = ARRIVED_FOR_RECOVERY;  // show "choose a new password" once in
   const pages              = { women: 0, vol: 0, partner: 0, app: 0, don: 0 };
   const loaded             = {};   // lazy-load flags per section
 
@@ -1239,7 +1376,12 @@
     setDefaultDates();
 
     SB.auth.onAuthStateChange(async function (event, session) {
-      if ((event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED' || event === 'INITIAL_SESSION')
+      if (event === 'PASSWORD_RECOVERY') {
+        recoveryPending = true;
+        if (dashboardInitialized) openPwModal('reset');
+      }
+      if ((event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED' || event === 'INITIAL_SESSION' ||
+           event === 'PASSWORD_RECOVERY')
           && session && session.user) {
         await gateAndStart(session);
       } else if (event === 'SIGNED_OUT') {
@@ -1273,7 +1415,7 @@
       try { await SB.auth.signOut(); } catch (_) { /* no-op */ }
       dashboardInitialized = false;
       currentUser = null;
-      showLogin('This Google account does not have access. Please contact the Project Nithya team.');
+      showLogin('This email address isn’t on the Project Nithya team, so it can’t sign in here. Ask a team admin to add you under Team.');
       return;
     }
     initializeDashboard(session);
@@ -1329,6 +1471,7 @@
     document.getElementById('loading-screen').style.display = 'none';
     document.getElementById('login-screen').classList.add('vis');
     document.getElementById('dashboard').classList.remove('vis');
+    refreshLoginButton();   // un-stick "Signing in…" if access was refused
     if (errMsg) {
       var el = document.getElementById('login-err');
       el.textContent = errMsg;
@@ -1342,6 +1485,7 @@
     document.getElementById('dashboard').classList.add('vis');
     fillUserInfo();
     loadOverview();
+    maybePromptPassword();
   }
 
   function fillUserInfo() {
@@ -1356,34 +1500,320 @@
     }
   }
 
-  /* ── Magic link login ─────────────────────── */
+  /* ── Sign in ───────────────────────────────
+     Three ways in, one form:
+       password – everyday sign-in, sends no email
+       link     – emailed login link (first time, or no password yet)
+       forgot   – emailed "reset your password" link
+     Emails are rate-limited by Supabase, so each email action has a
+     60-second cooldown and failures say why in plain words. */
+  var LOGIN_MODES = {
+    password: { btn: 'Sign in', sub: '',
+                alt: [['link', 'Email me a login link instead'], ['forgot', 'Forgot password?']] },
+    link:     { btn: 'Email me a login link',
+                sub: 'First time here, or haven’t set a password yet? We’ll email you a link that signs you in.',
+                alt: [['password', 'Sign in with a password instead']] },
+    forgot:   { btn: 'Email me a reset link',
+                sub: 'Enter your email and we’ll send a link to choose a new password.',
+                alt: [['password', 'Back to sign in']] },
+  };
+  var loginMode = 'password';
+  var emailCooldownUntil = 0;
+
+  function setLoginMode(mode, noFocus) {
+    loginMode = mode;
+    var m = LOGIN_MODES[mode];
+    document.getElementById('login-pw-wrap').style.display = mode === 'password' ? '' : 'none';
+    document.getElementById('login-mode-sub').textContent = m.sub;
+    document.getElementById('login-err').classList.remove('vis');
+    var alt = document.getElementById('login-alt');
+    alt.innerHTML = '';
+    m.alt.forEach(function (a) {
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'login-link'; b.textContent = a[1];
+      b.addEventListener('click', function () { setLoginMode(a[0]); });
+      alt.appendChild(b);
+    });
+    refreshLoginButton();
+    if (noFocus) return;
+    (mode === 'password' && document.getElementById('login-email').value
+      ? document.getElementById('login-password')
+      : document.getElementById('login-email')).focus();
+  }
+
+  function refreshLoginButton() {
+    var btn = document.getElementById('btn-magic');
+    var wait = Math.ceil((emailCooldownUntil - Date.now()) / 1000);
+    if (loginMode !== 'password' && wait > 0) {
+      btn.disabled = true;
+      btn.textContent = 'You can send another email in ' + wait + 's';
+      clearTimeout(refreshLoginButton._t);
+      refreshLoginButton._t = setTimeout(refreshLoginButton, 1000);
+    } else {
+      btn.disabled = false;
+      btn.textContent = LOGIN_MODES[loginMode].btn;
+    }
+  }
+
+  /* Supabase error → something a non-technical person can act on. */
+  function authErrorMessage(err) {
+    var code = (err && err.code) || '';
+    var msg  = ((err && err.message) || '').toLowerCase();
+    var secs = msg.match(/after (\d+) seconds?/);
+    if (code === 'invalid_credentials' || msg.indexOf('invalid login credentials') >= 0)
+      return 'Wrong email or password. Never set a password? Use “Email me a login link instead”.';
+    if (code === 'over_email_send_rate_limit' || msg.indexOf('email rate limit') >= 0)
+      return 'Too many emails have been sent recently. Please wait a while and try again — or sign in with your password.';
+    if (secs || code === 'over_request_rate_limit' || (err && err.status === 429))
+      return 'Too many attempts. Please wait ' + (secs ? secs[1] + ' seconds' : 'a minute') + ' and try again.';
+    if (code === 'email_not_confirmed')
+      return 'This email address hasn’t been confirmed yet. Use “Email me a login link instead” to confirm it.';
+    if (code === 'weak_password' || msg.indexOf('password should') >= 0)
+      return 'That password is too easy to guess. ' + ((err && err.message) || '');
+    if (code === 'same_password')
+      return 'That’s already your password — please choose a different one.';
+    if (code === 'reauthentication_needed')
+      return 'For security, please sign out, sign back in with an emailed login link, and then change your password.';
+    if (code === 'email_address_invalid' || code === 'validation_failed')
+      return 'Please check the email address.';
+    if (!navigator.onLine)
+      return 'You seem to be offline. Check your internet connection and try again.';
+    return 'Something went wrong' + (err && err.message ? ' (' + err.message + ')' : '') + '. Please try again.';
+  }
+
+  function loginError(text) {
+    var el = document.getElementById('login-err');
+    el.textContent = text;
+    el.classList.add('vis');
+  }
+
+  function showSent(text) {
+    document.getElementById('login-form-wrap').style.display = 'none';
+    document.getElementById('login-sent-msg').textContent = text;
+    document.getElementById('login-sent').classList.add('vis');
+  }
+
+  document.getElementById('login-back').addEventListener('click', function () {
+    document.getElementById('login-sent').classList.remove('vis');
+    document.getElementById('login-form-wrap').style.display = '';
+    setLoginMode('password');
+  });
+
+  document.querySelectorAll('.pw-toggle').forEach(function (t) {
+    t.addEventListener('click', function () {
+      var input = document.getElementById(t.dataset.for);
+      var show = input.type === 'password';
+      input.type = show ? 'text' : 'password';
+      t.textContent = show ? 'Hide' : 'Show';
+    });
+  });
+
   document.getElementById('login-form').addEventListener('submit', async function (e) {
     e.preventDefault();
     var email = document.getElementById('login-email').value.trim();
-    if (!email) return;
-
+    var password = document.getElementById('login-password').value;
     var btn = document.getElementById('btn-magic');
-    var errEl = document.getElementById('login-err');
-    errEl.classList.remove('vis');
-    btn.disabled = true; btn.textContent = 'Sending…';
+    document.getElementById('login-err').classList.remove('vis');
+    if (!email || email.indexOf('@') < 1) { loginError('Please enter your email address.'); return; }
 
-    var { error } = await SB.auth.signInWithOtp({
-      email: email,
-      options: { emailRedirectTo: 'https://www.projectnithya.com/admin' }
-    });
-
-    if (error) {
-      btn.disabled = false; btn.textContent = 'Send me a login link';
-      errEl.textContent = 'Something went wrong. Please try again.';
-      errEl.classList.add('vis');
+    if (loginMode === 'password') {
+      if (!password) { loginError('Please enter your password.'); return; }
+      btn.disabled = true; btn.textContent = 'Signing in…';
+      loginMethod = 'password';
+      var res = await SB.auth.signInWithPassword({ email: email, password: password });
+      if (res.error) {
+        loginMethod = null;
+        refreshLoginButton();
+        loginError(authErrorMessage(res.error));
+      }
+      // success → onAuthStateChange(SIGNED_IN) → gateAndStart
       return;
     }
 
-    // Show confirmation, hide form
-    document.getElementById('login-form-wrap').style.display = 'none';
-    var sentEl = document.getElementById('login-sent');
-    sentEl.textContent = 'Check your inbox. We\'ve sent a login link to ' + email + '. It expires in 1 hour.';
-    sentEl.classList.add('vis');
+    if (Date.now() < emailCooldownUntil) return;
+    btn.disabled = true; btn.textContent = 'Sending…';
+    var r = loginMode === 'link'
+      ? await SB.auth.signInWithOtp({ email: email, options: { emailRedirectTo: ADMIN_URL } })
+      : await SB.auth.resetPasswordForEmail(email, { redirectTo: ADMIN_URL });
+    if (r.error) {
+      refreshLoginButton();
+      loginError(authErrorMessage(r.error));
+      return;
+    }
+    emailCooldownUntil = Date.now() + 60 * 1000;
+    refreshLoginButton();
+    showSent(loginMode === 'link'
+      ? 'Check your inbox. If ' + email + ' is on the team, a login link is on its way. Open it in this browser — it works once and expires in 1 hour.'
+      : 'Check your inbox. If ' + email + ' is on the team, a link to choose a new password is on its way. Open it in this browser.');
+  });
+
+  setLoginMode('password', true);
+
+  /* ── Passwords (create / change / reset) ───── */
+  var pwMode = 'create';
+
+  function maybePromptPassword() {
+    if (!currentUser) return;
+    var meta = currentUser.user_metadata || {};
+    if (recoveryPending) { openPwModal('reset'); return; }
+    if (loginMethod === 'password') {
+      // They clearly have a password — remember that, quietly.
+      if (!meta.nithya_password_set) SB.auth.updateUser({ data: { nithya_password_set: true } });
+      return;
+    }
+    if (!meta.nithya_password_set) {
+      document.getElementById('pw-banner').classList.add('vis');
+      openPwModal('create');
+    }
+  }
+
+  function openPwModal(mode) {
+    pwMode = mode;
+    var copy = {
+      create: ['Create a password', 'Next time you can sign in with your email and this password — no waiting for an email.', 'Not now'],
+      change: ['Change your password', 'Choose a new password for ' + (currentUser ? currentUser.email : 'your account') + '.', 'Cancel'],
+      reset:  ['Choose a new password', 'You’re signed in from your reset link. Pick a new password to finish.', 'Later'],
+    }[mode];
+    document.getElementById('pw-title').textContent = copy[0];
+    document.getElementById('pw-sub').textContent = copy[1];
+    document.getElementById('pw-later').textContent = copy[2];
+    document.getElementById('pw-username').value = currentUser ? currentUser.email : '';
+    document.getElementById('pw-new').value = '';
+    document.getElementById('pw-confirm').value = '';
+    document.getElementById('pw-err').classList.remove('vis');
+    document.getElementById('pw-modal').classList.add('vis');
+    setTimeout(function () { document.getElementById('pw-new').focus(); }, 30);
+  }
+
+  function closePwModal() {
+    document.getElementById('pw-modal').classList.remove('vis');
+    if (pwMode === 'reset') recoveryPending = false;
+  }
+
+  function pwError(text) {
+    var el = document.getElementById('pw-err');
+    el.textContent = text; el.classList.add('vis');
+  }
+
+  document.getElementById('pw-later').addEventListener('click', closePwModal);
+  document.getElementById('btn-password').addEventListener('click', function () { openPwModal('change'); });
+  document.getElementById('pw-banner-btn').addEventListener('click', function () { openPwModal('create'); });
+  document.getElementById('pw-banner-x').addEventListener('click', function () {
+    document.getElementById('pw-banner').classList.remove('vis');
+  });
+
+  document.getElementById('pw-form').addEventListener('submit', async function (e) {
+    e.preventDefault();
+    var pw = document.getElementById('pw-new').value;
+    var again = document.getElementById('pw-confirm').value;
+    document.getElementById('pw-err').classList.remove('vis');
+    if (pw.length < MIN_PASSWORD) { pwError('Please use at least ' + MIN_PASSWORD + ' characters. A short sentence works well.'); return; }
+    if (pw !== again) { pwError('The two passwords don’t match. Please type them again.'); return; }
+    var btn = document.getElementById('pw-save');
+    btn.disabled = true; btn.textContent = 'Saving…';
+    var res = await SB.auth.updateUser({ password: pw, data: { nithya_password_set: true } });
+    btn.disabled = false; btn.textContent = 'Save password';
+    if (res.error) { pwError(authErrorMessage(res.error)); return; }
+    if (res.data && res.data.user) currentUser = res.data.user;
+    recoveryPending = false;
+    document.getElementById('pw-banner').classList.remove('vis');
+    document.getElementById('pw-modal').classList.remove('vis');
+    flashTopNote('✓ Password saved. Next time, sign in with your email and password.');
+  });
+
+  function flashTopNote(text) {
+    var b = document.getElementById('pw-banner');
+    b.classList.add('vis', 'pw-banner--ok');
+    b.querySelector('span').textContent = text;
+    b.querySelector('#pw-banner-btn').style.display = 'none';
+    setTimeout(function () {
+      b.classList.remove('vis', 'pw-banner--ok');
+      b.querySelector('#pw-banner-btn').style.display = '';
+      b.querySelector('span').textContent = 'Create a password so you can sign in any time without waiting for an email.';
+    }, 5000);
+  }
+
+  /* ── Team ───────────────────────────────────
+     Reads and writes go through nithya_list_admins / nithya_add_admin /
+     nithya_remove_admin (supabase/migrations/20261118_team_admins.sql),
+     which check the caller is an admin and refuse to remove yourself
+     or the last admin. */
+  function teamErrorMessage(err) {
+    var m = (err && err.message) || '';
+    if (err && (err.code === 'PGRST202' || /could not find the function/i.test(m)))
+      return 'Team management needs a one-time database update (supabase/migrations/20261118_team_admins.sql).';
+    if (m.indexOf('nithya:already_member') >= 0) return 'That email is already on the team.';
+    if (m.indexOf('nithya:invalid_email') >= 0)  return 'That doesn’t look like a valid email address.';
+    if (m.indexOf('nithya:remove_self') >= 0)    return 'You can’t remove yourself. Ask another team member to do it.';
+    if (m.indexOf('nithya:last_admin') >= 0)     return 'You can’t remove the last team member — nobody could sign in.';
+    if (m.indexOf('nithya:not_admin') >= 0 || (err && err.code === '42501'))
+      return 'Your account isn’t allowed to manage the team.';
+    return 'Something went wrong' + (m ? ' (' + m + ')' : '') + '. Please try again.';
+  }
+
+  async function loadTeam() {
+    var tb = document.getElementById('team-tbody');
+    tbodyLoading(tb, 2);
+    var res = await SB.rpc('nithya_list_admins');
+    if (res.error) {
+      console.error(res.error);
+      tb.innerHTML = '';
+      var tr = document.createElement('tr'), td = document.createElement('td');
+      td.colSpan = 2; td.className = 'tbl-empty team-msg';
+      td.textContent = teamErrorMessage(res.error);
+      tr.appendChild(td); tb.appendChild(tr);
+      return;
+    }
+    var rows = res.data || [];
+    if (!rows.length) { tbodyEmpty(tb, 2, 'No team members yet.'); return; }
+    tb.innerHTML = '';
+    rows.forEach(function (r) {
+      var tr = document.createElement('tr');
+      var td = document.createElement('td');
+      td.textContent = r.email;
+      if (r.is_you) {
+        var you = document.createElement('span');
+        you.className = 'team-you'; you.textContent = 'You';
+        td.appendChild(you);
+      }
+      tr.appendChild(td);
+      if (r.is_you || rows.length <= 1) {
+        tr.appendChild(document.createElement('td'));
+      } else {
+        tr.appendChild(delBtn(r.email, async function () {
+          var del = await SB.rpc('nithya_remove_admin', { p_email: r.email });
+          if (del.error) { alert(teamErrorMessage(del.error)); }
+          loadTeam();
+        }));
+      }
+      tb.appendChild(tr);
+    });
+  }
+
+  document.getElementById('team-form').addEventListener('submit', async function (e) {
+    e.preventDefault();
+    var input = document.getElementById('team-email');
+    var ff = document.getElementById('team-ff');
+    var errEl = document.getElementById('team-err');
+    var email = input.value.trim().toLowerCase();
+    ff.classList.remove('err');
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+      errEl.textContent = 'Please enter a valid email address.';
+      ff.classList.add('err'); input.focus(); return;
+    }
+    var btn = document.getElementById('team-add-btn');
+    btn.disabled = true; btn.textContent = 'Adding…';
+    var res = await SB.rpc('nithya_add_admin', { p_email: email });
+    btn.disabled = false; btn.textContent = 'Add to team';
+    if (res.error) {
+      errEl.textContent = teamErrorMessage(res.error);
+      ff.classList.add('err'); return;
+    }
+    input.value = '';
+    var ok = document.getElementById('team-ok');
+    ok.textContent = '✓  ' + email + ' can now sign in. Ask them to open www.projectnithya.com/admin and choose “Email me a login link”.';
+    flashSuccess('team-ok');
+    loadTeam();
   });
 
   document.getElementById('btn-signout').addEventListener('click', async function () {
@@ -1425,6 +1855,7 @@
       else if (sec === 'applications') loadApps();
       else if (sec === 'messages')    loadMsgs();
       else if (sec === 'donations')   loadDonations();
+      else if (sec === 'team')        loadTeam();
     }
     if (sec === 'content') {
       window.NithyaContentEditor.init({ sb: SB, getUser: function () { return currentUser; } });
